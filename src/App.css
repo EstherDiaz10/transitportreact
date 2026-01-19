@@ -1,42 +1,90 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  display: flex;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.contenedor {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; /*he puesto esta fuente pero no es la que hay que poner, la buena es Inter (hay que buscarla)*/
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.menu {
+  background-color: #2A5677;
+  width: 20%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  padding: 10px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.contenidoMain {
+  width: 80%;
+  padding: 30px;
+  background-color: white;
 }
 
-.card {
-  padding: 2em;
+.imagenUsuario {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
 }
 
-.read-the-docs {
-  color: #888;
+.listado > ul {
+  padding: 0;
+  margin: 0;
 }
+
+.listado > ul > li {
+  list-style-type: none;
+  margin-top: 30px; 
+  font-weight: bold;
+}
+
+.listado > ul > li:hover {
+  color:#d2d3d3;
+
+}
+
+.listado > ul > li > i {
+  padding-right: 20px;
+}
+
+.titulo {
+  color: #2A5677;
+}
+
+.filtradoBusqueda {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.barraBusqueda {
+  color: white;
+  background-color: #DFECF5;
+  display: flex;
+  border-radius: 5px;
+}
+
+.inputBusqueda {
+  background-color: #DFECF5;
+  border-radius: 5px;
+  border: none;
+}
+
+.iconoBusqueda {
+  background-color: #5F84A2;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+}
+
