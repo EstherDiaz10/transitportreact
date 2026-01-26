@@ -1,0 +1,39 @@
+{
+    "buques": [
+        {
+            "id": 1,
+            "nombre": "La Perla Negra",
+            "tipo": "Portacontenedores",
+            "capacidad": 50,
+            "estado": "En espera"
+        },
+        {
+            "id": 2,
+            "nombre": "El Holandés Errante",
+            "tipo": "Portacontenedores",
+            "capacidad": 60,
+            "estado": "Atracado"
+        },
+        {
+            "id": 3,
+            "nombre": "La Venganza de la Reina Ana",
+            "tipo": "Portacontenedores",
+            "capacidad": 45,
+            "estado": "Atracado"
+        },
+        {
+            "id": 4,
+            "nombre": "El HMS Interceptor",
+            "tipo": "Portacontenedores",
+            "capacidad": 55,
+            "estado": "En espera"
+        },
+        {
+            "id": 5,
+            "nombre": "Silenciosa María",
+            "tipo": "Portacontenedores",
+            "capacidad": 40,
+            "estado": "En espera"
+        }
+    ]
+}
