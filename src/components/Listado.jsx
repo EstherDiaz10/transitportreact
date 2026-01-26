@@ -2,7 +2,6 @@ import data from '../data/db.json';
 import {useState} from 'react';
 
 const Listado = () => {
-    const [estadoBuque, setEstadoBuque] = useState('en espera');
     
     const colorEstado = (estado) => {
         switch (estado.toLowerCase()) {
@@ -15,6 +14,7 @@ const Listado = () => {
         }
     }
   return(
+
     <div className="listadoElementos">
       {data.buques.map((buque) => (
         <div key={buque.id} className="elementoListado">
