@@ -99,6 +99,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  height: 300px;
+  overflow-y: scroll; 
+  margin-top:'50px';
 }
 
 .iconoBuque {
