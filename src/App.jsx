@@ -1,7 +1,7 @@
 //import { useState } from 'react'
 import './App.css'
 import Filtrado from './components/Filtrado';
-import MenuAdministrativo from './components/MenuAdministrativo';
+import Menu from './components/Menu';
 import Busqueda from './components/Busqueda';
 import Listado from './components/Listado';
 
@@ -9,7 +9,7 @@ const App = () => {
 
   return (
     <div className="contenedor">
-      <MenuAdministrativo />
+      <Menu />
       <div className="contenidoMain">
         <header>
           <h1 className="titulo">Listado de buques</h1>

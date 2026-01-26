@@ -1,8 +1,8 @@
 const Listado = () => {
 
   return(
-    <div>
-      
+    <div style={{ height: '300px', overflowY: 'scroll', marginTop:'50px' }}>
+    
     </div>
   )
 }
