@@ -22,7 +22,7 @@ const Listado = () => {
                 <i className="fa-solid fa-ship"></i>
             </div>
             <div className="infoBuque">
-                <p><strong>ID Buque: </strong>{buque.id}</p>
+                <p><strong>ID Buque: </strong>B - {buque.id}</p>
                 <p><strong>Nombre: </strong>{buque.nombre}</p>
                 <p><strong>Tipo: </strong>{buque.tipo}</p>
                 <div className="estado">
@@ -32,7 +32,7 @@ const Listado = () => {
             </div>
             <div>
                 <button className="botonDetalles">Detalles
-                    <i class="fa-regular fa-note-sticky" style={{fontSize: '1.5em'}}></i>
+                    <i className="fa-regular fa-note-sticky" style={{fontSize: '1.5em'}}></i>
                 </button>
             </div>
         </div>

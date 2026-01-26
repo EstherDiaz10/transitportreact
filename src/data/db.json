@@ -34,6 +34,41 @@
             "tipo": "Portacontenedores",
             "capacidad": 40,
             "estado": "En espera"
+        },
+        {
+            "id": 6,
+            "nombre": "La Perla Negra",
+            "tipo": "Portacontenedores",
+            "capacidad": 50,
+            "estado": "En espera"
+        },
+        {
+            "id": 7,
+            "nombre": "El Holandés Errante",
+            "tipo": "Portacontenedores",
+            "capacidad": 60,
+            "estado": "Atracado"
+        },
+        {
+            "id": 8,
+            "nombre": "La Venganza de la Reina Ana",
+            "tipo": "Portacontenedores",
+            "capacidad": 45,
+            "estado": "Atracado"
+        },
+        {
+            "id": 9,
+            "nombre": "El HMS Interceptor",
+            "tipo": "Portacontenedores",
+            "capacidad": 55,
+            "estado": "En espera"
+        },
+        {
+            "id": 10,
+            "nombre": "Silenciosa María",
+            "tipo": "Portacontenedores",
+            "capacidad": 40,
+            "estado": "En espera"
         }
     ]
 }

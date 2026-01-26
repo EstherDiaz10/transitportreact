@@ -24,9 +24,10 @@
 }
 
 .contenidoMain {
-  width: 80%;
+  width: 90%;
   padding: 30px;
   background-color: white;
+  margin: 30px;
 }
 
 .imagenUsuario {
@@ -60,7 +61,7 @@
 }
 
 .filtradoBusqueda {
-  width: 100%;
+  width: 95%;
   display: flex;
   justify-content: space-between;
 }
@@ -89,19 +90,37 @@
 }
 
 .listadoElementos {
-  margin: 5px;
+  max-height: 650px;
+  width: 95%;
+  overflow-y: auto; 
+  margin-top: 30px;
+}
+
+.listadoElementos::-webkit-scrollbar {
+  width: 12px;
+}
+
+.listadoElementos::-webkit-scrollbar-track {
+  background-color: #5F84A2;
+  border-radius: 20px;
+}
+
+.listadoElementos::-webkit-scrollbar-thumb {
+  background-color: #DFECF5;
+  border-radius: 20px;
+  border: 2px solid #5F84A2;
 }
 
 .elementoListado {
   background-color: #DFECF5;
-  margin-top: 30px;
+  margin-right: 30px;
+  margin-bottom: 20px;
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 300px;
-  overflow-y: scroll; 
-  margin-top:'50px';
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .iconoBuque {
