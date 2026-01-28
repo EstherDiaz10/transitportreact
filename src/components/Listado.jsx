@@ -14,7 +14,7 @@ const Listado = () => {
         }
     }
   return(
-
+    <div>
     <div className="listadoElementos">
       {data.buques.map((buque) => (
         <div key={buque.id} className="elementoListado">
@@ -37,6 +37,12 @@ const Listado = () => {
             </div>
         </div>
       ))}
+    </div>
+
+    <div className='botonesAñadir'>
+        <button type="submit"><i class="fa-light fa-plus"></i> Añadir buque</button>
+        <button type="submit"><i class="fa-solid fa-minus"></i> Eliminar buque</button>
+    </div>
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import imagenUser from '../img/imagenUser.jpeg';
+import imagenUser from '../img/esther.jpg';
 import MenuItems from './MenuItems';
 
 const Menu = () => {

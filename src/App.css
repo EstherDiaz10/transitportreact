@@ -34,6 +34,8 @@
   border-radius: 50%;
   width: 100px;
   height: 100px;
+  object-fit: cover;
+  object-position: center;
 }
 
 .listado > ul {
@@ -156,3 +158,9 @@
   justify-content: space-around;
   align-items: center;
 }
+
+.botonesAñadir{
+  display: flex;
+  justify-content: space-around;
+}
+
