@@ -2,6 +2,7 @@
 import './App.css'
 import Menu from './components/Menu';
 import Header from './components/Header';
+import FormAdd from './components/FormAdd';
 
 
 const App = () => {
@@ -12,6 +13,7 @@ const App = () => {
       <div className="contenidoMain">
         <Header />
       </div>
+      <FormAdd />
     </div>
   )
 }
