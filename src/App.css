@@ -9,7 +9,21 @@
   height: 100vh;
   width: 100%;
   display: flex;
+  font-size: large;
   font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; /*he puesto esta fuente pero no es la que hay que poner, la buena es Inter (hay que buscarla)*/
+}
+
+.logotipo {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  color: #2A5677;
+}
+
+.logotipo > img {
+  width: 100px;
+  height: 100px;
 }
 
 .menu {
@@ -25,9 +39,17 @@
 
 .contenidoMain {
   width: 90%;
-  padding: 30px;
+  padding: 10px;
+  padding-left: 30px;
   background-color: white;
-  margin: 30px;
+  margin-left: 30px;
+}
+
+.usuario {
+  width: 90%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .imagenUsuario {
@@ -38,23 +60,33 @@
   object-position: center;
 }
 
+.listado {
+  width: 90%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 .listado > ul {
+  width: 100%;
   padding: 0;
   margin: 0;
 }
 
 .listado > ul > li {
+  width: 100%;
   list-style-type: none;
   margin-top: 30px; 
   font-weight: bold;
+  display: flex;
+  align-items: center;
 }
 
 .listado > ul > li:hover {
   color:#d2d3d3;
-
 }
 
-.listado > ul > li > i {
+.listado > ul > li > svg {
   padding-right: 20px;
 }
 
@@ -92,7 +124,7 @@
 }
 
 .listadoElementos {
-  max-height: 650px;
+  max-height: 630px;
   width: 95%;
   overflow-y: auto; 
   margin-top: 30px;
@@ -145,22 +177,41 @@
   align-items: center;
 }
 
-.botonDetalles {
+.boton {
   background-color: #5F84A2;
   color: white;
   font-weight: bold;
   border: none;
   border-radius: 5px;
-  width: 100px;
-  height: 40px;
   margin-right: 6px;
   display: flex;
   justify-content: space-around;
   align-items: center;
+  font-size: large;
 }
 
-.botonesAñadir{
+.botonDetalles {
+  width: 120px;
+  height: 47px;
+}
+
+.boton:hover {
+  background-color: #DFECF5;
+  color: #5F84A2;
+  border: 3px solid #5F84A2;
+}
+
+.botonesAnyadir {
+  margin-top: 20px;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.botonAnyadir{
+  width: 12%;
+  height: 40px;
+  margin-right: 100px;
 }
 

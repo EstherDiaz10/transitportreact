@@ -54,21 +54,21 @@
             "nombre": "La Venganza de la Reina Ana",
             "tipo": "Portacontenedores",
             "capacidad": 45,
-            "estado": "Atracado"
+            "estado": "Salido"
         },
         {
             "id": 9,
             "nombre": "El HMS Interceptor",
             "tipo": "Portacontenedores",
             "capacidad": 55,
-            "estado": "En espera"
+            "estado": "Salido"
         },
         {
             "id": 10,
             "nombre": "Silenciosa María",
             "tipo": "Portacontenedores",
             "capacidad": 40,
-            "estado": "En espera"
+            "estado": "Salido"
         }
     ]
 }
