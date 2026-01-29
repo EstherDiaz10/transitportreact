@@ -13,19 +13,25 @@ const Listado = () => {
                 return '#87A884';
         }
     }
+
+    const botonBase = "bg-[#5F84A2] text-white font-bold rounded-[5px] flex items-center justify-around text-lg transition-all hover:bg-[#DFECF5] hover:text-[#5F84A2] hover:border-3 hover:border-[#5F84A2]";
   return(
     <div>
-    <div className="listadoElementos">
+    <div className="max-h-157.5 w-[95%] overflow-y-auto mt-7.5 pr-2
+        scrollbar:w-3
+        scrollbar-track:bg-[#5F84A2] scrollbar-track:rounded-full
+        scrollbar-thumb:bg-[#DFECF5] scrollbar-thumb:rounded-full scrollbar-thumb:border-2 scrollbar-thumb:border-[#5F84A2]
+    ">
       {data.buques.map((buque) => (
-        <div key={buque.id} className="elementoListado">
-            <div className="iconoBuque">
+        <div key={buque.id} className="flex-1 flex items-center justify-between mx-4 bg-[#DFECF5] mb-5 rounded-[10px]">
+            <div className="flex-[0_0_40px] text-2xl text-center ml-2.5">
                 <i className="fa-solid fa-ship"></i>
             </div>
-            <div className="infoBuque">
+            <div className="flex-1 flex items-center justify-between mx-4">
                 <p><strong>ID Buque: </strong>B - {buque.id}</p>
                 <p><strong>Nombre: </strong>{buque.nombre}</p>
                 <p><strong>Tipo: </strong>{buque.tipo}</p>
-                <div className="estado">
+                <div className="flex items-center">
                     <p><strong>Estado: </strong>{buque.estado}</p>
                     <div style={{backgroundColor: colorEstado(buque.estado), width: '20px', height: '20px', borderRadius: '50%', marginLeft: '10px'}}></div>
                 </div>

@@ -8,12 +8,11 @@ import FormAdd from './components/FormAdd';
 const App = () => {
 
   return (
-    <div className="contenedor">
+    <div className="h-screen w-full flex text-lg font-sans">
       <Menu />
-      <div className="contenidoMain">
+      <div className="w-[90%] p-2 pl-[30px] bg-white ml-[30px]">
         <Header />
       </div>
-      <FormAdd />
     </div>
   )
 }
