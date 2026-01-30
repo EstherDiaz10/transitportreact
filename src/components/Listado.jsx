@@ -11,7 +11,7 @@ const Listado = ({data, onSelect, seleccionado}) => {
         }
     }
 
-    const botonBase = "bg-[#5F84A2] text-white font-bold rounded-[5px] flex items-center justify-around text-lg transition-all hover:bg-[#DFECF5] hover:text-[#5F84A2] hover:border-3 hover:border-[#5F84A2]";
+    const botonBase = "bg-[#5F84A2] text-white font-bold rounded-[5px] flex items-center justify-around text-lg hover:bg-[#DFECF5] hover:text-[#5F84A2] hover:border-3 hover:border-[#5F84A2]";
   return(
     <div>
     <div className={`max-h-157.5 w-[95%] md:overflow-y-scroll mt-7.5 pr-2 custom-scrollbar`}>
