@@ -10,9 +10,7 @@ const App = () => {
   return (
     <div className="h-screen w-full flex text-lg font-sans">
       <Menu />
-      <div className="w-[90%] p-2 pl-[30px] bg-white ml-[30px]">
-        <Header />
-      </div>
+      <Header />
     </div>
   )
 }
