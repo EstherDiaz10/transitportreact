@@ -2,8 +2,16 @@ import Busqueda from './Busqueda';
 import Listado from './Listado';
 import Filtrado from './Filtrado';
 import logo from '../img/Logo.png';
+import data from '../data/db.json';
+import { useState } from 'react';
 
 const Header = () => {
+
+  const [buqueSeleccionado, setBuqueSeleccionado] = useState(null);
+
+  const seleccionarBuque = () => {
+
+  }
 
     return (
         <header>
@@ -16,7 +24,10 @@ const Header = () => {
             <Filtrado />
             <Busqueda />
           </div>
-          <Listado />
+          <div className={`${buqueSeleccionado ? 'w-2/3' : 'w-full'}`}>
+            <Listado data={data} onSelect={setBuqueSeleccionado} seleccionado={buqueSeleccionado ? true : false}/>
+            
+          </div>
         </header>
     )
 }
