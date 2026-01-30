@@ -4,11 +4,21 @@ import Filtrado from './Filtrado';
 import Detalles from './Detalles';
 import logo from '../img/Logo.png';
 import data from '../data/db.json';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import buqueService from '../services/buques'
 
 const Header = () => {
 
+  const [buques, setBuques] = useState([]);
   const [buqueSeleccionado, setBuqueSeleccionado] = useState(null);
+
+  useEffect(()=>{
+    buqueService
+      .listadoBuques()
+      .then(data =>{
+        setBuques(data)
+      })
+  }, [])
 
   const seleccionarBuque = () => {
 
@@ -28,7 +38,7 @@ const Header = () => {
             )}
           </div>
           <div className={`${buqueSeleccionado ? 'w-2/3' : 'w-full'}`}>
-            <Listado data={data} onSelect={setBuqueSeleccionado} seleccionado={buqueSeleccionado ? true : false}/>
+            <Listado data={buques} onSelect={setBuqueSeleccionado} seleccionado={buqueSeleccionado ? true : false}/>
           </div>
           <div>
             {buqueSeleccionado !== null && (
