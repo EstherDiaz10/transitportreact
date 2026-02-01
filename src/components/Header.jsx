@@ -12,13 +12,13 @@ const Header = () => {
   const [buques, setBuques] = useState([]);
   const [buqueSeleccionado, setBuqueSeleccionado] = useState(null);
 
-  useEffect(()=>{
+  /*useEffect(()=>{
     buqueService
       .listadoBuques()
       .then(data =>{
         setBuques(data)
       })
-  }, [])
+  }, [])*/
 
   const seleccionarBuque = () => {
 
@@ -31,14 +31,14 @@ const Header = () => {
             <img src={logo} alt="logotipo transitport" className="w-25 h-25"/>
           </div>
           <h1 className="text-3xl font-bold text-[#2A5677]">Listado de buques</h1>
-          <div className="w-[95%] pt-5 flex justify-between">
+          <div className="w-full pt-5 flex justify-between">
             <Filtrado />
             {buqueSeleccionado === null && (
               <Busqueda />
             )}
           </div>
-          <div className={`${buqueSeleccionado ? 'w-2/3' : 'w-full'}`}>
-            <Listado data={buques} onSelect={setBuqueSeleccionado} seleccionado={buqueSeleccionado ? true : false}/>
+          <div className={`${buqueSeleccionado ? 'w-[53%]' : 'w-full'}`}>
+            <Listado data={data} onSelect={setBuqueSeleccionado} seleccionado={buqueSeleccionado ? true : false}/>
 
           </div>
             {buqueSeleccionado !== null && (

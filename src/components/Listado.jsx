@@ -12,11 +12,13 @@ const Listado = ({data, onSelect, seleccionado}) => {
     }
 
     const botonBase = "bg-[#5F84A2] text-white font-bold rounded-[5px] flex items-center justify-around text-lg hover:bg-[#DFECF5] hover:text-[#5F84A2] hover:border-3 hover:border-[#5F84A2]";
-  return(
+    const botones = `w-[13%] h-10 mt-6 px-4 ${!seleccionado ? 'w-[12%]' : 'w-[5%]'}`;
+
+    return(
     <div>
-    <div className={`max-h-157.5 w-[95%] md:overflow-y-scroll mt-7.5 pr-2 custom-scrollbar`}>
-      {data.map((buque) => (
-        <div key={buque.id} className="flex items-center justify-between mx-4 bg-[#DFECF5] mb-5 rounded-[10px] h-15">
+    <div className={`max-h-137 w-[97%] md:overflow-y-scroll mt-7.5 pr-6 custom-scrollbar`}>
+      {data.buques.map((buque) => (
+        <div key={buque.id} className="flex items-center justify-between mx-4 bg-[#DFECF5] mb-5 rounded-[10px] h-15 shadow-md/20">
             <div className="flex-[0_0_40px] text-2xl text-center ml-2.5">
                 <i className="fa-solid fa-ship"></i>
             </div>
@@ -44,13 +46,13 @@ const Listado = ({data, onSelect, seleccionado}) => {
     </div>
 
     <div className="mt-5 flex justify-center flex-wrap w-full gap-20">
-        <button className={`${botonBase} w-[12%] h-10 px-4 ${!seleccionado ? 'w-[12%]' : 'w-[5%]'}`} type="submit">
+        <button className={`${botonBase} ${botones}`} type="submit">
             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"></path></svg> 
             {!seleccionado && (
                 <span>Añadir buque</span>
             )}
         </button>
-        <button className={`${botonBase} w-[12%] h-10 px-4 ${!seleccionado ? 'w-[12%]' : 'w-[5%]'}`} type="submit">
+        <button className={`${botonBase} ${botones}`} type="submit">
             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128Z"></path></svg> 
             {!seleccionado && (
                 <span>Eliminar buque</span>
