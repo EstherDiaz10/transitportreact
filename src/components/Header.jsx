@@ -3,21 +3,26 @@ import Listado from './Listado';
 import Filtrado from './Filtrado';
 import Detalles from './Detalles';
 import logo from '../img/Logo.png';
-import { useEffect, useState } from 'react';
-import buqueService from '../services/buques'
+import Botones from './Botones';
+import data from '../data/db';
+import { useState } from 'react';
+import FormAnyadir from './FormAnyadir';
+//import buqueService from '../services/buques'
 
 const Header = () => {
 
-  const [buques, setBuques] = useState([]);
+  //const [buques, setBuques] = useState([]);
   const [buqueSeleccionado, setBuqueSeleccionado] = useState(null);
+  const [crearBuque, setCrearBuque] = useState(false);
 
+  /*
   useEffect(()=>{
     buqueService
       .listadoBuques()
       .then(data =>{
         setBuques(data)
       })
-  }, [buques])
+  }, [buques])*/
 
     return (
         <header className="relative w-[90%] h-dvh pt-6 pr-6 p-2 pl-7.5 bg-white ml-7.5">
@@ -25,21 +30,35 @@ const Header = () => {
             <h1 className="font-bold text-3xl">TransitPort</h1>
             <img src={logo} alt="logotipo transitport" className="w-25 h-25"/>
           </div>
-          <h1 className="text-3xl font-bold text-[#2A5677]">Listado de buques</h1>
-          <div className="w-full pt-5 flex justify-between">
-            <Filtrado />
-            {buqueSeleccionado === null && (
-              <Busqueda />
-            )}
-          </div>
-          <div className={`${buqueSeleccionado ? 'w-[53%]' : 'w-full'}`}>
-            <Listado data={buques} onSelect={setBuqueSeleccionado} seleccionado={buqueSeleccionado ? true : false}/>
-          </div>
-            {buqueSeleccionado !== null && (
-              <div className="absolute top-0 right-0 bg-[#B7D0E1] h-full w-[45%] rounded-l-[50px] pt-[7%] pl-[5%] pr-[5%]">
-                <Detalles buque={buqueSeleccionado}/>
+          {!crearBuque && (
+            <>
+              <h1 className="text-3xl font-bold text-[#2A5677]">Listado de buques</h1>
+              <div className="w-full pt-5 flex justify-between">
+              <Filtrado />
+                {buqueSeleccionado === null && (
+                  <Busqueda />
+                )}
               </div>
-            )}
+            </>
+          )}
+          {crearBuque && (
+            <div className="flex justify-center">
+              <FormAnyadir />
+            </div>
+          )}
+          {!crearBuque && (
+            <>
+              <div className={`${buqueSeleccionado ? 'w-[53%]' : 'w-full'}`}>
+                <Listado data={data} onSelect={setBuqueSeleccionado} seleccionado={buqueSeleccionado ? true : false} crearBuque={setCrearBuque}/>
+              </div>
+              {buqueSeleccionado !== null && (
+                <div className="absolute top-0 right-0 bg-[#B7D0E1] h-full w-[45%] rounded-l-[50px] pt-[7%] pl-[5%] pr-[5%]">
+                  <Detalles buque={buqueSeleccionado}/>
+                </div>
+              )}
+            </>
+          )}
+          
         </header>
     )
 }

@@ -21,8 +21,8 @@ const Detalles = ({buque}) => {
             case "atracado":
                 return "atracado";
 
-            case "salido":
-                return "salido";
+            case "inactivo":
+                return "inactivo";
         }
     }
 
