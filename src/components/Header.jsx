@@ -20,9 +20,7 @@ const Header = () => {
       })
   }, [])*/
 
-  const seleccionarBuque = () => {
-
-  }
+  const busquedaRef = useRef();
 
     return (
         <header className="relative w-[90%] h-dvh pt-6 pr-6 p-2 pl-7.5 bg-white ml-7.5">
@@ -34,12 +32,11 @@ const Header = () => {
           <div className="w-full pt-5 flex justify-between">
             <Filtrado />
             {buqueSeleccionado === null && (
-              <Busqueda />
+              <Busqueda ref={busquedaRef}/>
             )}
           </div>
           <div className={`${buqueSeleccionado ? 'w-[53%]' : 'w-full'}`}>
-            <Listado data={buques} onSelect={setBuqueSeleccionado} seleccionado={buqueSeleccionado ? true : false}/>
-
+            <Listado data={data} onSelect={setBuqueSeleccionado} seleccionado={buqueSeleccionado ? true : false}/>
           </div>
             {buqueSeleccionado !== null && (
               <div className="absolute top-0 right-0 bg-[#B7D0E1] h-full w-[45%] rounded-l-[50px] pt-[7%] pl-[5%] pr-[5%]">
