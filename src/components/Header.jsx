@@ -18,7 +18,7 @@ const Header = () => {
       .then(data =>{
         setBuques(data)
       })
-  }, [])
+  }, [buques])
 
 
   //console.log(buques);
