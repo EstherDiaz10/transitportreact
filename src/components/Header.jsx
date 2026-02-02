@@ -37,7 +37,7 @@ const Header = () => {
               <Busqueda />
             )}
           </div>
-          <div className={`${buqueSeleccionado ? 'w-2/3' : 'w-full'}`}>
+          <div className={`${buqueSeleccionado ? 'w-[53%]' : 'w-full'}`}>
             <Listado data={buques} onSelect={setBuqueSeleccionado} seleccionado={buqueSeleccionado ? true : false}/>
 
           </div>
