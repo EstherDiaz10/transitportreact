@@ -12,17 +12,16 @@ const Header = () => {
   const [buques, setBuques] = useState([]);
   const [buqueSeleccionado, setBuqueSeleccionado] = useState(null);
 
-  /*useEffect(()=>{
+  useEffect(()=>{
     buqueService
       .listadoBuques()
       .then(data =>{
         setBuques(data)
       })
-  }, [])*/
+  }, [])
 
-  const seleccionarBuque = () => {
 
-  }
+  //console.log(buques);
 
     return (
         <header className="relative w-[90%] h-dvh pt-6 pr-6 p-2 pl-7.5 bg-white ml-7.5">

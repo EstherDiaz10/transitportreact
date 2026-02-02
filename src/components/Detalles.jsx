@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import buqueService from "../services/buques";
 
 const Detalles = ({buque}) => {
 
@@ -15,7 +16,7 @@ const Detalles = ({buque}) => {
     const valueEstados = (estado) => {
         switch (estado.toLowerCase()) {
             case "en espera":
-                return "espera";
+                return "en espera";
         
             case "atracado":
                 return "atracado";
@@ -31,6 +32,14 @@ const Detalles = ({buque}) => {
     const handleEditar = (event) => {
         event.preventDefault();
         event.stopPropagation();
+        if (modificar) {
+           buqueService
+                 .modificarBuque(buque.id, datosFormulario)
+                //console.log(datosFormulario);
+                //console.log(buque.id);
+                 
+        }
+
         setModificar(!modificar);
     }
 
@@ -52,7 +61,7 @@ return (
                 <select className={`${inputStyle} mt-3 p-1.5`} onChange={cambiarInput} name="estado" id="estado_buque" readOnly={!modificar}>
                     <option className="p-3" value={`${valueEstados(buque.estado)}`}>{buque.estado}</option>
                     {restoEstados.map((estado) =>
-                        <option value={`${valueEstados(estado)}`}>{estado}</option>
+                        <option key={`${valueEstados(estado)}`} value={`${valueEstados(estado)}`}>{estado}</option>
                     )}
                 
                 </select>
