@@ -12,13 +12,13 @@ const Header = () => {
   const [buques, setBuques] = useState([]);
   const [buqueSeleccionado, setBuqueSeleccionado] = useState(null);
 
-  /*useEffect(()=>{
+  useEffect(()=>{
     buqueService
       .listadoBuques()
       .then(data =>{
         setBuques(data)
       })
-  }, [])*/
+  }, [])
 
   const busquedaRef = useRef();
 

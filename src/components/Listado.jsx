@@ -17,7 +17,7 @@ const Listado = ({data, onSelect, seleccionado}) => {
     return(
     <div>
     <div className={`max-h-137 w-[97%] md:overflow-y-scroll mt-7.5 pr-6 custom-scrollbar`}>
-      {data.buques.map((buque) => (
+      {data.map((buque) => (
         <div key={buque.id} className="flex items-center justify-between mx-4 bg-[#DFECF5] mb-5 rounded-[10px] h-15 shadow-md/20">
             <div className="flex-[0_0_40px] text-2xl text-center ml-2.5">
                 <i className="fa-solid fa-ship"></i>
