@@ -27,9 +27,10 @@ const modificarBuque = (id, nuevoBuque) => {
         method: 'PATCH',
         data: data
     }).then(function(response){
-        console.log(response.data);
+        return response.data;
     }).catch(function (error){
         console.log(error.response.statusText);
+        throw error;
     })
         
         /*.patch(`${baseUrl}/actualizarBuque/${id}`, nuevoBuque)

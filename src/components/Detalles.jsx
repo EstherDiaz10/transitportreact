@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import buqueService from "../services/buques";
 
-const Detalles = ({ buque, setBuques }) => {
+const Detalles = ({ buque, setBuques, setBuqueSeleccionado }) => {
 
     const [modificar, setModificar] = useState(false);
     const [datosFormulario, setDatosFormulario] = useState({ ...buque });
@@ -9,7 +9,7 @@ const Detalles = ({ buque, setBuques }) => {
     useEffect(() => {
         setDatosFormulario({ ...buque });
         setModificar(false);
-    }, []);
+    }, [buque]);
 
     const inputStyle = "bg-white p-1 pl-4 rounded-[10px] text-gray-500 w-full";
 
@@ -38,7 +38,7 @@ const Detalles = ({ buque, setBuques }) => {
                 await buqueService.modificarBuque(buque.id, datosFormulario);
                 const data = await buqueService.listadoBuques();
                 setBuques(data);
-                console.log(data);
+                setBuqueSeleccionado(datosFormulario);
             } catch (error) {
                 console.error(error);
             }
