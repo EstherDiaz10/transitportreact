@@ -38,7 +38,7 @@ const FormAnyadir = () => {
                         <input className={`${inputStyle} mt-3`} type="number" id="capacidad_buque" name="capacidad" value="" placeholder="50"/>
                         <div className="mt-8">
                             <label htmlFor="observaciones_buque">Observaciones</label>
-                            <textarea className={`${inputStyle} mt-3`} name="observaciones" id="observaciones_buque" value="" rows="4"></textarea>
+                            <textarea className={`${inputStyle} mt-3`} name="observaciones" id="observaciones_buque" value="Escribe cualquier observación aquí" rows="4"></textarea>
                         </div>
                         <div className="mt-6 flex justify-center">
                             <button className="bg-[#5F84A2] text-white font-bold gap-2 pt-2 pb-2 pr-4 pl-4 rounded-[5px] flex items-center justify-around text-lg hover:bg-[#DFECF5] hover:text-[#5F84A2] hover:border-3 hover:border-[#5F84A2]">
