@@ -57,7 +57,7 @@ const Header = () => {
           {!crearBuque && (
             <>
               <div className={`${buqueSeleccionado ? 'w-[53%]' : 'w-full'}`}>
-                <Listado data={buques} onSelect={setBuqueSeleccionado} seleccionado={buqueSeleccionado ? true : false} crearBuque={setCrearBuque}/>
+                <Listado data={buques} onSelect={setBuqueSeleccionado} seleccionado={buqueSeleccionado} crearBuque={setCrearBuque}/>
               </div>
               {buqueSeleccionado !== null && (
                 <div className="absolute top-0 right-0 bg-[#B7D0E1] h-full w-[45%] rounded-l-[50px] pt-[7%] pl-[5%] pr-[5%]">

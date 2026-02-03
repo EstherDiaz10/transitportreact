@@ -33,7 +33,7 @@ const Listado = ({data, onSelect, seleccionado, crearBuque}) => {
             <div className={`max-h-137 w-[97%] md:overflow-y-scroll mt-3 custom-scrollbar`}>
                 
                 {data.map((buque) => (
-                    <div key={buque.id} className={`${estructura} bg-[#DFECF5] mb-5 rounded-[10px] h-15 shadow-md/20 w-[97%]`}>
+                    <div key={buque.id} className={`${estructura} ${buque.id === seleccionado?.id ? 'bg-[#B7D0E1]' : 'bg-[#DFECF5]'} mb-5 rounded-[10px] h-15 shadow-md/20 w-[97%]`}>
                         {/*Columna 1 -> icono buque*/}
                         <div className="text-2xl text-center">
                             <i className="fa-solid fa-ship"></i>
