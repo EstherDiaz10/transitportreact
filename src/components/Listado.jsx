@@ -8,7 +8,7 @@ const Listado = ({data, onSelect, seleccionado, crearBuque}) => {
                 return '#925152';
             case 'atracado':
                 return '#E0AE74';
-            case 'inactivo':
+            case 'salido':
                 return '#87A884';
         }
     }
@@ -32,7 +32,7 @@ const Listado = ({data, onSelect, seleccionado, crearBuque}) => {
             </div>
             <div className={`max-h-137 w-[97%] md:overflow-y-scroll mt-3 custom-scrollbar`}>
                 
-                {data.buques.map((buque) => (
+                {data.map((buque) => (
                     <div key={buque.id} className={`${estructura} bg-[#DFECF5] mb-5 rounded-[10px] h-15 shadow-md/20 w-[97%]`}>
                         {/*Columna 1 -> icono buque*/}
                         <div className="text-2xl text-center">

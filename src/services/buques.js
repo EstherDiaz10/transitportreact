@@ -32,7 +32,6 @@ const modificarBuque = (id, nuevoBuque) => {
         console.log(error.response.statusText);
     })
         
-    
         /*.patch(`${baseUrl}/actualizarBuque/${id}`, nuevoBuque)
         .then(response => response.data);*/
         
