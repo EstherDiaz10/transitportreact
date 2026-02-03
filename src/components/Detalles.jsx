@@ -68,7 +68,6 @@ const Detalles = ({ buque, setBuques, setBuqueSeleccionado }) => {
                         {restoEstados.map((estado) =>
                             <option key={`${valueEstados(estado)}`} value={`${valueEstados(estado)}`}>{estado}</option>
                         )}
-
                     </select>
                 </div>
                 <div className="mt-5">

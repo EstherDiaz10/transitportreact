@@ -9,7 +9,7 @@ const Filtrado = ({setFiltrarEstado}) => {
       <div className="relative">
         <select name="estado" onChange={(e) => setFiltrarEstado(e.target.value)} id="estadoBuque" className={selectStyles}>
           <option value="estado">Estado</option>
-          <option value="espera">En espera</option>
+          <option value="en espera">En espera</option>
           <option value="atracado">Atracado</option>
           <option value="salido">Salido</option>
         </select>

@@ -4,7 +4,7 @@ import Filtrado from './Filtrado';
 import Detalles from './Detalles';
 import logo from '../img/Logo.png';
 import Botones from './Botones';
-//import data from '../data/db';
+import data from '../data/db';
 import { useState, useEffect } from 'react';
 import FormAnyadir from './FormAnyadir';
 import buqueService from '../services/buques'
@@ -14,21 +14,22 @@ const Header = () => {
   const [buques, setBuques] = useState([]);
   const [buqueSeleccionado, setBuqueSeleccionado] = useState(null);
   const [crearBuque, setCrearBuque] = useState(false);
+  const [eliminarBuque, setEliminarBuque] = useState(false);
   const [filtrarEstado, setFiltrarEstado] = useState('estado');
   const [buscar, setBuscar] = useState('');
-  
+  /*
   useEffect(()=>{
     buqueService
       .listadoBuques()
       .then(data =>{
         setBuques(data)
       })
-  }, [])
+  }, [])*/
 
-    let buquesAMostrar = buques;
+    let buquesAMostrar = data.buques;
 
     if(filtrarEstado !== 'estado') {
-      buquesAMostrar = buquesAMostrar.filter((buque) => buque.estado === filtrarEstado)
+      buquesAMostrar = buquesAMostrar.filter((buque) => buque.estado.toLowerCase() === filtrarEstado)
     }
 
     if(buscar !== '') {
@@ -53,11 +54,9 @@ const Header = () => {
           {!crearBuque && (
             <>
               <h1 className="text-3xl font-bold text-[#2A5677]">Listado de buques</h1>
-              <div className="w-full pt-5 flex justify-between">
-              <Filtrado setFiltrarEstado={setFiltrarEstado}/>
-                {buqueSeleccionado === null && (
-                  <Busqueda setBuscar={setBuscar} />
-                )}
+              <div className={`${!buqueSeleccionado ? 'w-[93%]' : 'w-[49%]'} pt-5 flex justify-between`}>
+                <Filtrado setFiltrarEstado={setFiltrarEstado}/>
+                <Busqueda setBuscar={setBuscar} />
               </div>
             </>
           )}
@@ -69,7 +68,7 @@ const Header = () => {
           {!crearBuque && (
             <>
               <div className={`${buqueSeleccionado ? 'w-[53%]' : 'w-full'}`}>
-                <Listado data={buquesAMostrar} onSelect={setBuqueSeleccionado} seleccionado={buqueSeleccionado} crearBuque={setCrearBuque}/>
+                <Listado data={buquesAMostrar} onSelect={setBuqueSeleccionado} seleccionado={buqueSeleccionado} crearBuque={setCrearBuque} eliminarBuque={eliminarBuque} setEliminarBuque={setEliminarBuque}/>
               </div>
               {buqueSeleccionado !== null && (
                 <div className="absolute top-0 right-0 bg-[#B7D0E1] h-full w-[45%] rounded-l-[50px] pt-[7%] pl-[5%] pr-[5%]">
