@@ -9,7 +9,7 @@ const Listado = ({data, onSelect, seleccionado, crearBuque, eliminarBuque, setEl
                 return '#925152';
             case 'atracado':
                 return '#E0AE74';
-            case 'salido':
+            case 'inactivo':
                 return '#87A884';
         }
     }
