@@ -1,8 +1,30 @@
+import buqueService from '../services/buques';
+import { useState } from 'react';
+
 const FormAnyadir = () => {
 
     const inputStyle = "bg-white p-1 pl-4 rounded-[10px] text-gray-500 w-full";
     const lineStyle = "flex justify-between gap-10";
     const columnStyle = "flex flex-wrap w-[50%]";
+    const prefijoIdBuque = "B-";
+    const [datosNuevoBuque, setDatosNuevoBuque] = useState({
+        nombre: '',
+        tipo: '',
+        capacidad: 0,
+        estado: 'en espera',
+        observaciones: ''
+    });
+    
+    const crearNuevoBuque = () => {
+
+        buqueService.crearBuque(datosNuevoBuque);
+
+    }
+
+    const handleInput = (event) => {
+        const {name, value} = event.target;
+        setDatosNuevoBuque({...datosNuevoBuque, [name]: value});
+    }
 
     return (
         <div>
@@ -13,12 +35,12 @@ const FormAnyadir = () => {
                         <div className={lineStyle}>
                             <div className={columnStyle}>
                                 <label htmlFor="id_buque">ID buque</label>
-                                <input className={`${inputStyle} mt-3`} type="text" id="id_buque" name="id" value="B-" readOnly/>
+                                <input className={`${inputStyle} mt-3`} type="text" id="id_buque" name="id" value={`${prefijoIdBuque}`} readOnly/>
                             </div>
                             <div className={columnStyle}>
                                 <label htmlFor="estado_buque">Estado</label>
-                                <select className={`${inputStyle} mt-3 p-1.5`} name="estado" id="estado_buque">
-                                    <option className="p-3" value="espera">En espera</option>
+                                <select onChange={(event) => handleInput(event)} className={`${inputStyle} mt-3 p-1.5`} name="estado" id="estado_buque">
+                                    <option className="p-3" value="en espera">En espera</option>
                                     <option className="p-3" value="atracado">Atracado</option>
                                     <option className="p-3" value="inactivo">Inactivo</option>
                                 </select>
@@ -27,21 +49,21 @@ const FormAnyadir = () => {
                         <div className={`${lineStyle} mt-8 mb-8`}>
                             <div className={columnStyle}>
                                 <label htmlFor="nombre_buque">Nombre</label>
-                                <input className={`${inputStyle} mt-3`} type="text" id="nombre_buque" name="nombre" value="" placeholder="La Perla Negra"/>
+                                <input onChange={(event) => handleInput(event)} className={`${inputStyle} mt-3`} type="text" id="nombre_buque" name="nombre" placeholder="La Perla Negra"/>
                             </div>
                             <div className={columnStyle}>
                                 <label htmlFor="tipo_buque">Tipo</label>
-                                <input className={`${inputStyle} mt-3`} type="text" id="tipo_buque" name="tipo" value="" placeholder="Portacontenedores"/>
+                                <input onChange={(event) => handleInput(event)} className={`${inputStyle} mt-3`} type="text" id="tipo_buque" name="tipo" placeholder="Portacontenedores"/>
                             </div>
                         </div>
                         <label htmlFor="capacidad_buque">Capacidad</label>
-                        <input className={`${inputStyle} mt-3`} type="number" id="capacidad_buque" name="capacidad" value="" placeholder="50"/>
+                        <input onChange={(event) => handleInput(event)} className={`${inputStyle} mt-3`} type="number" id="capacidad_buque" name="capacidad" placeholder="50"/>
                         <div className="mt-8">
                             <label htmlFor="observaciones_buque">Observaciones</label>
-                            <textarea className={`${inputStyle} mt-3`} name="observaciones" id="observaciones_buque" value="Escribe cualquier observación aquí" rows="4"></textarea>
+                            <textarea onChange={(event) => handleInput(event)}className={`${inputStyle} mt-3`} name="observaciones" id="observaciones_buque" rows="4"></textarea>
                         </div>
                         <div className="mt-6 flex justify-center">
-                            <button className="bg-[#5F84A2] text-white font-bold gap-2 pt-2 pb-2 pr-4 pl-4 rounded-[5px] flex items-center justify-around text-lg hover:bg-[#DFECF5] hover:text-[#5F84A2] hover:border-3 hover:border-[#5F84A2]">
+                            <button onClick={crearNuevoBuque} className="bg-[#5F84A2] text-white font-bold gap-2 pt-2 pb-2 pr-4 pl-4 rounded-[5px] flex items-center justify-around text-lg hover:bg-[#DFECF5] hover:text-[#5F84A2] hover:border-3 hover:border-[#5F84A2]">
                                 <span>Crear</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"></path></svg>
                             </button>

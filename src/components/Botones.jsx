@@ -1,6 +1,6 @@
 const Botones = ({crearBuque, seleccionado}) => {
 
-    const botonBase = "bg-[#5F84A2] text-white font-bold rounded-[5px] flex items-center justify-around text-lg hover:bg-[#DFECF5] hover:text-[#5F84A2] hover:border-3 hover:border-[#5F84A2]";
+    const botonBase = "bg-[#5F84A2] text-white font-bold rounded-[5px] flex items-center justify-around text-lg hover:bg-[#DFECF5] hover:text-[#5F84A2] hover:border-3 hover:border-[#5F84A2] cursor-pointer";
     const botones = `h-10 mt-6 px-4 ${!seleccionado ? 'w-[12%]' : 'w-[23%]'}`;
     
     return (

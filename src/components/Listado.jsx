@@ -14,8 +14,8 @@ const Listado = ({data, onSelect, seleccionado, crearBuque}) => {
         }
     }
 
-    const botonBase = "bg-[#5F84A2] text-white font-bold rounded-[5px] flex items-center justify-around text-lg hover:bg-[#DFECF5] hover:text-[#5F84A2] hover:border-3 hover:border-[#5F84A2]";
-    const botonEliminarEstilo = "bg-[#925152] text-white rounded-[5px] flex items-center justify-center w-15 ml-1.5 h-12 hover:bg-[#DFECF5] hover:text-[#925152] hover:border-3 hover:border-[#925152]";
+    const botonBase = "bg-[#5F84A2] text-white font-bold rounded-[5px] flex items-center justify-around text-lg hover:bg-[#DFECF5] hover:text-[#5F84A2] hover:border-3 hover:border-[#5F84A2] cursor-pointer";
+    const botonEliminarEstilo = "bg-[#925152] text-white rounded-[5px] flex items-center justify-center w-15 ml-1.5 h-12 hover:bg-[#DFECF5] hover:text-[#925152] hover:border-3 hover:border-[#925152] cursor-pointer";
     const estructura = !seleccionado ? "grid grid-cols-[80px_0.7fr_1.3fr_1fr_130px_130px] items-center gap-3" : "grid grid-cols-[60px_1fr_2.3fr_1fr_60px] items-center gap-5";
     const [botonEliminar, setBotonEliminar] = useState(null);
 
@@ -62,7 +62,7 @@ const Listado = ({data, onSelect, seleccionado, crearBuque}) => {
                         )}
                         {/*Columna 5 -> estado buque*/}
                         <div className={`flex items-center justify-between gap-3 w-full pr-2`}>
-                            <p className="truncate text-right">{buque.estado}</p>
+                            <p className="truncate text-right">{buque.estado.charAt(0).toUpperCase() + buque.estado.slice(1)}</p>
                             <div style={{backgroundColor: colorEstado(buque.estado)}} className="w-4 h-4 rounded-full"></div>
                         </div>
                         {/*Columna 6 -> botón detalles*/}
