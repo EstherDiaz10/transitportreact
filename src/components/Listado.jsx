@@ -1,7 +1,7 @@
 import Botones from "./Botones";
 import { useState } from 'react';
 
-const Listado = ({data, onSelect, seleccionado, crearBuque, eliminarBuque, setEliminarBuque}) => {
+const Listado = ({data, onSelect, seleccionado, crearBuque}) => {
     
     const colorEstado = (estado) => {
         switch (estado.toLowerCase()) {
@@ -13,22 +13,28 @@ const Listado = ({data, onSelect, seleccionado, crearBuque, eliminarBuque, setEl
                 return '#87A884';
         }
     }
+
     const botonBase = "bg-[#5F84A2] text-white font-bold rounded-[5px] flex items-center justify-around text-lg hover:bg-[#DFECF5] hover:text-[#5F84A2] hover:border-3 hover:border-[#5F84A2]";
-    const estructura = !seleccionado ? "grid grid-cols-[3px_80px_0.7fr_1.3fr_1fr_130px_130px] items-center gap-3" : "grid grid-cols-[3px_60px_1fr_2.3fr_1fr_60px] items-center gap-5";
-    const [buqueEliminar, setBuqueEliminar] = useState(null);
+    const botonEliminarEstilo = "bg-[#925152] text-white rounded-[5px] flex items-center justify-center w-11 ml-1.5 h-12 hover:bg-[#DFECF5] hover:text-[#925152] hover:border-3 hover:border-[#925152]";
+    const estructura = !seleccionado ? "grid grid-cols-[80px_0.7fr_1.3fr_1fr_130px_130px] items-center gap-3" : "grid grid-cols-[60px_1fr_2.3fr_1fr_60px] items-center gap-5";
+    const [botonEliminar, setBotonEliminar] = useState(null);
+
+    const confirmarEliminacionBuque = (nombre) => {
+        const eliminar = confirm(`Estás seguro de querer eliminar el buque ${nombre}?`);
+
+        if(eliminar) {
+            console.log('Buque eliminado correctamente');
+        }
+    }
 
     return(
         <div className="w-full">
             <div className={`${estructura} mt-7 font-bold text-gray-600 text-sm w-[93%]`}>
                 <div></div>
-                <div></div>
                 <p className="text-left">ID Buque</p>
                 <p className="text-left">Nombre</p>
                 {!seleccionado && (
-                    <>
-                    
                     <p className="text-left">Tipo</p>
-                    </>
                 )}
                 <p className={`${!seleccionado ? 'px-2' : ''}`}>Estado</p>
                 <div></div>
@@ -36,20 +42,17 @@ const Listado = ({data, onSelect, seleccionado, crearBuque, eliminarBuque, setEl
             <div className={`max-h-137 w-[97%] md:overflow-y-scroll mt-3 custom-scrollbar`}>
                 
                 {data.map((buque) => (
-                    <div key={buque.id} className={`${estructura} ${buque.id === seleccionado?.id ? 'bg-[#B7D0E1]' : 'bg-[#DFECF5]'} mb-5 rounded-[10px] h-15 shadow-md/20 w-[97%]`}>
-                        {/*Columna 1 -> icono buque*/}
-                        {eliminarBuque ? (
-                            <div className="pl-5">
-                                <form>
-                                    <input type="checkbox" id="checkboxEliminar" onClick={() => setBuqueEliminar(buque)}/>
-                                </form>
-                            </div>
+                    <div onMouseEnter={() => setBotonEliminar(buque.id)} onMouseLeave={() => setBotonEliminar(null)} key={buque.id} className={`${estructura} ${buque.id === seleccionado?.id ? 'bg-[#B7D0E1]' : 'bg-[#DFECF5]'} mb-5 rounded-[10px] h-15 shadow-md/20 w-[97%]`}>
+                        {botonEliminar === buque.id ? (
+                            <button className={botonEliminarEstilo} onClick={() => confirmarEliminacionBuque(buque.nombre)}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256"><path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"></path></svg>
+                            </button>
                         ) : (
-                            <div></div>
+                            <div className="text-2xl text-center">
+                                <i className="fa-solid fa-ship"></i>
+                            </div>
                         )}
-                        <div className="text-2xl text-center">
-                            <i className="fa-solid fa-ship"></i>
-                        </div>
+
                         {/*Columna 2 -> id buque*/}
                         <p className="font-semibold">B-{buque.id}</p>
                         <p className="truncate">{buque.nombre}</p>
@@ -72,7 +75,7 @@ const Listado = ({data, onSelect, seleccionado, crearBuque, eliminarBuque, setEl
                     </div>
                 ))}
             </div>
-            <Botones seleccionado={seleccionado} crearBuque={crearBuque} setEliminarBuque={setEliminarBuque}/>
+            <Botones seleccionado={seleccionado} crearBuque={crearBuque}/>
         </div>
   )
 }
