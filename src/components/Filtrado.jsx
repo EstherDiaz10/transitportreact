@@ -11,7 +11,7 @@ const Filtrado = ({setFiltrarEstado}) => {
           <option value="estado">Estado</option>
           <option value="en espera">En espera</option>
           <option value="atracado">Atracado</option>
-          <option value="salido">Salido</option>
+          <option value="inactivo">Inactivo</option>
         </select>
         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
             <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
