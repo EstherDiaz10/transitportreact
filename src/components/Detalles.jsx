@@ -11,8 +11,8 @@ const Detalles = ({ buque, setBuques, setBuqueSeleccionado }) => {
         setModificar(false);
     }, [buque]);
 
-    const inputStyle = "bg-white p-1 pl-4 rounded-[10px] text-gray-500 w-full";
-
+    const inputStylePC = "bg-white p-1 pl-4 rounded-[10px] text-gray-500 w-full";
+    
     const valueEstados = (estado) => {
         switch (estado.toLowerCase()) {
             case "en espera":
@@ -54,16 +54,16 @@ const Detalles = ({ buque, setBuques, setBuqueSeleccionado }) => {
     }
 
     return (
-        <div className="text-[#2A5677]">
+        <div className="text-[#2A5677] p-12 md:p-0">
             <h1 className="text-3xl font-bold text-[#2A5677] mb-8">Detalles del buque</h1>
             <form action="">
                 <div className="mt-5">
                     <label htmlFor="id_buque">ID buque</label>
-                    <input className={`${inputStyle} mt-3`} type="text" id="id_buque" name="id" value={`B-${datosFormulario.id}`} readOnly />
+                    <input className={`${inputStylePC} mt-3`} type="text" id="id_buque" name="id" value={`B-${datosFormulario.id}`} readOnly />
                 </div>
                 <div className="mt-5">
                     <label htmlFor="estado_buque">Estado</label>
-                    <select className={`${inputStyle} mt-3 p-1.5`} onChange={cambiarInput} name="estado" id="estado_buque" readOnly={!modificar}>
+                    <select className={`${inputStylePC} mt-3 p-1.5`} onChange={cambiarInput} name="estado" id="estado_buque" readOnly={!modificar}>
                         <option className="p-3" value={`${valueEstados(buque.estado)}`}>{buque.estado}</option>
                         {restoEstados.map((estado) =>
                             <option key={`${valueEstados(estado)}`} value={`${valueEstados(estado)}`}>{estado}</option>
@@ -72,19 +72,19 @@ const Detalles = ({ buque, setBuques, setBuqueSeleccionado }) => {
                 </div>
                 <div className="mt-5">
                     <label htmlFor="nombre_buque">Nombre</label>
-                    <input className={`${inputStyle} mt-3`} onChange={cambiarInput} type="text" id="nombre_buque" name="nombre" value={`${datosFormulario.nombre}`} readOnly={!modificar} />
+                    <input className={`${inputStylePC} mt-3`} onChange={cambiarInput} type="text" id="nombre_buque" name="nombre" value={`${datosFormulario.nombre}`} readOnly={!modificar} />
                 </div>
                 <div className="mt-5">
                     <label htmlFor="tipo_buque">Tipo</label>
-                    <input className={`${inputStyle} mt-3`} onChange={cambiarInput} type="text" id="tipo_buque" name="tipo" value={`${datosFormulario.tipo}`} readOnly={!modificar} />
+                    <input className={`${inputStylePC} mt-3`} onChange={cambiarInput} type="text" id="tipo_buque" name="tipo" value={`${datosFormulario.tipo}`} readOnly={!modificar} />
                 </div>
                 <div className="mt-5">
                     <label htmlFor="capacidad_buque">Cantidad contenedores</label>
-                    <input className={`${inputStyle} mt-3`} onChange={cambiarInput} type="number" id="capacidad_buque" name="capacidad" value={`${datosFormulario.capacidad}`} readOnly={!modificar} />
+                    <input className={`${inputStylePC} mt-3`} onChange={cambiarInput} type="number" id="capacidad_buque" name="capacidad" value={`${datosFormulario.capacidad}`} readOnly={!modificar} />
                 </div>
                 <div className="mt-5">
                     <label htmlFor="observaciones_buque">Observaciones</label>
-                    <textarea className={`${inputStyle} mt-3`} onChange={cambiarInput} name="observaciones" id="observaciones_buque" value={datosFormulario.observaciones} rows="4" readOnly={!modificar}>
+                    <textarea className={`${inputStylePC} mt-3`} onChange={cambiarInput} name="observaciones" id="observaciones_buque" value={datosFormulario.observaciones} rows="4" readOnly={!modificar}>
                     </textarea>
                 </div >
                 <div className="flex justify-center pt-5">

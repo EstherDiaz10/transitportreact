@@ -3,7 +3,7 @@ const Filtrado = ({setFiltrarEstado}) => {
   const selectStyles = "bg-[#DFECF5] pl-3 pr-8 rounded-lg border-none outline-none cursor-pointer appearance-none";
   /*pointer-events-none --> permite que si hacemos click en la flecha, abra el select igualmente*/
   return (
-    <div className="flex gap-9">
+    <div className="hidden md:flex gap-9">
       <h4 className="font-bold">Filtrar por:</h4>
       
       <div className="relative">

@@ -43,7 +43,7 @@ const Header = () => {
 
   //const ultimoId = (buques && buques.length > 0 ? Math.max(...buques.map(buque => buque.id))+1 : null);
     return (
-        <header className="relative w-[90%] h-dvh pt-6 pr-6 p-2 pl-7.5 bg-white ml-7.5">
+        <header className="relative w-[90%] h-dvh pt-6 md:pr-6 p-2 md:pl-7.5 bg-white ml-7.5">
           <div className="w-full flex">
             <div className="w-[50%]">
                 {crearBuque && (
@@ -54,14 +54,14 @@ const Header = () => {
             </div>
             <div className="w-[50%] relative z-50 flex justify-end items-center text-[#2A5677] gap-4">
               {buqueSeleccionado && !crearBuque ? (
-                <button onClick={() => setBuqueSeleccionado(null)} className="mr-80 w-10 h-10 flex justify-center align-center cursor-pointer">
+                <button onClick={() => setBuqueSeleccionado(null)} className=" hidden mr-80 w-10 h-10 flex justify-center align-center cursor-pointer">
                   <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"></path></svg>
                 </button>
               ) : (
                 <></>
               )}
-              <h1 className="font-bold text-3xl">TransitPort</h1>
-              <img src={logo} alt="logotipo transitport" className="w-25 h-25"/>
+              <h1 className="hidden md:font-bold md:text-3xl">TransitPort</h1>
+              <img src={logo} alt="logotipo transitport" className="hidden md:w-25 md:h-25"/>
             </div>
           </div>
           {!crearBuque && (
@@ -80,11 +80,11 @@ const Header = () => {
           )}
           {!crearBuque && (
             <>
-              <div className={`${buqueSeleccionado ? 'w-[53%]' : 'w-full'}`}>
+              <div className={`${buqueSeleccionado ? 'lg:w-[53%]' : 'w-full'}`}>
                 <Listado data={buquesAMostrar} onSelect={setBuqueSeleccionado} seleccionado={buqueSeleccionado} crearBuque={setCrearBuque}/>
               </div>
               {buqueSeleccionado !== null && (
-                <div className="absolute top-0 right-0 bg-[#B7D0E1] h-full w-[45%] rounded-l-[50px] pt-[7%] pl-[5%] pr-[5%]">
+                <div className="fixed z-20 left-0 bottom-0 rounded-t-[50px] h-[80%] bg-[#B7D0E1] lg:absolute lg:top-0 right-0 lg:h-full lg:left-auto lg:w-[45%] lg:rounded-t-[0px] lg:rounded-l-[50px] lg:pt-[7%] lg:pl-[5%] lg:pr-[5%]">
                   <Detalles buque={buqueSeleccionado} setBuqueSeleccionado={setBuqueSeleccionado} setBuques={setBuques}/>
                 </div>
               )}
