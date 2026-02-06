@@ -9,6 +9,7 @@ const Detalles = ({ buque, setBuques, setBuqueSeleccionado }) => {
     useEffect(() => {
         setDatosFormulario({ ...buque });
         setModificar(false);
+        
     }, [buque]);
 
     const inputStylePC = "bg-white p-1 pl-4 rounded-[10px] text-gray-500 w-full";

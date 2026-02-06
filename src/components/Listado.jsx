@@ -21,6 +21,17 @@ const Listado = ({data, onSelect, seleccionado, crearBuque}) => {
         : "grid grid-cols-3 md:grid-cols-[60px_1fr_2.3fr_1fr_60px] items-center gap-5 px-4 md:px-0";
     const [botonEliminar, setBotonEliminar] = useState(null);
 
+
+    const [paginaActual, setPaginaActual] = useState(1);
+    const registrosPorPagina = 7; // Ajusta este número según prefieras
+
+    const ultimoIndice = paginaActual * registrosPorPagina;
+    const primerIndice = ultimoIndice - registrosPorPagina;
+    const registrosActuales = data.slice(primerIndice, ultimoIndice);
+    const totalPaginas = Math.ceil(data.length / registrosPorPagina);
+
+    const cambiarPagina = (numero) => setPaginaActual(numero);
+
     const confirmarEliminacionBuque = (nombre) => {
         const eliminar = confirm(`Estás seguro de querer eliminar el buque ${nombre}?`);
 
@@ -41,9 +52,9 @@ const Listado = ({data, onSelect, seleccionado, crearBuque}) => {
                 <p className={`${!seleccionado ? 'px-2' : ''}`}>Estado</p>
                 <div></div>
             </div>
-            <div className={`max-h-137 w-[97%] md:overflow-y-scroll mt-3 custom-scrollbar`}>
+            <div className={`max-h-137 w-[97%] mt-3`}>
                 
-                {data.map((buque) => (
+                {registrosActuales.map((buque) => (
                     <div onMouseEnter={() => setBotonEliminar(buque.id)} onMouseLeave={() => setBotonEliminar(null)} key={buque.id} className={`${estructura} ${buque.id === seleccionado?.id ? 'bg-[#B7D0E1]' : 'bg-[#DFECF5]'} mb-5 rounded-[10px] h-15 shadow-md/20 w-[97%]`}>
                         {botonEliminar === buque.id ? (
                             <button className={`hidden md:flex ${botonEliminarEstilo}`} onClick={() => confirmarEliminacionBuque(buque.nombre)}>
@@ -79,6 +90,34 @@ const Listado = ({data, onSelect, seleccionado, crearBuque}) => {
                         </div>
                     </div>
                 ))}
+
+            </div>
+            <div className="flex justify-center items-center gap-2 mt-4 w-[93%]">
+                <button 
+                    disabled={paginaActual === 1}
+                    onClick={() => cambiarPagina(paginaActual - 1)}
+                    className="p-2 disabled:opacity-30 text-[#5F84A2] cursor-pointer"
+                >
+                    <i className="fa-solid fa-chevron-left"></i> Anterior
+                </button>
+                
+                {[...Array(totalPaginas)].map((_, i) => (
+                    <button 
+                        key={i}
+                        onClick={() => cambiarPagina(i + 1)}
+                        className={`w-8 h-8 rounded-full ${paginaActual === i + 1 ? 'bg-[#5F84A2] text-white' : 'text-[#5F84A2] border border-[#5F84A2]'}`}
+                    >
+                        {i + 1}
+                    </button>
+                ))}
+
+                <button 
+                    disabled={paginaActual === totalPaginas}
+                    onClick={() => cambiarPagina(paginaActual + 1)}
+                    className="p-2 disabled:opacity-30 text-[#5F84A2] cursor-pointer"
+                >
+                    Siguiente <i className="fa-solid fa-chevron-right"></i>
+                </button>
             </div>
             <Botones seleccionado={seleccionado} crearBuque={crearBuque}/>
         </div>
