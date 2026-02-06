@@ -1,53 +1,40 @@
 import { useState, useEffect } from 'react';
-import buqueService from "../services/buques";
+//import gruaService from "../services/gruas";
 
-const Detalles = ({ buque, setBuqueSeleccionado }) => {
+const DetallesGrua = ({ grua, setGruaSeleccionada }) => {
 
     const [modificar, setModificar] = useState(false);
-    const [datosFormulario, setDatosFormulario] = useState({ ...buque });
+    const [datosFormulario, setDatosFormulario] = useState({ ...grua });
 
     useEffect(() => {
-        setDatosFormulario({ ...buque });
+        setDatosFormulario({ ...grua });
         setModificar(false);
         
-    }, [buque]);
+    }, [grua]);
 
     const inputStylePC = "bg-white p-1 pl-4 rounded-[10px] text-gray-500 w-full";
-    
-    const valueEstados = (estado) => {
-        switch (estado.toLowerCase()) {
-            case "en espera":
-                return "en espera";
 
-            case "atracado":
-                return "atracado";
-
-            case "inactivo":
-                return "inactivo";
-        }
-    }
-
-    const estados = ["En espera", "Atracado", "Salido"];
-    const restoEstados = estados.filter((estado) => estado !== buque.estado);
+    const estados = ["Disponible", "Ocupada"];
+    const otroEstado = estados.filter((estado) => estado !== grua.estado);
+    const prefijo = datosFormulario.tipo.toLowerCase() === 'sts' ? 'STS-' : 'SC-';
 
     const handleEditar = async (event) => {
         event.preventDefault();
         event.stopPropagation();
 
-        if (modificar) {
+        /*if (modificar) {
             try {
-                await buqueService.modificarBuque(buque.id, datosFormulario);
-                const data = await buqueService.listadoBuques();
+                await gruaService.modificarGrua(grua.id, datosFormulario);
+                const data = await gruaService.listadoGruas();
                 setBuques(data);
                 setBuqueSeleccionado(datosFormulario);
             } catch (error) {
                 console.error(error);
             }
-        }
+        }*/
 
         setModificar(!modificar);
     };
-
 
     const cambiarInput = (event) => {
         const { name, value } = event.target;
@@ -56,35 +43,33 @@ const Detalles = ({ buque, setBuqueSeleccionado }) => {
 
     return (
         <div className="text-[#2A5677] relative p-12 md:p-0">
-            <button onClick={() => setBuqueSeleccionado(null)} className="fixed top-15 w-10 h-10 flex justify-center align-center cursor-pointer">
+            <button onClick={() => setGruaSeleccionada(null)} className="fixed top-15 w-10 h-10 flex justify-center align-center cursor-pointer">
                   <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"></path></svg>
             </button>
-            <h1 className="text-3xl font-bold text-[#2A5677] mb-8">Detalles del buque</h1>
+            <h1 className="text-3xl font-bold text-[#2A5677] mb-8">Detalles de la grúa</h1>
             <form action="">
                 <div className="mt-5">
-                    <label htmlFor="id_buque">ID buque</label>
-                    <input className={`${inputStylePC} mt-3`} type="text" id="id_buque" name="id" value={`B-${datosFormulario.id}`} readOnly />
+                    <label htmlFor="id_grua">ID grúa</label>
+                    <input className={`${inputStylePC} mt-3`} type="text" id="id_grua" name="id" value={`${prefijo}${datosFormulario.id}`} readOnly />
                 </div>
                 <div className="mt-5">
-                    <label htmlFor="estado_buque">Estado</label>
-                    <select className={`${inputStylePC} mt-3 p-1.5`} onChange={cambiarInput} name="estado" id="estado_buque" readOnly={!modificar}>
-                        <option className="p-3" value={`${valueEstados(buque.estado)}`}>{buque.estado}</option>
-                        {restoEstados.map((estado) =>
-                            <option key={`${valueEstados(estado)}`} value={`${valueEstados(estado)}`}>{estado}</option>
-                        )}
+                    <label htmlFor="tipo_grua">Tipo de grúa</label>
+                    <input className={`${inputStylePC} mt-3`} onChange={cambiarInput} type="text" id="tipo_grua" name="tipo" value={`${datosFormulario.tipo.toUpperCase()}`} readOnly={!modificar} />
+                </div>
+                <div className="mt-5">
+                    <label htmlFor="zona_grua">Zona asignada</label>
+                    <input className={`${inputStylePC} mt-3`} onChange={cambiarInput} type="text" id="zona_grua" name="zona" value={`${datosFormulario.zona}`} readOnly={!modificar} />
+                </div>
+                <div className="mt-5">
+                    <label htmlFor="estado_grua">Estado</label>
+                    <select className={`${inputStylePC} mt-3 p-1.5`} onChange={cambiarInput} name="estado" id="estado_grua" readOnly={!modificar}>
+                        <option className="p-3" value={grua.estado}>{grua.estado}</option>
+                        <option value={otroEstado}>{otroEstado}</option>
                     </select>
                 </div>
                 <div className="mt-5">
-                    <label htmlFor="nombre_buque">Nombre</label>
-                    <input className={`${inputStylePC} mt-3`} onChange={cambiarInput} type="text" id="nombre_buque" name="nombre" value={`${datosFormulario.nombre}`} readOnly={!modificar} />
-                </div>
-                <div className="mt-5">
-                    <label htmlFor="tipo_buque">Tipo</label>
-                    <input className={`${inputStylePC} mt-3`} onChange={cambiarInput} type="text" id="tipo_buque" name="tipo" value={`${datosFormulario.tipo}`} readOnly={!modificar} />
-                </div>
-                <div className="mt-5">
-                    <label htmlFor="capacidad_buque">Cantidad contenedores</label>
-                    <input className={`${inputStylePC} mt-3`} onChange={cambiarInput} type="number" id="capacidad_buque" name="capacidad" value={`${datosFormulario.capacidad}`} readOnly={!modificar} />
+                    <label htmlFor="operario_grua">Operario asignado</label>
+                    <input className={`${inputStylePC} mt-3`} onChange={cambiarInput} type="text" id="operario_grua" name="operario" value={`${datosFormulario.operario}`} readOnly={!modificar} />
                 </div>
                 <div className="mt-5">
                     <label htmlFor="observaciones_buque">Observaciones</label>
@@ -107,4 +92,4 @@ const Detalles = ({ buque, setBuqueSeleccionado }) => {
 
 }
 
-export default Detalles;
+export default DetallesGrua;
