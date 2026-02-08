@@ -1,7 +1,7 @@
-import buqueService from '../services/buques';
+import buqueService from '../../services/buques';
 import { useState } from 'react';
 
-const FormAnyadir = () => {
+const FormAnyadir = ({ultimoId, cerrarModal}) => {
 
     const inputStyle = "bg-white p-1 pl-4 rounded-[10px] text-gray-500 w-full";
     const lineStyle = "flex justify-between gap-10";
@@ -16,9 +16,8 @@ const FormAnyadir = () => {
     });
     
     const crearNuevoBuque = () => {
-
         buqueService.crearBuque(datosNuevoBuque);
-
+        cerrarModal();
     }
 
     const handleInput = (event) => {
@@ -28,14 +27,14 @@ const FormAnyadir = () => {
 
     return (
         <div>
-            <div className="flex justify-center mt-7">
+            <div className="flex justify-center">
                 <div className="w-180 h-180 pl-18 pr-18 pt-13 bg-[#B7D0E1] rounded-[50px]">
                     <h1 className="text-3xl font-bold text-[#2A5677] pb-8">Añadir buque</h1>
                     <form className="text-[#2A5677]" action="">
                         <div className={lineStyle}>
                             <div className={columnStyle}>
                                 <label htmlFor="id_buque">ID buque</label>
-                                <input className={`${inputStyle} mt-3`} type="text" id="id_buque" name="id" value={`${prefijoIdBuque}`} readOnly/>
+                                <input className={`${inputStyle} mt-3`} type="text" id="id_buque" name="id" value={`${prefijoIdBuque}${ultimoId}`} readOnly/>
                             </div>
                             <div className={columnStyle}>
                                 <label htmlFor="estado_buque">Estado</label>

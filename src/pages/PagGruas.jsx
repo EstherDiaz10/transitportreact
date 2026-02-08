@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
-import Listado from './Listado';
-import Botones from './Botones';
-import FiltradoGrua from './FiltradoGrua';
-import Busqueda from './Busqueda';
-import DetallesGrua from './DetallesGrua';
+import Listado from '../components/Listado';
+import BotonCrear from '../components/BotonCrear';
+import FiltradoGrua from '../components/Gruas/FiltradoGrua';
+import Busqueda from '../components/Busqueda';
+import Modal from '../components/Modal';
+import FormAnyadir from '../components/Formularios/FormAnyadir';
+import DetallesGrua from '../components/Gruas/DetallesGrua';
 import gruas from '../data/gruas';
 //import gruaService from '../services/gruas';
 
@@ -15,7 +17,7 @@ const PagGruas = () => {
     const [inputBuscar, setBuscar] = useState('');
     //const [gruas, setGruas] = useState([]);
     const [gruaSeleccionada, setGruaSeleccionada] = useState(null);
-    const [crearGrua, setCrearGrua] = useState(false);
+    const [crearElemento, setCrearElemento] = useState(false);
 
     /*useEffect(()=>{
         gruaService
@@ -97,24 +99,25 @@ const PagGruas = () => {
     return (
         <>
             <h1 className="fixed top-20 text-3xl font-bold text-[#2A5677]">Listado de grúas</h1>
-            {!crearGrua && (
-                <>
-                <div className={`${!gruaSeleccionada ? 'w-[94%]' : 'w-[49%]'} pt-5 flex justify-between`}>
+                
+                <div className={`${!gruaSeleccionada ? 'w-[94%]' : 'w-[50%]'} pt-5 flex justify-between`}>
                     <FiltradoGrua setFiltrarEstado={setFiltrarEstado} setFiltrarTipo={setFiltrarTipo}/>
                     <Busqueda setBuscar={setBuscar} />
                 </div>
-                </>
-            )}
+                
             <div className={`${gruaSeleccionada ? 'lg:w-[53%]' : 'w-full'}`}>
                 <Listado elementos={gruasAMostrar} estructuraGrid={estructuraGrid} columnas={columnasBuques} setElementoSeleccionado={setGruaSeleccionada} elementoSeleccionado={gruaSeleccionada} icono={icono}/>
-                <Botones seleccionado={gruaSeleccionada} crearElemento={setCrearGrua}/>
+                <BotonCrear tipo="grua" setCrearElemento={setCrearElemento} seleccionado={gruaSeleccionada}/>
                 {gruaSeleccionada !== null && (
                     <div className="fixed z-10 left-0 bottom-0 rounded-t-[50px] h-[80%] bg-[#B7D0E1] lg:absolute lg:top-0 right-0 lg:h-full lg:left-auto lg:w-[45%] lg:rounded-t-[0px] lg:rounded-l-[50px] lg:pt-[7%] lg:pl-[5%] lg:pr-[5%]">
                         <DetallesGrua grua={gruaSeleccionada} setGruaSeleccionada={setGruaSeleccionada}/>
                     </div>
                 )}
-            
             </div>
+
+            <Modal modalAbierto={crearElemento} cerrarModal={() => setCrearElemento(false)}>
+                <FormAnyadir cerrarModal={() => setCrearElemento(false)} />
+            </Modal>
         </>
     )
 }

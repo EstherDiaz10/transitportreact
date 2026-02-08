@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import buqueService from "../services/buques";
+import buqueService from "../../services/buques";
 
 const Detalles = ({ buque, setBuqueSeleccionado }) => {
 

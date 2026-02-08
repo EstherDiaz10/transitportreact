@@ -1,7 +1,7 @@
 const Busqueda = ({setBuscar}) => {
 
   return (
-    <div className="flex bg-[#DFECF5] rounded-[5px] items-center">
+    <div className="flex bg-[#DFECF5] rounded-[5px] items-center mr-0.5">
       <div className="bg-[#5F84A2] w-8 h-full flex justify-center items-center rounded-[5px] text-white">
         <i className="fa-solid fa-magnifying-glass"></i>
       </div>

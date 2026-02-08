@@ -1,5 +1,5 @@
-import imagenUser from '../img/esther.jpg';
 import MenuItems from './MenuItems';
+import imagenUser from '../../assets/esther.jpg';
 
 const MenuOrdenador = () => {
     

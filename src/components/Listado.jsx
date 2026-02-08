@@ -1,4 +1,4 @@
-import Botones from "./Botones";
+import Botones from "./BotonCrear";
 import { useState } from 'react';
 
 const Listado = ({elementos, estructuraGrid, columnas, setElementoSeleccionado, elementoSeleccionado, icono}) => {
