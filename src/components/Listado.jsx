@@ -1,4 +1,3 @@
-import Botones from "./BotonCrear";
 import { useState } from 'react';
 
 const Listado = ({elementos, estructuraGrid, columnas, setElementoSeleccionado, elementoSeleccionado, icono}) => {
@@ -15,6 +14,18 @@ const Listado = ({elementos, estructuraGrid, columnas, setElementoSeleccionado, 
     const totalPaginas = Math.ceil(elementos.length / registrosPorPagina);
 
     const cambiarPagina = (numero) => setPaginaActual(numero);
+
+    const opcionesPaginas = [];
+    for (let i = 1; i <= totalPaginas; i++) {
+        
+        if (i === 1 || i === totalPaginas || i % 10 === 0) {
+            opcionesPaginas.push(
+                <option key={i} value={i}>
+                    Página {i}
+                </option>
+            );
+        }
+    }
 
     const confirmarEliminacionBuque = (nombre) => {
         const eliminar = confirm(`Estás seguro de querer eliminar el buque ${nombre}?`);
@@ -72,32 +83,37 @@ const Listado = ({elementos, estructuraGrid, columnas, setElementoSeleccionado, 
                 ))}
 
             </div>
-            <div className="flex justify-center items-center gap-2 mt-4 w-[93%]">
-                <button 
+            
+            <div className="flex justify-between items-center mt-4 w-[94%]">
+                <div className="relative">
+                    <select name="pagina" onChange={(e) => cambiarPagina(Number(e.target.value))} id="idPagina" className="bg-[#DFECF5] pl-3 pr-12 rounded-lg border-none outline-none cursor-pointer appearance-none">
+                    {opcionesPaginas}
+                    </select>
+                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                        <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </div>
+                </div>
+                <div className="flex items-center gap-4">
+                    <button 
                     disabled={paginaActual === 1}
                     onClick={() => cambiarPagina(paginaActual - 1)}
-                    className="p-2 disabled:opacity-30 text-[#5F84A2] cursor-pointer"
-                >
-                    <i className="fa-solid fa-chevron-left"></i> Anterior
-                </button>
-                
-                {[...Array(totalPaginas)].map((_, i) => (
-                    <button 
-                        key={i}
-                        onClick={() => cambiarPagina(i + 1)}
-                        className={`w-8 h-8 rounded-full ${paginaActual === i + 1 ? 'bg-[#5F84A2] text-white' : 'text-[#5F84A2] border border-[#5F84A2]'}`}
+                    className="p-2 disabled:opacity-30 text-white cursor-pointer w-10 h-10 bg-[#5F84A2] rounded-[5px]"
                     >
-                        {i + 1}
+                        <i className="fa-solid fa-chevron-left"></i>
                     </button>
-                ))}
+                    
+                    <p>Pagina {paginaActual} de {totalPaginas}</p>
 
-                <button 
-                    disabled={paginaActual === totalPaginas}
-                    onClick={() => cambiarPagina(paginaActual + 1)}
-                    className="p-2 disabled:opacity-30 text-[#5F84A2] cursor-pointer"
-                >
-                    Siguiente <i className="fa-solid fa-chevron-right"></i>
-                </button>
+                    <button 
+                        disabled={paginaActual === totalPaginas}
+                        onClick={() => cambiarPagina(paginaActual + 1)}
+                        className="p-2 disabled:opacity-30 text-white cursor-pointer w-10 h-10 bg-[#5F84A2] rounded-[5px]"
+                    >
+                    <i className="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
             </div>
 
         </div>

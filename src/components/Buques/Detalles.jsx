@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import buqueService from "../../services/buques";
 
-const Detalles = ({ buque, setBuqueSeleccionado }) => {
+const Detalles = ({ buque, setBuqueSeleccionado, setBuques }) => {
 
     const [modificar, setModificar] = useState(false);
     const [datosFormulario, setDatosFormulario] = useState({ ...buque });

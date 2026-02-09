@@ -1,21 +1,12 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
 
-    const [user, setUser] = useState(null);
-
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-
-        fetch("http://localhost:8000/api/me", {
-            headers: {Authorization: `Bearer ${token}`},
-        })
-            .then(response => response.json())
-            .then(data => setUser(data))
-            .catch(() => setUser(null));
-    }, []);
+    const userGuardado = localStorage.getItem("user");
+    const [user, setUser] = useState(userGuardado ? JSON.parse(userGuardado) : null);
 
     return ( 
         <AuthContext.Provider value={{user, setUser}}>
