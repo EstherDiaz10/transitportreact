@@ -76,7 +76,7 @@ const PagBuques = () => {
             'valor': 'estado',
             'estilos': !buqueSeleccionado ? 'px-2' : '',
             'estado': (buque) => (
-                <div key={buque.id} className={`flex items-center justify-between gap-3 w-full pr-2`}>
+                <div key={buque.nombre} className={`flex items-center justify-between gap-3 w-full pr-2`}>
                         <p className="truncate text-right">{buque.estado.charAt(0).toUpperCase() + buque.estado.slice(1)}</p>
                         <div style={{backgroundColor: colorEstado(buque.estado)}} className="w-4 h-4 rounded-full"></div>
                 </div>

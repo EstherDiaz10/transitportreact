@@ -4,7 +4,7 @@ import BotonCrear from '../components/BotonCrear';
 import FiltradoGrua from '../components/Gruas/FiltradoGrua';
 import Busqueda from '../components/Busqueda';
 import Modal from '../components/Modal';
-import FormAnyadir from '../components/Formularios/FormAnyadirBuque';
+import FormAnyadirGrua from '../components/Formularios/FormAnyadirGrua';
 import DetallesGrua from '../components/Gruas/DetallesGrua';
 import gruas from '../data/gruas';
 //import gruaService from '../services/gruas';
@@ -85,7 +85,7 @@ const PagGruas = () => {
             'valor': 'estado',
             'estilos': !gruaSeleccionada ? 'px-2' : '',
             'estado': (grua) => (
-                <div key={grua.id} className={`flex items-center justify-between gap-3 w-full pr-2`}>
+                <div key={grua.tipo} className={`flex items-center justify-between gap-3 w-full pr-2`}>
                         <p className="truncate text-right">{grua.estado.charAt(0).toUpperCase() + grua.estado.slice(1)}</p>
                         <div style={{backgroundColor: colorEstado(grua.estado)}} className="w-4 h-4 rounded-full"></div>
                 </div>
@@ -115,7 +115,7 @@ const PagGruas = () => {
             </div>
 
             <Modal modalAbierto={crearElemento} cerrarModal={() => setCrearElemento(false)}>
-                <FormAnyadir cerrarModal={() => setCrearElemento(false)} />
+                <FormAnyadirGrua cerrarModal={() => setCrearElemento(false)} />
             </Modal>
         </>
     )

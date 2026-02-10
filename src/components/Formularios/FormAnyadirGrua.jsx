@@ -1,21 +1,35 @@
 import gruaService from '../../services/gruas';
-import { useState, useContext } from 'react';
-import { AuthContext } from '../context/AuthProvider';
+import { useState, useContext, useEffect } from 'react';
+import { AuthContext } from '../../context/AuthProvider';
 import operarioService from '../../services/operarios';
+import Select from 'react-select';
+import MultiSelect from '../MultiSelect';
 
-const FormAnyadir = ({ultimoId, cerrarModal}) => {
+const FormAnyadirGrua = ({ultimoId, cerrarModal}) => {
 
     const inputStyle = "bg-white p-1 pl-4 rounded-[10px] text-gray-500 w-full";
     const lineStyle = "flex justify-between gap-10";
     const columnStyle = "flex flex-wrap w-[50%]";
     const { user } = useContext(AuthContext);
+    const [operarios, setOperarios] = useState([]);
     const [datosNuevaGrua, setDatosNuevaGrua] = useState({
         tipo: '',
-        gestor: user.id,
+        gestor: '',
         estado: 'en espera',
-        operario: '',
+        operario: [],
         observaciones: ''
     });
+
+    useEffect(() => {
+        operarioService.listadoOperarios().then(res => {
+            
+            const opciones = res.map(operario => ({
+                value: operario.id,    
+                label: operario.name   
+            }));
+            setOperarios(opciones);
+        });
+    }, []);
     
     const zonas = [
         'ZD-1',
@@ -26,7 +40,11 @@ const FormAnyadir = ({ultimoId, cerrarModal}) => {
     ];
 
     const crearNuevaGrua = () => {
-        gruaService.crearGrua(datosNuevaGrua);
+        const payload = {
+            ...datosNuevaGrua,
+            operario: datosNuevaGrua.operario.map(operario => operario.value)
+        };
+        gruaService.crearGrua(payload);
         cerrarModal();
     }
 
@@ -37,6 +55,10 @@ const FormAnyadir = ({ultimoId, cerrarModal}) => {
     const handleInput = (event) => {
         const {name, value} = event.target;
         setDatosNuevaGrua({...datosNuevaGrua, [name]: value});
+    }
+
+    const handleSelectOperarios = (selected) => {
+        setDatosNuevaGrua({ ...datosNuevaGrua, operario: selected });
     }
 
     return (
@@ -58,7 +80,7 @@ const FormAnyadir = ({ultimoId, cerrarModal}) => {
                                 </select>
                             </div>
                         </div>
-                        <div className={lineStyle}>
+                        <div className={`${lineStyle} mt-8`}>
                             <div className={columnStyle}>
                                 <label htmlFor="zona_grua">Zona asignada</label>
                                 <select onChange={(event) => handleInput(event)} className={`${inputStyle} mt-3`} name="zona" id="zona_grua">
@@ -75,21 +97,12 @@ const FormAnyadir = ({ultimoId, cerrarModal}) => {
                                 </select>
                             </div>
                         </div>
-                        <div className={columnStyle}>
-                            <label htmlFor="operario_grua">Operador asignado</label>
-                            <select onChange={(event) => handleInput(event)} className={`${inputStyle} mt-3`} name="operario" id="operario_grua">
-                                {operarios.map((zona) =>
-                                    <option key={zona} className="p-3" value={zona}>{zona}</option>, {/*aqui en el futuro deben ir zonas reales de la BD, no un array. Además, la key será su id, etc.*/}
-                                )}
-                            </select>
+                        <div className='mt-8'>
+                            <label className="mb-3 block" htmlFor="operarios_grua">Operarios asignados</label>
+                            <MultiSelect options={operarios} value={datosNuevaGrua.operario} onChange={handleSelectOperarios} />
                         </div>
-                
-                        
-                        
-                        
-                        
                         <div className="mt-8">
-                            <label htmlFor="observaciones_buque">Observaciones</label>
+                            <label htmlFor="observaciones_grua">Observaciones</label>
                             <textarea onChange={(event) => handleInput(event)} className={`${inputStyle} mt-3`} name="observaciones" id="observaciones_grua" rows="4"></textarea>
                         </div>
                         <div className="mt-6 flex justify-center">
@@ -101,11 +114,10 @@ const FormAnyadir = ({ultimoId, cerrarModal}) => {
                     </form>
                 </div>
             </div>
-            
+
         </div>
-        
     )
 
 }
 
-export default FormAnyadir;
+export default FormAnyadirGrua;

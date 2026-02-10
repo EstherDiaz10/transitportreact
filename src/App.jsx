@@ -9,7 +9,6 @@ import PagGruas from './pages/PagGruas';
 import Login from './pages/Login';
 import { AuthProvider } from './context/AuthProvider';
 
-
 const App = () => {
 
   return (
