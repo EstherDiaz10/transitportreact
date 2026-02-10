@@ -1,10 +1,9 @@
 import axios from 'axios';
 
 const enviarLogin = (datosUser, rol) => {
-    console.log('Datos:', datosUser, 'Rol:', rol);
     return axios
-        .post(`http://localhost/api/login/${rol}`, datosUser)
-        .then(response => console.log(response.data));
+        .post(`http://127.0.0.1/api/login/${rol}`, datosUser)
+        .then(response => response.data);
 };
 
 export default { enviarLogin };

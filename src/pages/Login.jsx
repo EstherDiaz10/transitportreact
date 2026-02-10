@@ -8,7 +8,7 @@ import { AuthContext } from '../context/AuthProvider';
 const Login = ({rol}) => {
 
     const [datosUser, setDatosUser] = useState({email: '', password: ''});
-    const setUser = useContext(AuthContext);
+    const { setUser } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const buttonStyle = "w-full p-[12px] bg-[#2A5677] text-white rounded-[8px] mt-[20px] cursor-pointer";
@@ -19,15 +19,17 @@ const Login = ({rol}) => {
 
         try {
             const response = await loginService.enviarLogin(datosUser, rol);
+            const userData = response.success;
+            console.log(response);
+            console.log(userData);
+            if (rol === userData.rol) {
+                localStorage.setItem("token", userData.token);
+                localStorage.setItem("user", JSON.stringify(userData));
+                setUser(userData);
 
-            if (rol === response.rol) {
-                localStorage.setItem("token", response.token);
-                localStorage.setItem("user", JSON.stringify(response));
-                setUser(response);
-
-                if (response.rol === 'administrativo' || response.rol === 'gestor') {
+                if (userData.rol === 'administrativo' || userData.rol === 'gestor') {
                     navigate('/buques');
-                } else if (response.rol === 'operario') {
+                } else if (userData.rol === 'operario') {
                     navigate('/mis-ordenes')
                 }
             } else {
