@@ -5,7 +5,7 @@ import Filtrado from '../components/Buques/Filtrado';
 import Busqueda from '../components/Busqueda';
 import Detalles from '../components/Buques/Detalles';
 import Modal from '../components/Modal';
-import FormAnyadir from '../components/Formularios/FormAnyadir';
+import FormAnyadirBuque from '../components/Formularios/FormAnyadirBuque';
 import buqueService from '../services/buques';
 
 const PagBuques = () => {
@@ -107,7 +107,7 @@ const PagBuques = () => {
             </div>
 
             <Modal modalAbierto={crearElemento} cerrarModal={() => setCrearElemento(false)}>
-                <FormAnyadir ultimoId={ultimoId} cerrarModal={() => setCrearElemento(false)} />
+                <FormAnyadirBuque ultimoId={ultimoId} cerrarModal={() => setCrearElemento(false)} />
             </Modal>
         </>
     )
