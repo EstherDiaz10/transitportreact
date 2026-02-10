@@ -2,19 +2,35 @@ import axios from 'axios';
 
 const baseUrl = 'http://localhost/api';
 
+const token = localStorage.getItem('token');
+
+const config = {
+    headers: {Authorization: `Bearer ${token}`}
+}
+
 const listadoBuques = () => {
     return axios
-        .get(`${baseUrl}/obtenerBuques`)
+        .get(`${baseUrl}/obtenerBuques`, config)
         .then(response => response.data);
 };
 
 const crearBuque = (nuevoBuque) => {
     return axios
-        .post(`${baseUrl}/crearBuque`, nuevoBuque)
+        .post(`${baseUrl}/crearBuque`, nuevoBuque, config)
         .then(response => response.data);
 };
 
 const modificarBuque = (id, nuevoBuque) => {
+    return axios
+        .patch(`${baseUrl}/actualizarBuque/${id}`, nuevoBuque, config)
+        .then((response) => response.data)
+        .catch((error) => {
+            console.log(error.response.statusText);
+            throw error;
+        })
+}
+
+/*const modificarBuque = (id, nuevoBuque) => {
     let data = new FormData();
     data.append('nombre', nuevoBuque.nombre);
     data.append('tipo', nuevoBuque.tipo);
@@ -33,10 +49,10 @@ const modificarBuque = (id, nuevoBuque) => {
         throw error;
     })
         
-        /*.patch(`${baseUrl}/actualizarBuque/${id}`, nuevoBuque)
-        .then(response => response.data);*/
+        .patch(`${baseUrl}/actualizarBuque/${id}`, nuevoBuque)
+        .then(response => response.data);
         
-};
+};*/
 
 export default {
     listadoBuques,
