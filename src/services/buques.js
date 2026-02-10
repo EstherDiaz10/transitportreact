@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from './api';
 
 const baseUrl = 'http://localhost/api';
 
@@ -9,19 +9,19 @@ const config = {
 }
 
 const listadoBuques = () => {
-    return axios
+    return api
         .get(`${baseUrl}/obtenerBuques`, config)
         .then(response => response.data);
 };
 
 const crearBuque = (nuevoBuque) => {
-    return axios
+    return api
         .post(`${baseUrl}/crearBuque`, nuevoBuque, config)
         .then(response => response.data);
 };
 
 const modificarBuque = (id, nuevoBuque) => {
-    return axios
+    return api
         .patch(`${baseUrl}/actualizarBuque/${id}`, nuevoBuque, config)
         .then((response) => response.data)
         .catch((error) => {
