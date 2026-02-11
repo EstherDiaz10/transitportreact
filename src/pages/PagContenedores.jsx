@@ -58,6 +58,7 @@ const PagContenedores = () => {
         {
             'titulo': 'Ubicación',
             'valor': 'parking_id',
+            'id_ajena': ' ',
             'prefijo': 'P-',
         },
         {
