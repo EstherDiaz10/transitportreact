@@ -1,6 +1,4 @@
 import logo from '../assets/Logo.png';
-import FormAnyadir from '../components/Formularios/FormAnyadir';
-import Modal from '../components/Modal';
 import { Outlet } from 'react-router-dom';
 
 const Main = () => {

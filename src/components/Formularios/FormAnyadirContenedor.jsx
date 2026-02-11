@@ -1,0 +1,95 @@
+import contenedorService from '../../services/contenedores';
+import { useState } from 'react';
+
+const FormAnyadirContenedor = ({ ultimoId, cerrarModal }) => {
+
+    const inputStyle = "bg-white p-1 pl-4 rounded-[10px] text-gray-500 w-full";
+    const lineStyle = "flex justify-between gap-10";
+    const columnStyle = "flex flex-wrap w-[50%]";
+    const prefijoIdContenedor = "C-";
+
+    const [datosNuevoContenedor, setDatosNuevoContenedor] = useState({
+        num_serie: '',
+        companyia: '',
+        existe: true,
+        observaciones: '',
+        buque_id: '',
+        parking_id: ''
+    });
+
+    const crearNuevoContenedor = (e) => {
+        e.preventDefault(); 
+        contenedorService.crearContenedor(datosNuevoContenedor);
+        cerrarModal();
+    }
+
+    const handleInput = (event) => {
+        const { name, value, type, checked } = event.target;
+        const valorFinal = type === 'checkbox' ? checked : value;
+        setDatosNuevoContenedor({ ...datosNuevoContenedor, [name]: valorFinal });
+    }
+
+    return (
+        <div>
+            <div className="flex justify-center">
+                <div className="w-180 h-180 pl-18 pr-18 pt-13 bg-[#B7D0E1] rounded-[50px]">
+                    <h1 className="text-3xl font-bold text-[#2A5677] pb-8">Añadir contenedor</h1>
+                    <form className="text-[#2A5677]" onSubmit={crearNuevoContenedor}>
+                        
+                        <div className={lineStyle}>
+                            <div className={columnStyle}>
+                                <label htmlFor="id_cont">ID Sistema</label>
+                                <input className={`${inputStyle} mt-3`} type="text" id="id_cont" value={`${prefijoIdContenedor}${ultimoId}`} readOnly />
+                            </div>
+                            <div className={columnStyle}>
+                                <label htmlFor="num_serie">Número de Serie</label>
+                                <input onChange={handleInput} className={`${inputStyle} mt-3`} type="text" id="num_serie" name="num_serie" placeholder="MSCU1234567" required />
+                            </div>
+                        </div>
+
+                        <div className={`${lineStyle} mt-8 mb-8`}>
+                            <div className={columnStyle}>
+                                <label htmlFor="companyia">Compañía</label>
+                                <input onChange={handleInput} className={`${inputStyle} mt-3`} type="text" id="companyia" name="companyia" placeholder="Maersk" />
+                            </div>
+                            <div className={columnStyle}>
+                                <label htmlFor="existe">Disponibilidad</label>
+                                <select onChange={handleInput} className={`${inputStyle} mt-3 p-1.5`} name="existe" id="existe">
+                                    <option value={true}>Disponible (En Stock)</option>
+                                    <option value={false}>No Disponible (En tránsito)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div className={lineStyle}>
+                            <div className={columnStyle}>
+                                <label htmlFor="buque_id">ID Buque Asignado</label>
+                                <input onChange={handleInput} className={`${inputStyle} mt-3`} type="number" id="buque_id" name="buque_id" placeholder="ID del buque" />
+                            </div>
+                            <div className={columnStyle}>
+                                <label htmlFor="parking_id">ID Parking (Ubicación)</label>
+                                <input onChange={handleInput} className={`${inputStyle} mt-3`} type="number" id="parking_id" name="parking_id" placeholder="Zona de parking" />
+                            </div>
+                        </div>
+
+                        <div className="mt-8">
+                            <label htmlFor="observaciones">Observaciones</label>
+                            <textarea onChange={handleInput} className={`${inputStyle} mt-3`} name="observaciones" id="observaciones" rows="3"></textarea>
+                        </div>
+
+                        <div className="mt-6 flex justify-center">
+                            <button type="submit" className="bg-[#5F84A2] text-white font-bold gap-2 pt-2 pb-2 pr-4 pl-4 rounded-[5px] flex items-center justify-around text-lg hover:bg-[#DFECF5] hover:text-[#5F84A2] hover:border-3 hover:border-[#5F84A2]">
+                                <span>Crear Contenedor</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" viewBox="0 0 256 256">
+                                    <path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+export default FormAnyadirContenedor;
