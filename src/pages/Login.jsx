@@ -20,7 +20,7 @@ const Login = ({rol}) => {
         try {
             const response = await loginService.enviarLogin(datosUser, rol);
             const userData = response.success;
-            console.log(userData);
+            
             if (rol === userData.rol) {
                 localStorage.setItem("token", userData.token);
                 localStorage.setItem("user", JSON.stringify(userData));

@@ -1,14 +1,13 @@
 import Select from 'react-select';
 
-export default function MultiSelect({ options, value, onChange }) {
+export default function MultiSelect({ options, value, onChange, placeholder }) {
   return (
     <Select
       options={options}
       value={value}
       onChange={onChange}
-      isMulti
       isSearchable
-      placeholder="Selecciona operarios"
+      placeholder={placeholder}
       styles={{
         control: (base) => ({
           ...base,

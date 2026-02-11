@@ -38,15 +38,16 @@ const PagGruas = () => {
     if(inputBuscar !== '') {
         gruasAMostrar = gruasAMostrar.filter((grua) => {
             let prefijoIdGrua = '';
-        if (grua.tipo === 'sts') {
-            prefijoIdGrua = "STS-";
-        } else {
-            prefijoIdGrua = "SC-";
-        }
-        const operarioEncontrado = grua.operario.toLowerCase().includes(inputBuscar.toLowerCase());
-        const idEncontrada  = (prefijoIdGrua.toLowerCase() + grua.id.toString()).includes(inputBuscar);
+            let prefijoIdZona = 'ZD-';
+            if (grua.tipo === 'sts') {
+                prefijoIdGrua = "STS-";
+            } else {
+                prefijoIdGrua = "SC-";
+            }
+            const zonaEncontrada = (prefijoIdZona.toLowerCase() + grua.id.toString()).includes(inputBuscar);
+            const idEncontrada  = (prefijoIdGrua.toLowerCase() + grua.id.toString()).includes(inputBuscar);
 
-        return operarioEncontrado || idEncontrada;
+            return zonaEncontrada || idEncontrada;
         });
     }
 
@@ -82,7 +83,7 @@ const PagGruas = () => {
                             </span>
                         ))
                     ) : (
-                        <span>{grua.operario}</span> // Caso por defecto si es solo uno
+                        <span>{grua.operario}</span>
                     )}
                 </div>
             )
