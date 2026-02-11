@@ -2,7 +2,7 @@ import gruaService from '../../services/gruas';
 import { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../../context/AuthProvider';
 import operarioService from '../../services/operarios';
-import Select from 'react-select';
+import zonasService from '../../services/zonas';
 import MultiSelect from '../MultiSelect';
 
 const FormAnyadirGrua = ({ultimoId, cerrarModal}) => {
@@ -12,44 +12,40 @@ const FormAnyadirGrua = ({ultimoId, cerrarModal}) => {
     const columnStyle = "flex flex-wrap w-[50%]";
     const { user } = useContext(AuthContext);
     const [operarios, setOperarios] = useState([]);
+    const [zonas, setZonas] = useState([]);
     const [datosNuevaGrua, setDatosNuevaGrua] = useState({
         tipo: '',
-        gestor: '',
+        id_gestor: user.id,
         estado: 'en espera',
-        operario: [],
+        id_zona: '',
+        operarios: [],
         observaciones: ''
     });
 
     useEffect(() => {
-        operarioService.listadoOperarios().then(res => {
-            
-            const opciones = res.map(operario => ({
-                value: operario.id,    
-                label: operario.name   
-            }));
-            setOperarios(opciones);
-        });
+        operarioService.listadoOperarios()
+            .then(data => {
+                const opciones = data.map(operario => ({
+                    value: operario.id,    
+                    label: operario.name   
+                }));
+                setOperarios(opciones);
+            });
+
+        zonasService.listadoZonas()
+            .then(data => {
+                setZonas(Object.values(data));
+            })
     }, []);
     
-    const zonas = [
-        'ZD-1',
-        'ZD-2',
-        'ZD-3',
-        'ZD-4',
-        'ZD-5'
-    ];
-
-    const crearNuevaGrua = () => {
+    const crearNuevaGrua = (event) => {
+        event.preventDefault();
         const payload = {
             ...datosNuevaGrua,
-            operario: datosNuevaGrua.operario.map(operario => operario.value)
+            operarios: datosNuevaGrua.operarios.map(operario => operario.value)
         };
         gruaService.crearGrua(payload);
         cerrarModal();
-    }
-
-    const obtenerOperarios = () => {
-        operarioService.listadoOperarios()
     }
 
     const handleInput = (event) => {
@@ -58,8 +54,10 @@ const FormAnyadirGrua = ({ultimoId, cerrarModal}) => {
     }
 
     const handleSelectOperarios = (selected) => {
-        setDatosNuevaGrua({ ...datosNuevaGrua, operario: selected });
+        setDatosNuevaGrua({ ...datosNuevaGrua, operarios: selected });
     }
+
+    const prefijoZona = 'ZD-';
 
     return (
         <div>
@@ -85,7 +83,7 @@ const FormAnyadirGrua = ({ultimoId, cerrarModal}) => {
                                 <label htmlFor="zona_grua">Zona asignada</label>
                                 <select onChange={(event) => handleInput(event)} className={`${inputStyle} mt-3`} name="zona" id="zona_grua">
                                     {zonas.map((zona) =>
-                                        <option key={zona} className="p-3" value={zona}>{zona}</option>, {/*aqui en el futuro deben ir zonas reales de la BD, no un array. Además, la key será su id, etc.*/}
+                                        <option key={zona.id} className="p-3" value={zona.id}>{prefijoZona}{zona.id}</option>
                                     )}
                                 </select>
                             </div>
@@ -99,7 +97,7 @@ const FormAnyadirGrua = ({ultimoId, cerrarModal}) => {
                         </div>
                         <div className='mt-8'>
                             <label className="mb-3 block" htmlFor="operarios_grua">Operarios asignados</label>
-                            <MultiSelect options={operarios} value={datosNuevaGrua.operario} onChange={handleSelectOperarios} />
+                            <MultiSelect options={operarios} value={datosNuevaGrua.operarios} onChange={handleSelectOperarios} />
                         </div>
                         <div className="mt-8">
                             <label htmlFor="observaciones_grua">Observaciones</label>

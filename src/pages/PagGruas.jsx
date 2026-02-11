@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Listado from '../components/Listado';
 import BotonCrear from '../components/BotonCrear';
 import FiltradoGrua from '../components/Gruas/FiltradoGrua';
@@ -6,27 +6,26 @@ import Busqueda from '../components/Busqueda';
 import Modal from '../components/Modal';
 import FormAnyadirGrua from '../components/Formularios/FormAnyadirGrua';
 import DetallesGrua from '../components/Gruas/DetallesGrua';
-import gruas from '../data/gruas';
-//import gruaService from '../services/gruas';
+import gruaService from '../services/gruas';
 
 const PagGruas = () => {
 
     const [filtrarEstado, setFiltrarEstado] = useState('estado');
     const [filtrarTipo, setFiltrarTipo] = useState('tipo');
     const [inputBuscar, setBuscar] = useState('');
-    //const [gruas, setGruas] = useState([]);
+    const [gruas, setGruas] = useState([]);
     const [gruaSeleccionada, setGruaSeleccionada] = useState(null);
     const [crearElemento, setCrearElemento] = useState(false);
 
-    /*useEffect(()=>{
+    useEffect(()=>{
         gruaService
         .listadoGruas()
         .then(data =>{
             setGruas(data)
         })
-    }, [])*/
+    }, [])
 
-    let gruasAMostrar = gruas.gruas;
+    let gruasAMostrar = gruas;
 
     if(filtrarEstado !== 'estado') {
         gruasAMostrar = gruasAMostrar.filter((grua) => grua.estado.toLowerCase() === filtrarEstado);
@@ -62,22 +61,24 @@ const PagGruas = () => {
 
     const estructuraGrid = !gruaSeleccionada 
         ? "grid grid-cols-3 md:grid-cols-[80px_0.7fr_1.3fr_1fr_130px_130px] items-center gap-3 px-4 md:px-0" 
-        : "grid grid-cols-3 md:grid-cols-[60px_1fr_2.3fr_1fr_60px] items-center gap-5 px-4 md:px-0";
+        : "grid grid-cols-3 md:grid-cols-[60px_1.5fr_2.3fr_1fr_60px] items-center gap-5 px-4 md:px-0";
 
-    const columnasBuques = [
+    const columnasGruas = [
         {
             'titulo': 'ID Grua',
             'valor': 'id',
             'prefijo': (grua) => (grua.tipo === 'sts' ? 'STS-' : 'SC-')
         },
         {
-            'titulo': 'Zona asignada',
-            'valor': 'zona',
+            'titulo': 'Tipo de grúa',
+            'valor': 'tipo',
             'estilos': gruaSeleccionada ? 'hidden truncate' : ''
         },
         {
-            'titulo': 'Operario asignado',
-            'valor': 'operario',
+            'titulo': 'Zona asignada',
+            'valor': 'id_zona',
+            'id_ajena': ' ',
+            'prefijo': 'ZD-',
             'estilos': 'hidden md:block truncate'
         },
         {
@@ -105,11 +106,11 @@ const PagGruas = () => {
                 </div>
                 
             <div className={`${gruaSeleccionada ? 'lg:w-[53%]' : 'w-full'}`}>
-                <Listado elementos={gruasAMostrar} estructuraGrid={estructuraGrid} columnas={columnasBuques} setElementoSeleccionado={setGruaSeleccionada} elementoSeleccionado={gruaSeleccionada} icono={icono}/>
+                <Listado elementos={gruasAMostrar} estructuraGrid={estructuraGrid} columnas={columnasGruas} setElementoSeleccionado={setGruaSeleccionada} elementoSeleccionado={gruaSeleccionada} icono={icono}/>
                 <BotonCrear tipo="grua" setCrearElemento={setCrearElemento} seleccionado={gruaSeleccionada}/>
                 {gruaSeleccionada !== null && (
                     <div className="fixed z-10 left-0 bottom-0 rounded-t-[50px] h-[80%] bg-[#B7D0E1] lg:absolute lg:top-0 right-0 lg:h-full lg:left-auto lg:w-[45%] lg:rounded-t-[0px] lg:rounded-l-[50px] lg:pt-[7%] lg:pl-[5%] lg:pr-[5%]">
-                        <DetallesGrua grua={gruaSeleccionada} setGruaSeleccionada={setGruaSeleccionada}/>
+                        <DetallesGrua grua={gruaSeleccionada} setGruaSeleccionada={setGruaSeleccionada} setGruas={setGruas}/>
                     </div>
                 )}
             </div>

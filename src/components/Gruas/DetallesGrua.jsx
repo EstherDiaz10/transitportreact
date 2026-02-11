@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-//import gruaService from "../services/gruas";
+import MultiSelect from '../MultiSelect';
+import gruaService from "../../services/gruas";
 
-const DetallesGrua = ({ grua, setGruaSeleccionada }) => {
+const DetallesGrua = ({ grua, setGruaSeleccionada, setGruas }) => {
 
     const [modificar, setModificar] = useState(false);
     const [datosFormulario, setDatosFormulario] = useState({ ...grua });
@@ -15,23 +16,24 @@ const DetallesGrua = ({ grua, setGruaSeleccionada }) => {
     const inputStylePC = "bg-white p-1 pl-4 rounded-[10px] text-gray-500 w-full";
 
     const estados = ["Disponible", "Ocupada"];
-    const otroEstado = estados.filter((estado) => estado !== grua.estado);
+    const otroEstado = estados.filter((estado) => estado.toLowerCase() !== grua.estado);
     const prefijo = datosFormulario.tipo.toLowerCase() === 'sts' ? 'STS-' : 'SC-';
+    const prefijoZona = 'ZD-';
 
     const handleEditar = async (event) => {
         event.preventDefault();
         event.stopPropagation();
 
-        /*if (modificar) {
+        if (modificar) {
             try {
                 await gruaService.modificarGrua(grua.id, datosFormulario);
                 const data = await gruaService.listadoGruas();
-                setBuques(data);
-                setBuqueSeleccionado(datosFormulario);
+                setGruas(data);
+                setGruaSeleccionada(datosFormulario);
             } catch (error) {
                 console.error(error);
             }
-        }*/
+        }
 
         setModificar(!modificar);
     };
@@ -39,6 +41,10 @@ const DetallesGrua = ({ grua, setGruaSeleccionada }) => {
     const cambiarInput = (event) => {
         const { name, value } = event.target;
         setDatosFormulario({ ...datosFormulario, [name]: value });
+    }
+
+    const handleSelectOperarios = (selected) => {
+        setDatosFormulario({ ...setDatosFormulario, operarios: selected });
     }
 
     return (
@@ -58,7 +64,7 @@ const DetallesGrua = ({ grua, setGruaSeleccionada }) => {
                 </div>
                 <div className="mt-5">
                     <label htmlFor="zona_grua">Zona asignada</label>
-                    <input className={`${inputStylePC} mt-3`} onChange={cambiarInput} type="text" id="zona_grua" name="zona" value={`${datosFormulario.zona}`} readOnly={!modificar} />
+                    <input className={`${inputStylePC} mt-3`} onChange={cambiarInput} type="text" id="zona_grua" name="zona" value={`${prefijoZona}${datosFormulario.id_zona}`} readOnly={!modificar} />
                 </div>
                 <div className="mt-5">
                     <label htmlFor="estado_grua">Estado</label>
@@ -68,8 +74,8 @@ const DetallesGrua = ({ grua, setGruaSeleccionada }) => {
                     </select>
                 </div>
                 <div className="mt-5">
-                    <label htmlFor="operario_grua">Operario asignado</label>
-                    <input className={`${inputStylePC} mt-3`} onChange={cambiarInput} type="text" id="operario_grua" name="operario" value={`${datosFormulario.operario}`} readOnly={!modificar} />
+                    <label className="mb-3 block" htmlFor="operarios_grua">Operarios asignados</label>
+                    <MultiSelect options={grua.operarios} value={setDatosFormulario.operarios} onChange={handleSelectOperarios} />
                 </div>
                 <div className="mt-5">
                     <label htmlFor="observaciones_buque">Observaciones</label>
