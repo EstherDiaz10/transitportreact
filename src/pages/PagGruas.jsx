@@ -70,9 +70,22 @@ const PagGruas = () => {
             'prefijo': (grua) => (grua.tipo === 'sts' ? 'STS-' : 'SC-')
         },
         {
-            'titulo': 'Tipo de grúa',
-            'valor': 'tipo',
-            'estilos': gruaSeleccionada ? 'hidden truncate' : ''
+            'titulo': 'Operarios asignados',
+            'valor': 'operarios',
+            'estilos': gruaSeleccionada ? 'hidden truncate' : '',
+            'render': (grua) => (
+                <div className="flex flex-wrap gap-3">
+                    {Array.isArray(grua.operarios) ? (
+                        grua.operarios.map((op, i) => (
+                            <span key={i} className="bg-white/50 px-2 py-0.5 rounded">
+                                {op.name}
+                            </span>
+                        ))
+                    ) : (
+                        <span>{grua.operario}</span> // Caso por defecto si es solo uno
+                    )}
+                </div>
+            )
         },
         {
             'titulo': 'Zona asignada',
@@ -116,7 +129,7 @@ const PagGruas = () => {
             </div>
 
             <Modal modalAbierto={crearElemento} cerrarModal={() => setCrearElemento(false)}>
-                <FormAnyadirGrua cerrarModal={() => setCrearElemento(false)} />
+                <FormAnyadirGrua cerrarModal={() => setCrearElemento(false)} setGruas={setGruas}  />
             </Modal>
         </>
     )

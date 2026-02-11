@@ -27,7 +27,7 @@ const PagBuques = () => {
     let buquesAMostrar = buques;
 
     if(selectFiltrado !== 'estado') {
-        buquesAMostrar = buquesAMostrar.filter((buque) => buque.estado.toLowerCase() === selectFiltrado)
+        buquesAMostrar = buquesAMostrar.filter((buque) => buque.estado.toLowerCase() === selectFiltrado.toLowerCase())
     }
 
     if(inputBuscar !== '') {

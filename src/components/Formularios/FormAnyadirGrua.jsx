@@ -1,11 +1,11 @@
-import gruaService from '../../services/gruas';
 import { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../../context/AuthProvider';
 import operarioService from '../../services/operarios';
 import zonasService from '../../services/zonas';
+import gruasService from '../../services/gruas';
 import MultiSelect from '../MultiSelect';
 
-const FormAnyadirGrua = ({ultimoId, cerrarModal}) => {
+const FormAnyadirGrua = ({ultimoId, cerrarModal, setGruas}) => {
 
     const inputStyle = "bg-white p-1 pl-4 rounded-[10px] text-gray-500 w-full";
     const lineStyle = "flex justify-between gap-10";
@@ -14,9 +14,9 @@ const FormAnyadirGrua = ({ultimoId, cerrarModal}) => {
     const [operarios, setOperarios] = useState([]);
     const [zonas, setZonas] = useState([]);
     const [datosNuevaGrua, setDatosNuevaGrua] = useState({
-        tipo: '',
+        tipo: 'STS',
         id_gestor: user.id,
-        estado: 'en espera',
+        estado: 'disponible',
         id_zona: '',
         operarios: [],
         observaciones: ''
@@ -40,21 +40,36 @@ const FormAnyadirGrua = ({ultimoId, cerrarModal}) => {
     
     const crearNuevaGrua = (event) => {
         event.preventDefault();
+        const {operarios: operariosSeleccionados, ...gruaData} = datosNuevaGrua;
+
         const payload = {
-            ...datosNuevaGrua,
-            operarios: datosNuevaGrua.operarios.map(operario => operario.value)
+            ...gruaData,
+            operarios: operariosSeleccionados.map(operario => operario.value)
         };
-        gruaService.crearGrua(payload);
-        cerrarModal();
+        
+        try {
+            gruasService.crearGrua(payload);
+
+            gruasService.listadoGruas()
+                .then(data => setGruas(data))
+    
+            cerrarModal();
+        } catch (error) {
+            console.error(error);
+        }
+        
     }
 
     const handleInput = (event) => {
         const {name, value} = event.target;
-        setDatosNuevaGrua({...datosNuevaGrua, [name]: value});
+        setDatosNuevaGrua({
+            ...datosNuevaGrua, 
+            [name]: name === 'id_zona' ? Number(value) : value
+        });
     }
 
     const handleSelectOperarios = (selected) => {
-        setDatosNuevaGrua({ ...datosNuevaGrua, operarios: selected });
+        setDatosNuevaGrua({ ...datosNuevaGrua, operarios: selected || []});
     }
 
     const prefijoZona = 'ZD-';
@@ -81,7 +96,7 @@ const FormAnyadirGrua = ({ultimoId, cerrarModal}) => {
                         <div className={`${lineStyle} mt-8`}>
                             <div className={columnStyle}>
                                 <label htmlFor="zona_grua">Zona asignada</label>
-                                <select onChange={(event) => handleInput(event)} className={`${inputStyle} mt-3`} name="zona" id="zona_grua">
+                                <select onChange={(event) => handleInput(event)} className={`${inputStyle} mt-3`} name="id_zona" id="zona_grua">
                                     {zonas.map((zona) =>
                                         <option key={zona.id} className="p-3" value={zona.id}>{prefijoZona}{zona.id}</option>
                                     )}
@@ -104,7 +119,7 @@ const FormAnyadirGrua = ({ultimoId, cerrarModal}) => {
                             <textarea onChange={(event) => handleInput(event)} className={`${inputStyle} mt-3`} name="observaciones" id="observaciones_grua" rows="4"></textarea>
                         </div>
                         <div className="mt-6 flex justify-center">
-                            <button onClick={crearNuevaGrua} className="bg-[#5F84A2] text-white font-bold gap-2 pt-2 pb-2 pr-4 pl-4 rounded-[5px] flex items-center justify-around text-lg hover:bg-[#DFECF5] hover:text-[#5F84A2] hover:border-3 hover:border-[#5F84A2]">
+                            <button onClick={(e) => crearNuevaGrua(e)} className="bg-[#5F84A2] text-white font-bold gap-2 pt-2 pb-2 pr-4 pl-4 rounded-[5px] flex items-center justify-around text-lg hover:bg-[#DFECF5] hover:text-[#5F84A2] hover:border-3 hover:border-[#5F84A2]">
                                 <span>Crear</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"></path></svg>
                             </button>

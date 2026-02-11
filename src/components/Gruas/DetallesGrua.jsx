@@ -1,17 +1,31 @@
 import { useState, useEffect } from 'react';
 import MultiSelect from '../MultiSelect';
 import gruaService from "../../services/gruas";
+import operarioService from '../../services/operarios';
 
 const DetallesGrua = ({ grua, setGruaSeleccionada, setGruas }) => {
 
     const [modificar, setModificar] = useState(false);
     const [datosFormulario, setDatosFormulario] = useState({ ...grua });
+    const [operarios, setOperarios] = useState([]);
 
     useEffect(() => {
         setDatosFormulario({ ...grua });
         setModificar(false);
         
     }, [grua]);
+
+    useEffect(() => {
+        operarioService.listadoOperarios()
+        .then(data => {
+            const opciones = data.map(operario => ({
+                value: operario.id,    
+                label: operario.name   
+            }));
+            setOperarios(opciones);
+        });
+    
+    }, []);
 
     const inputStylePC = "bg-white p-1 pl-4 rounded-[10px] text-gray-500 w-full";
 
@@ -26,15 +40,27 @@ const DetallesGrua = ({ grua, setGruaSeleccionada, setGruas }) => {
 
         if (modificar) {
             try {
-                await gruaService.modificarGrua(grua.id, datosFormulario);
+
+                const datosParaEnviar = {
+                    tipo: datosFormulario.tipo,
+                    id_zona: datosFormulario.id_zona,
+                    id_gestor: datosFormulario.id_gestor,
+                    estado: datosFormulario.estado,
+                    observaciones: datosFormulario.observaciones,
+                    operarios: datosFormulario.operarios.map(operario => operario.id || operario.value)
+                };
+
+                console.log(datosParaEnviar);
+
+                await gruaService.modificarGrua(grua.id, datosParaEnviar);
                 const data = await gruaService.listadoGruas();
                 setGruas(data);
                 setGruaSeleccionada(datosFormulario);
+
             } catch (error) {
                 console.error(error);
             }
         }
-
         setModificar(!modificar);
     };
 
@@ -44,8 +70,16 @@ const DetallesGrua = ({ grua, setGruaSeleccionada, setGruas }) => {
     }
 
     const handleSelectOperarios = (selected) => {
-        setDatosFormulario({ ...setDatosFormulario, operarios: selected });
+        setDatosFormulario({ 
+            ...datosFormulario, 
+            operarios: selected 
+        });
     }
+
+    const operariosMultiSelect = datosFormulario.operarios.map(operario => ({
+        value: operario.id || operario.value,
+        label: operario.name || operario.label
+    })) || [];
 
     return (
         <div className="text-[#2A5677] relative p-12 md:p-0">
@@ -68,14 +102,14 @@ const DetallesGrua = ({ grua, setGruaSeleccionada, setGruas }) => {
                 </div>
                 <div className="mt-5">
                     <label htmlFor="estado_grua">Estado</label>
-                    <select className={`${inputStylePC} mt-3 p-1.5`} onChange={cambiarInput} name="estado" id="estado_grua" readOnly={!modificar}>
+                    <select className={`${inputStylePC} mt-3 p-1.5`} onChange={cambiarInput} name="estado" id="estado_grua" disabled={!modificar}>
                         <option className="p-3" value={grua.estado}>{grua.estado}</option>
                         <option value={otroEstado}>{otroEstado}</option>
                     </select>
                 </div>
                 <div className="mt-5">
                     <label className="mb-3 block" htmlFor="operarios_grua">Operarios asignados</label>
-                    <MultiSelect options={grua.operarios} value={setDatosFormulario.operarios} onChange={handleSelectOperarios} />
+                    <MultiSelect options={operarios} value={operariosMultiSelect} onChange={handleSelectOperarios} isDisabled={!modificar} />
                 </div>
                 <div className="mt-5">
                     <label htmlFor="observaciones_buque">Observaciones</label>
