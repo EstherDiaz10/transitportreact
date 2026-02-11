@@ -61,7 +61,7 @@ const Listado = ({elementos, estructuraGrid, columnas, setElementoSeleccionado, 
                         {columnas.map((columna, indice) => {
                             const prefijo = typeof columna.prefijo === 'function' ? columna.prefijo(elemento) : columna.prefijo;
 
-                            if (columna.valor === 'id') {
+                            if (columna.valor === 'id' || columna.id_ajena) {
                                 return <p key={indice} className={columna.estilos}>{prefijo}{elemento[columna.valor]}</p>
                             } else if (columna.valor === 'estado') {
                                 return columna.estado(elemento)
