@@ -1,6 +1,6 @@
 import Select from 'react-select';
 
-export default function MultiSelect({ options, value, onChange, placeholder }) {
+export default function MultiSelect({ options, value, onChange, placeholder, isDisabled}) {
   return (
     <Select
       options={options}
@@ -8,6 +8,7 @@ export default function MultiSelect({ options, value, onChange, placeholder }) {
       onChange={onChange}
       isSearchable
       placeholder={placeholder}
+      isDisabled={isDisabled}
       styles={{
         control: (base) => ({
           ...base,

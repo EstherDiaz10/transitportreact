@@ -77,7 +77,7 @@ const PagGruas = () => {
             'render': (grua) => (
                 <div className="flex flex-wrap gap-3">
                     {Array.isArray(grua.operarios) ? (
-                        grua.operarios.map((op, i) => (
+                        grua.operarios.slice(0,3).map((op, i) => (
                             <span key={i} className="bg-white/50 px-2 py-0.5 rounded">
                                 {op.name}
                             </span>
@@ -109,6 +109,7 @@ const PagGruas = () => {
     ]
 
     const icono = <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 256 256"><path d="M228.12,17.14a8,8,0,0,0-7.88-.2L102,80H32A16,16,0,0,0,16,96V200a16,16,0,0,0,16,16h88a16,16,0,0,0,16-16V168a7.81,7.81,0,0,0-.34-2.3L113.54,92,216,37.33V160H200v-8a8,8,0,0,0-16,0v8a16,16,0,0,0,16,16h16a16,16,0,0,0,16-16V24A8,8,0,0,0,228.12,17.14ZM98.05,96l19.2,64H64V96ZM48,96v64H32V96ZM32,200h0V176h88v24Z"></path></svg>;
+    const ultimoId = (gruas && gruas.length > 0 ? Math.max(...gruas.map(grua => grua.id))+1 : 1);
 
     return (
         <>
@@ -120,7 +121,10 @@ const PagGruas = () => {
                 </div>
                 
             <div className={`${gruaSeleccionada ? 'lg:w-[53%]' : 'w-full'}`}>
-                <Listado elementos={gruasAMostrar} estructuraGrid={estructuraGrid} columnas={columnasGruas} setElementoSeleccionado={setGruaSeleccionada} elementoSeleccionado={gruaSeleccionada} icono={icono}/>
+                {gruas.length > 0 
+                    ?  (<Listado elementos={gruasAMostrar} estructuraGrid={estructuraGrid} columnas={columnasGruas} setElementoSeleccionado={setGruaSeleccionada} elementoSeleccionado={gruaSeleccionada} icono={icono}/>
+                    ) : (<p className="flex justify-center mt-10 mb-10 mr-17">No hay grúas para mostrar</p>
+                )}
                 <BotonCrear tipo="grua" setCrearElemento={setCrearElemento} seleccionado={gruaSeleccionada}/>
                 {gruaSeleccionada !== null && (
                     <div className="fixed z-10 left-0 bottom-0 rounded-t-[50px] h-[80%] bg-[#B7D0E1] lg:absolute lg:top-0 right-0 lg:h-full lg:left-auto lg:w-[45%] lg:rounded-t-[0px] lg:rounded-l-[50px] lg:pt-[7%] lg:pl-[5%] lg:pr-[5%]">
@@ -130,7 +134,7 @@ const PagGruas = () => {
             </div>
 
             <Modal modalAbierto={crearElemento} cerrarModal={() => setCrearElemento(false)}>
-                <FormAnyadirGrua cerrarModal={() => setCrearElemento(false)} setGruas={setGruas}  />
+                <FormAnyadirGrua ultimoId={ultimoId} cerrarModal={() => setCrearElemento(false)} setGruas={setGruas}  />
             </Modal>
         </>
     )

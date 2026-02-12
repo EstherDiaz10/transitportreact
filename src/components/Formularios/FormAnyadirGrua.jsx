@@ -88,8 +88,8 @@ const FormAnyadirGrua = ({ultimoId, cerrarModal, setGruas}) => {
                             <div className={columnStyle}>
                                 <label htmlFor="tipo_grua">Tipo de grúa</label>
                                 <select onChange={(event) => handleInput(event)} className={`${inputStyle} mt-3`} name="tipo" id="tipo_grua">
-                                    <option className="p-3" value="sts">STS</option>
                                     <option className="p-3" value="sc">SC</option>
+                                    <option className="p-3" value="sts">STS</option>
                                 </select>
                             </div>
                         </div>

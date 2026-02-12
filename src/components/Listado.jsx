@@ -69,7 +69,9 @@ const Listado = ({elementos, estructuraGrid, columnas, setElementoSeleccionado, 
                                 return <p key={indice} className={columna.estilos}>{prefijo}{elemento[columna.valor]}</p>
                             } else if (columna.valor === 'estado') {
                                 return columna.estado(elemento)
-                            } else {
+                            } else if (columna.valor === 'prioridad') {
+                                return columna.prioridad(elemento)
+                            }else {
                                 return <p key={indice} className={columna.estilos}>{elemento[columna.valor]}</p>
                             }       
                         })}

@@ -7,6 +7,7 @@ const Detalles = ({ buque, setBuqueSeleccionado, setBuques }) => {
     const [datosFormulario, setDatosFormulario] = useState({ ...buque });
 
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setDatosFormulario({ ...buque });
         setModificar(false);
         

@@ -1,16 +1,36 @@
 import { useState, useEffect } from 'react';
 import MultiSelect from '../MultiSelect';
+import Select from '../Select';
 import gruaService from "../../services/gruas";
 import operarioService from '../../services/operarios';
 
 const DetallesGrua = ({ grua, setGruaSeleccionada, setGruas }) => {
 
     const [modificar, setModificar] = useState(false);
-    const [datosFormulario, setDatosFormulario] = useState({ ...grua });
+    const [datosFormulario, setDatosFormulario] = useState({
+        tipo: '',
+        id_zona: '',
+        id_gestor: '',
+        estado: '',
+        observaciones: '',
+        operarios: []
+    });
     const [operarios, setOperarios] = useState([]);
 
+    /*Se han tenido que realizar operaciones para que los operarios no salgan repetidos*/
     useEffect(() => {
-        setDatosFormulario({ ...grua });
+
+        const operariosParaSelect = grua.operarios.map(operario =>
+            operarios.find(op => op.value === operario.id) || { value: operario.id, label: operario.name }
+        );
+             
+        const operariosUnicos = Array.from(new Map(operariosParaSelect.map(operario => [operario.value, operario])).values());
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setDatosFormulario({ 
+            ...grua,
+            operarios: operariosUnicos
+        });
+
         setModificar(false);
         
     }, [grua]);
@@ -28,9 +48,6 @@ const DetallesGrua = ({ grua, setGruaSeleccionada, setGruas }) => {
     }, []);
 
     const inputStylePC = "bg-white p-1 pl-4 rounded-[10px] text-gray-500 w-full";
-
-    const estados = ["Disponible", "Ocupada"];
-    const otroEstado = estados.filter((estado) => estado.toLowerCase() !== grua.estado);
     const prefijo = datosFormulario.tipo.toLowerCase() === 'sts' ? 'STS-' : 'SC-';
     const prefijoZona = 'ZD-';
 
@@ -47,15 +64,15 @@ const DetallesGrua = ({ grua, setGruaSeleccionada, setGruas }) => {
                     id_gestor: datosFormulario.id_gestor,
                     estado: datosFormulario.estado,
                     observaciones: datosFormulario.observaciones,
-                    operarios: datosFormulario.operarios.map(operario => operario.id || operario.value)
+                    operarios: datosFormulario.operarios.map(operario => operario.value)
                 };
-
-                console.log(datosParaEnviar);
 
                 await gruaService.modificarGrua(grua.id, datosParaEnviar);
                 const data = await gruaService.listadoGruas();
                 setGruas(data);
-                setGruaSeleccionada(datosFormulario);
+
+                const gruaActualizada = data.find(g => g.id === grua.id);
+                setGruaSeleccionada(gruaActualizada);
 
             } catch (error) {
                 console.error(error);
@@ -70,16 +87,24 @@ const DetallesGrua = ({ grua, setGruaSeleccionada, setGruas }) => {
     }
 
     const handleSelectOperarios = (selected) => {
+        console.log("Operarios seleccionados:", selected);
         setDatosFormulario({ 
             ...datosFormulario, 
-            operarios: selected 
+            operarios: selected || []
         });
     }
 
-    const operariosMultiSelect = datosFormulario.operarios.map(operario => ({
-        value: operario.id || operario.value,
-        label: operario.name || operario.label
-    })) || [];
+    const estados = ["Disponible", "Ocupada"];
+
+    const estadosSelect = estados.map((estado) => ({
+        value: estado,
+        label: estado
+    }));
+
+    const estadoActual = {
+        value: datosFormulario.estado,
+        label: datosFormulario.estado
+    }
 
     return (
         <div className="text-[#2A5677] relative p-12 md:p-0">
@@ -102,14 +127,12 @@ const DetallesGrua = ({ grua, setGruaSeleccionada, setGruas }) => {
                 </div>
                 <div className="mt-5">
                     <label htmlFor="estado_grua">Estado</label>
-                    <select className={`${inputStylePC} mt-3 p-1.5`} onChange={cambiarInput} name="estado" id="estado_grua" disabled={!modificar}>
-                        <option className="p-3" value={grua.estado}>{grua.estado}</option>
-                        <option value={otroEstado}>{otroEstado}</option>
-                    </select>
+                    <Select options={estadosSelect} value={estadoActual} onChange={handleSelectOperarios} placeholder={datosFormulario.estado} isDisabled={!modificar} />
+                    
                 </div>
                 <div className="mt-5">
                     <label className="mb-3 block" htmlFor="operarios_grua">Operarios asignados</label>
-                    <MultiSelect options={operarios} value={operariosMultiSelect} onChange={handleSelectOperarios} isDisabled={!modificar} />
+                    <MultiSelect options={operarios} value={datosFormulario.operarios || []} onChange={handleSelectOperarios} isDisabled={!modificar} />
                 </div>
                 <div className="mt-5">
                     <label htmlFor="observaciones_buque">Observaciones</label>
