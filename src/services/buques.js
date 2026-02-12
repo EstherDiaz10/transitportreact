@@ -1,7 +1,5 @@
 import api from './api';
 
-const baseUrl = 'http://localhost/api';
-
 const token = localStorage.getItem('token');
 
 const config = {
@@ -10,19 +8,19 @@ const config = {
 
 const listadoBuques = () => {
     return api
-        .get(`${baseUrl}/obtenerBuques`, config)
+        .get('/obtenerBuques', config)
         .then(response => response.data);
 };
 
 const crearBuque = (nuevoBuque) => {
     return api
-        .post(`${baseUrl}/crearBuque`, nuevoBuque, config)
+        .post('/crearBuque', nuevoBuque, config)
         .then(response => response.data);
 };
 
 const modificarBuque = (id, nuevoBuque) => {
     return api
-        .patch(`${baseUrl}/actualizarBuque/${id}`, nuevoBuque, config)
+        .patch('/actualizarBuque/${id}', nuevoBuque, config)
         .then((response) => response.data)
         .catch((error) => {
             console.log(error.response.statusText);
