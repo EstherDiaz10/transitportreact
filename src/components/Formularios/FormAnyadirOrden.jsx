@@ -1,19 +1,23 @@
 import { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../../context/AuthProvider';
-import operarioService from '../../services/operarios';
-import zonasService from '../../services/zonas';
-import gruasService from '../../services/gruas';
+import ordenService from "../../services/ordenes";
+import buqueService from "../../services/buques";
+import parkingService from "../../services/parkings";
+import gruaService from "../../services/gruas";
+import operarioService from "../../services/operarios";
 import MultiSelect from '../MultiSelect';
 
-const FormAnyadirGrua = ({ultimoId, cerrarModal, setGruas}) => {
+const FormAnyadirOrden = ({ultimoId, cerrarModal, setGruas}) => {
 
     const inputStyle = "bg-white p-1 pl-4 rounded-[10px] text-gray-500 w-full";
     const lineStyle = "flex justify-between gap-10";
     const columnStyle = "flex flex-wrap w-[50%]";
     const { user } = useContext(AuthContext);
     const [operarios, setOperarios] = useState([]);
-    const [zonas, setZonas] = useState([]);
-    const [datosNuevaGrua, setDatosNuevaGrua] = useState({
+    const [gruas, setGruas] = useState([]);
+    const [parkings, setParking] = useState([]);
+    const [buques, setBuques] = useState([]);
+    const [datosNuevaOrden, setDatosNuevaOrden] = useState({
         tipo: 'sc',
         id_gestor: user.id,
         estado: 'disponible',
@@ -134,4 +138,4 @@ const FormAnyadirGrua = ({ultimoId, cerrarModal, setGruas}) => {
 
 }
 
-export default FormAnyadirGrua;
+export default FormAnyadirOrden;

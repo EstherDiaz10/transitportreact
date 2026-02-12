@@ -8,7 +8,7 @@ const config = {
 
 const listadoZonas = () => {
     return api
-        .get(`http://localhost/api/obtenerZonasDescarga`, config)
+        .get('/obtenerZonasDescarga', config)
         .then(response => response.data);
 };
 

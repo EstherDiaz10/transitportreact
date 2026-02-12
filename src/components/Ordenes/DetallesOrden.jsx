@@ -10,31 +10,12 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
 
     const [modificar, setModificar] = useState(false);
     const [datosFormulario, setDatosFormulario] = useState({ ...orden });
+
     const [buques, setBuques] = useState([]);
     const [parkings, setParkings] = useState([]);
     const [contenedoresDisponibles, setContenedoresDisponibles] = useState([]);
     const [gruas, setGruas] = useState([]);
     const [operarios, setOperarios] = useState([]);
-
-    useEffect(() => {
-
-        const gruaSTSOrden = orden.gruas.find((grua) => grua.tipo.toLowerCase() === 'sts'); 
-        const gruaSCOrden = orden.gruas.find((grua) => grua.tipo.toLowerCase() === 'sc'); 
-
-        const operariosGruaSTS = orden.operarios.find((operario) => operario.id_grua === gruaSTSOrden.id || []);
-        const operariosGruaSC = orden.operarios.find((operario) => operario.id_grua === gruaSCOrden.id || []);
-
-        setDatosFormulario({ 
-            ...orden,
-            id_grua_sts: gruaSTSOrden || null,
-            id_grua_sc: gruaSCOrden || null,
-            operarios_sts: operariosGruaSTS,
-            operarios_sc: operariosGruaSC 
-        });
-        
-        setModificar(false);
-        
-    }, [orden]);
 
     useEffect(() => {
 
@@ -64,6 +45,26 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                 console.error(error));
 
     }, []);
+
+    useEffect(() => {
+
+        const gruaSTSOrden = orden.gruas.find((grua) => grua.tipo.toLowerCase() === 'sts'); 
+        const gruaSCOrden = orden.gruas.find((grua) => grua.tipo.toLowerCase() === 'sc'); 
+
+        const operarioGruaSTS = orden.operarios.find((operario) => operario.pivot.tipo === 'sts');
+        const operarioGruaSC = orden.operarios.find((operario) => operario.pivot.tipo === 'sc');
+
+        setDatosFormulario({ 
+            ...orden,
+            id_grua_sts: gruaSTSOrden || null,
+            id_grua_sc: gruaSCOrden || null,
+            id_operario_sts: operarioGruaSTS || '',
+            id_operario_sc: operarioGruaSC ||'' 
+        });
+        
+        setModificar(false);
+        
+    }, [orden]);
 
     /*Obtengo los contenedores del buque y parking asociados a la orden*/
     useEffect(() => {
@@ -123,15 +124,8 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
         .filter((operario) => operario.id_grua === Number(datosFormulario.id_grua_sc))
         .map((operario) => ({value: operario.id, label: operario.name}));
 
-    const operariosSTSSeleccionados = datosFormulario.operarios_sts.map(op => ({
-        value: op.id,
-        label: op.name
-    })) || [];
-
-    const operariosSCSeleccionados = datosFormulario.operarios_sc.map(op => ({
-        value: op.id,
-        label: op.name
-    })) || [];
+    const operarioSTSSeleccionado = opcionesOperariosSTS.find(operario => operario.value === datosFormulario.id_operario_sts) || null;
+    const operarioSCSeleccionado = opcionesOperariosSC.find(operario => operario.value === datosFormulario.id_operario_sc) || null;
 
     /*Filtros para preparar los datos de buques y parkings para el Select*/
     const opcionesBuque = buques.map((buque) => ({
@@ -144,8 +138,8 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
         label: `Parking P-${parking.id}`
     }));
 
-    const parkingSeleccionado = opcionesParking.find((opcion) => opcion.value === datosFormulario.id_parking ||null);
-    const buqueSeleccionado = opcionesBuque.find((opcion) => opcion.value === datosFormulario.id_buque ||null);
+    const parkingSeleccionado = opcionesParking.find((parking) => parking.value === datosFormulario.id_parking ||null);
+    const buqueSeleccionado = opcionesBuque.find((buque) => buque.value === datosFormulario.id_buque ||null);
 
     const gruasSTS = gruas.filter((grua) => grua.tipo.toLowerCase() === 'sts');
     const gruasSC = gruas.filter((grua) => grua.tipo.toLowerCase() === 'sc');
@@ -161,8 +155,8 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
         label: `Grúa SC-${grua.id}`
     }));
 
-    const gruaSTSSeleccionada = opcionesGruaSTS.find((opcion) => opcion.value === datosFormulario.id_grua_sts ||null);
-    const gruaSCSeleccionada = opcionesGruaSC.find((opcion) => opcion.value === datosFormulario.id_grua_sc ||null);
+    const gruaSTSSeleccionada = opcionesGruaSTS.find((grua) => grua.value === datosFormulario.id_grua_sts ||null);
+    const gruaSCSeleccionada = opcionesGruaSC.find((grua) => grua.value === datosFormulario.id_grua_sc ||null);
 
     const handleEditar = async (event) => {
         event.preventDefault();
@@ -276,7 +270,7 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                                 setDatosFormulario({...datosFormulario, [id_grua_sc]: gruaSeleccionada.value, operarios_sc: []});
                             }} 
                             isDisabled={!modificar} 
-                            placeholder='Selecciona una grúa sc...'
+                            placeholder='Selecciona una grúa SC...'
                         />
                     </div>
                 </div>

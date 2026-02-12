@@ -1,7 +1,5 @@
   import api from "./api";
 
-  const baseUrl = "http://localhost/api";
-
   const token = localStorage.getItem("token");
 
   const config = {
@@ -10,20 +8,20 @@
 
   const listadoContenedores = () => {
     return api
-      .get(`${baseUrl}/obtenerContenedor`, config)
+      .get('/obtenerContenedor', config)
       .then((response) => response.data);
   };
 
   const crearContenedor = (nuevoContenedor) => {
     return api
-      .post(`${baseUrl}/crearContenedor`, nuevoContenedor, config)
+      .post('/crearContenedor', nuevoContenedor, config)
       .then((response) => response.data);
   };
 
   const modificarContenedor = (id, contenedorActualizado) => {
     return api
       .patch(
-        `${baseUrl}/actualizarContenedor/${id}`,
+        `/actualizarContenedor/${id}`,
         contenedorActualizado,
         config,
       )
@@ -39,13 +37,13 @@
 
   const eliminarContenedor = (id) => {
     return api
-      .delete(`${baseUrl}/eliminarContenedor/${id}`, config)
+      .delete(`/eliminarContenedor/${id}`, config)
       .then((response) => response.data);
   };
 
   const obtenerUbicacionContenedor = (id) =>{
       return api
-      .get(`${baseUrl}/contenedor/${id}/ubicacion`)
+      .get(`/contenedor/${id}/ubicacion`)
       .then((response) => response.data);
   }
 

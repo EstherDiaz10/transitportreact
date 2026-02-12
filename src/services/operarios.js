@@ -8,7 +8,7 @@ const config = {
 
 const listadoOperarios = () => {
     return api
-        .get(`http://localhost/api/obtenerOperarios`, config)
+        .get('/obtenerOperarios', config)
         .then(response => response.data);
 };
 

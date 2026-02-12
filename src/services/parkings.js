@@ -1,7 +1,5 @@
 import api from './api';
 
-const baseUrl = 'http://localhost/api';
-
 const token = localStorage.getItem('token');
 
 const config = {
@@ -10,7 +8,7 @@ const config = {
 
 const listadoParkings = () => {
     return api
-        .get(`${baseUrl}/obtenerParkings`, config)
+        .get('/obtenerParkings', config)
         .then(response => response.data);
 };
 

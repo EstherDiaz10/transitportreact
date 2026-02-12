@@ -110,7 +110,7 @@ const PagOrdenes = () => {
 
     return (
         <>
-            <h1 className="fixed top-20 text-3xl font-bold text-[#2A5677]">Listado de buques</h1>
+            <h1 className="fixed top-20 text-3xl font-bold text-[#2A5677]">Listado de órdenes</h1>
            
             <div className={`${!ordenSeleccionada ? 'w-[94%]' : 'w-[50%]'} pt-5 flex justify-between`}>
                 <Filtrado setFiltrarEstado={setFiltrarEstado}/>
@@ -119,10 +119,10 @@ const PagOrdenes = () => {
             
             <div className={`${ordenSeleccionada ? 'lg:w-[53%]' : 'w-full'}`}>
                 <Listado elementos={ordenesAMostrar} estructuraGrid={estructuraGrid} columnas={columnasBuques} setElementoSeleccionado={setOrdenSeleccionada} elementoSeleccionado={ordenSeleccionada} icono={icono}/>
-                <BotonCrear tipo="buque" setCrearElemento={setCrearElemento} seleccionado={ordenSeleccionada}/>
+                <BotonCrear tipo="orden" setCrearElemento={setCrearElemento} seleccionado={ordenSeleccionada}/>
                 {ordenSeleccionada !== null && (
                     <div className="fixed z-20 left-0 bottom-0 rounded-t-[50px] h-[80%] bg-[#B7D0E1] lg:absolute lg:top-0 right-0 lg:h-full lg:left-auto lg:w-[45%] lg:rounded-t-[0px] lg:rounded-l-[50px] lg:pt-[7%] lg:pl-[5%] lg:pr-[5%]">
-                        <Detalles buque={ordenSeleccionada} setOrdenSeleccionada={setOrdenSeleccionada} setBuques={setOrdenes}/>
+                        <Detalles orden={ordenSeleccionada} setOrdenSeleccionada={setOrdenSeleccionada} setOrdenes={setOrdenes}/>
                     </div>
                 )}
             </div>

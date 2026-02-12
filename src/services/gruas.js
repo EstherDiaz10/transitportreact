@@ -1,7 +1,5 @@
 import api from './api';
 
-const baseUrl = 'http://localhost/api';
-
 const token = localStorage.getItem('token');
 
 const config = {
@@ -10,19 +8,19 @@ const config = {
 
 const listadoGruas = () => {
     return api
-        .get(`${baseUrl}/obtenerGruas`, config)
+        .get('/obtenerGruas', config)
         .then(response => response.data);
 };
 
 const crearGrua = (nuevaGrua) => {
     return api
-        .post(`${baseUrl}/crearGrua`, nuevaGrua, config)
+        .post('/crearGrua', nuevaGrua, config)
         .then(response => response.data);
 };
 
 const modificarGrua = (id, nuevaGrua) => {
     return api
-        .patch(`${baseUrl}/actualizarGrua/${id}`, nuevaGrua, config)
+        .patch(`/actualizarGrua/${id}`, nuevaGrua, config)
         .then((response) => response.data)
         .catch((error) => {
             console.log(error.response.statusText);
@@ -30,8 +28,14 @@ const modificarGrua = (id, nuevaGrua) => {
         })
 }
 
+const deleteGrua = (id) => {
+    return api
+        .delete(`/eliminarGrua/${id}`)
+}
+
 export default {
     listadoGruas,
     crearGrua,
-    modificarGrua
+    modificarGrua,
+    deleteGrua
 };
