@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
  const MenuItems = () => {
     //const {user} = useContext(AuthContext);
 
-    const rol = "administrativo";//user.rol;
+    const rol = "gestor";//user.rol;
 
     const styles = "w-full flex items-center mt-7 ml-2 pl-3 pt-2 pb-2 font-bold list-none";
     const activeStyles = `relative bg-white text-[#2A5677] pt-2 pb-2 rounded-l-full
