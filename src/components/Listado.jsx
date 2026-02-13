@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const Listado = ({elementos, estructuraGrid, columnas, setElementoSeleccionado, elementoSeleccionado, icono}) => {
+const Listado = ({elementos, estructuraGrid, columnas, setElementoSeleccionado, elementoSeleccionado, icono, eliminarElemento}) => {
 
     const botonBase = "bg-[#5F84A2] text-white font-bold rounded-[5px] flex items-center justify-around text-lg hover:bg-[#DFECF5] hover:text-[#5F84A2] hover:border-3 hover:border-[#5F84A2] cursor-pointer";
     const botonEliminarEstilo = "bg-[#925152] text-white rounded-[5px] flex items-center justify-center w-15 ml-1.5 h-12 hover:bg-[#DFECF5] hover:text-[#925152] hover:border-3 hover:border-[#925152] cursor-pointer";
@@ -49,7 +49,7 @@ const Listado = ({elementos, estructuraGrid, columnas, setElementoSeleccionado, 
                 {registrosActuales.map((elemento) => (
                     <div onMouseEnter={() => setBotonEliminar(elemento.id)} onMouseLeave={() => setBotonEliminar(null)} key={elemento.id} className={`${estructuraGrid} ${elemento.id === elementoSeleccionado?.id ? 'bg-[#B7D0E1]' : 'bg-[#DFECF5]'} mb-5 rounded-[10px] h-15 shadow-md/20 w-[97%]`}>
                         {botonEliminar === elemento.id ? (
-                            <button className={`hidden md:flex ${botonEliminarEstilo}`} onClick={() => confirmarEliminacionBuque(elemento.nombre)}>
+                            <button className={`hidden md:flex ${botonEliminarEstilo}`} onClick={() => eliminarElemento(elemento.id)}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256"><path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"></path></svg>
                             </button>
                         ) : (
@@ -59,13 +59,19 @@ const Listado = ({elementos, estructuraGrid, columnas, setElementoSeleccionado, 
                         )}
 
                         {columnas.map((columna, indice) => {
+
+                            if (columna.render) {
+                                return <div key={indice} className={columna.estilos}>{columna.render(elemento)}</div>;
+                            }
                             const prefijo = typeof columna.prefijo === 'function' ? columna.prefijo(elemento) : columna.prefijo;
 
                             if (columna.valor === 'id' || columna.id_ajena) {
                                 return <p key={indice} className={columna.estilos}>{prefijo}{elemento[columna.valor]}</p>
                             } else if (columna.valor === 'estado') {
                                 return columna.estado(elemento)
-                            } else {
+                            } else if (columna.valor === 'prioridad') {
+                                return columna.prioridad(elemento)
+                            }else {
                                 return <p key={indice} className={columna.estilos}>{elemento[columna.valor]}</p>
                             }       
                         })}

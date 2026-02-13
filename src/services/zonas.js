@@ -6,10 +6,10 @@ const config = {
     headers: {Authorization: `Bearer ${token}`}
 }
 
-const listadoOperarios = () => {
+const listadoZonas = () => {
     return api
-        .get('/obtenerOperarios', config)
+        .get('/obtenerZonasDescarga', config)
         .then(response => response.data);
 };
 
-export default { listadoOperarios };
+export default { listadoZonas };

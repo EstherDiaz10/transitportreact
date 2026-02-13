@@ -1,44 +1,109 @@
 import { useState, useEffect } from 'react';
-//import gruaService from "../services/gruas";
+import MultiSelect from '../MultiSelect';
+import Select from '../Select';
+import gruaService from "../../services/gruas";
+import operarioService from '../../services/operarios';
 
-const DetallesGrua = ({ grua, setGruaSeleccionada }) => {
+const DetallesGrua = ({ grua, setGruaSeleccionada, setGruas }) => {
 
     const [modificar, setModificar] = useState(false);
-    const [datosFormulario, setDatosFormulario] = useState({ ...grua });
+    const [datosFormulario, setDatosFormulario] = useState({
+        tipo: '',
+        id_zona: '',
+        id_gestor: '',
+        estado: '',
+        observaciones: '',
+        operarios: []
+    });
+    const [operarios, setOperarios] = useState([]);
 
+    /*Se han tenido que realizar operaciones para que los operarios no salgan repetidos*/
     useEffect(() => {
-        setDatosFormulario({ ...grua });
+
+        const operariosParaSelect = grua.operarios.map(operario =>
+            operarios.find(op => op.value === operario.id) || { value: operario.id, label: operario.name }
+        );
+             
+        const operariosUnicos = Array.from(new Map(operariosParaSelect.map(operario => [operario.value, operario])).values());
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setDatosFormulario({ 
+            ...grua,
+            operarios: operariosUnicos
+        });
+
         setModificar(false);
         
     }, [grua]);
 
-    const inputStylePC = "bg-white p-1 pl-4 rounded-[10px] text-gray-500 w-full";
+    useEffect(() => {
+        operarioService.listadoOperarios()
+        .then(data => {
+            const opciones = data.map(operario => ({
+                value: operario.id,    
+                label: operario.name   
+            }));
+            setOperarios(opciones);
+        });
+    
+    }, []);
 
-    const estados = ["Disponible", "Ocupada"];
-    const otroEstado = estados.filter((estado) => estado !== grua.estado);
+    const inputStylePC = "bg-white p-1 pl-4 rounded-[10px] text-gray-500 w-full";
     const prefijo = datosFormulario.tipo.toLowerCase() === 'sts' ? 'STS-' : 'SC-';
+    const prefijoZona = 'ZD-';
 
     const handleEditar = async (event) => {
         event.preventDefault();
         event.stopPropagation();
 
-        /*if (modificar) {
+        if (modificar) {
             try {
-                await gruaService.modificarGrua(grua.id, datosFormulario);
+
+                const datosParaEnviar = {
+                    tipo: datosFormulario.tipo,
+                    id_zona: datosFormulario.id_zona,
+                    id_gestor: datosFormulario.id_gestor,
+                    estado: datosFormulario.estado,
+                    observaciones: datosFormulario.observaciones,
+                    operarios: datosFormulario.operarios.map(operario => operario.value)
+                };
+
+                await gruaService.modificarGrua(grua.id, datosParaEnviar);
                 const data = await gruaService.listadoGruas();
-                setBuques(data);
-                setBuqueSeleccionado(datosFormulario);
+                setGruas(data);
+
+                const gruaActualizada = data.find(g => g.id === grua.id);
+                setGruaSeleccionada(gruaActualizada);
+
             } catch (error) {
                 console.error(error);
             }
-        }*/
-
+        }
         setModificar(!modificar);
     };
 
     const cambiarInput = (event) => {
         const { name, value } = event.target;
         setDatosFormulario({ ...datosFormulario, [name]: value });
+    }
+
+    const handleSelectOperarios = (selected) => {
+        console.log("Operarios seleccionados:", selected);
+        setDatosFormulario({ 
+            ...datosFormulario, 
+            operarios: selected || []
+        });
+    }
+
+    const estados = ["Disponible", "Ocupada"];
+
+    const estadosSelect = estados.map((estado) => ({
+        value: estado,
+        label: estado
+    }));
+
+    const estadoActual = {
+        value: datosFormulario.estado,
+        label: datosFormulario.estado
     }
 
     return (
@@ -58,18 +123,16 @@ const DetallesGrua = ({ grua, setGruaSeleccionada }) => {
                 </div>
                 <div className="mt-5">
                     <label htmlFor="zona_grua">Zona asignada</label>
-                    <input className={`${inputStylePC} mt-3`} onChange={cambiarInput} type="text" id="zona_grua" name="zona" value={`${datosFormulario.zona}`} readOnly={!modificar} />
+                    <input className={`${inputStylePC} mt-3`} onChange={cambiarInput} type="text" id="zona_grua" name="zona" value={`${prefijoZona}${datosFormulario.id_zona}`} readOnly={!modificar} />
                 </div>
                 <div className="mt-5">
                     <label htmlFor="estado_grua">Estado</label>
-                    <select className={`${inputStylePC} mt-3 p-1.5`} onChange={cambiarInput} name="estado" id="estado_grua" readOnly={!modificar}>
-                        <option className="p-3" value={grua.estado}>{grua.estado}</option>
-                        <option value={otroEstado}>{otroEstado}</option>
-                    </select>
+                    <Select options={estadosSelect} value={estadoActual} onChange={handleSelectOperarios} placeholder={datosFormulario.estado} isDisabled={!modificar} />
+                    
                 </div>
                 <div className="mt-5">
-                    <label htmlFor="operario_grua">Operario asignado</label>
-                    <input className={`${inputStylePC} mt-3`} onChange={cambiarInput} type="text" id="operario_grua" name="operario" value={`${datosFormulario.operario}`} readOnly={!modificar} />
+                    <label className="mb-3 block" htmlFor="operarios_grua">Operarios asignados</label>
+                    <MultiSelect options={operarios} value={datosFormulario.operarios || []} onChange={handleSelectOperarios} isDisabled={!modificar} />
                 </div>
                 <div className="mt-5">
                     <label htmlFor="observaciones_buque">Observaciones</label>

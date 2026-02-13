@@ -6,21 +6,21 @@ const config = {
     headers: {Authorization: `Bearer ${token}`}
 }
 
-const listadoGruas = () => {
+const listadoOrdenes = () => {
     return api
-        .get('/obtenerGruas', config)
+        .get('/obtenerBuques', config)
         .then(response => response.data);
 };
 
-const crearGrua = (nuevaGrua) => {
+const crearOrden = (nuevaOrden) => {
     return api
-        .post('/crearGrua', nuevaGrua, config)
+        .post('/crearBuque', nuevaOrden, config)
         .then(response => response.data);
 };
 
-const modificarGrua = (id, nuevaGrua) => {
+const modificarOrden = (id, nuevaOrden) => {
     return api
-        .patch(`/actualizarGrua/${id}`, nuevaGrua, config)
+        .patch('/actualizarBuque/${id}', nuevaOrden, config)
         .then((response) => response.data)
         .catch((error) => {
             console.log(error.response.statusText);
@@ -28,14 +28,8 @@ const modificarGrua = (id, nuevaGrua) => {
         })
 }
 
-const deleteGrua = (id) => {
-    return api
-        .delete(`/eliminarGrua/${id}`)
-}
-
 export default {
-    listadoGruas,
-    crearGrua,
-    modificarGrua,
-    deleteGrua
+    listadoOrdenes,
+    crearOrden,
+    modificarOrden
 };
