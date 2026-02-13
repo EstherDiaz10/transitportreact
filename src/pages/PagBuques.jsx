@@ -107,7 +107,7 @@ const PagBuques = () => {
             </div>
 
             <Modal modalAbierto={crearElemento} cerrarModal={() => setCrearElemento(false)}>
-                <FormAnyadirBuque ultimoId={ultimoId} cerrarModal={() => setCrearElemento(false)} />
+                <FormAnyadirBuque ultimoId={ultimoId} cerrarModal={() => setCrearElemento(false)} setBuques={setBuques} />
             </Modal>
         </>
     )

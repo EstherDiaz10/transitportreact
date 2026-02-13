@@ -27,14 +27,6 @@ const Listado = ({elementos, estructuraGrid, columnas, setElementoSeleccionado, 
         }
     }
 
-    const confirmarEliminacionBuque = (nombre) => {
-        const eliminar = confirm(`Estás seguro de querer eliminar el buque ${nombre}?`);
-
-        if(eliminar) {
-            console.log('Buque eliminado correctamente');
-        }
-    }
-
     return(
         <div className="w-full">
             <div className={`${estructuraGrid} mt-7 font-bold text-gray-600 text-sm w-[93%]`}>

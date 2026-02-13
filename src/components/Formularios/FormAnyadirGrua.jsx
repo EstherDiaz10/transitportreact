@@ -38,7 +38,7 @@ const FormAnyadirGrua = ({ultimoId, cerrarModal, setGruas}) => {
             })
     }, []);
     
-    const crearNuevaGrua = (event) => {
+    const crearNuevaGrua = async (event) => {
         event.preventDefault();
         
         const {operarios: operariosSeleccionados, ...gruaData} = datosNuevaGrua;
@@ -49,10 +49,10 @@ const FormAnyadirGrua = ({ultimoId, cerrarModal, setGruas}) => {
         };
         
         try {
-            gruasService.crearGrua(informacionGrua);
 
-            gruasService.listadoGruas()
-                .then(data => setGruas(data))
+            await gruasService.crearGrua(informacionGrua);
+            const data = await gruasService.listadoGruas();
+            setGruas(data);
     
             cerrarModal();
         } catch (error) {

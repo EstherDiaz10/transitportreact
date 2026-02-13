@@ -12,6 +12,12 @@ const listadoBuques = () => {
         .then(response => response.data);
 };
 
+const listadoBuquesConContenedores = () => {
+    return api
+        .get('/obtenerBuquesConContenedores', config)
+        .then(response => response.data);
+}
+
 const crearBuque = (nuevoBuque) => {
     return api
         .post('/crearBuque', nuevoBuque, config)
@@ -54,6 +60,7 @@ const modificarBuque = (id, nuevoBuque) => {
 
 export default {
     listadoBuques,
+    listadoBuquesConContenedores,
     crearBuque,
     modificarBuque
 };

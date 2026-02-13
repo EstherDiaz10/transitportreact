@@ -4,7 +4,7 @@ import buqueService from "../../services/buques";
 import parkingService from "../../services/parkings";
 import gruaService from "../../services/gruas";
 import operarioService from "../../services/operarios";
-import Select from 'react-select/base';
+import Select from 'react-select';
 
 const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
 
@@ -13,13 +13,15 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
 
     const [buques, setBuques] = useState([]);
     const [parkings, setParkings] = useState([]);
+    // eslint-disable-next-line no-unused-vars
     const [contenedoresDisponibles, setContenedoresDisponibles] = useState([]);
     const [gruas, setGruas] = useState([]);
+    // eslint-disable-next-line no-unused-vars
     const [operarios, setOperarios] = useState([]);
 
     useEffect(() => {
 
-        buqueService.listadoBuques()
+        buqueService.listadoBuquesConContenedores()
             .then(data => 
                 setBuques(data))
             .catch(error => 
@@ -48,18 +50,15 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
 
     useEffect(() => {
 
-        const gruaSTSOrden = orden.gruas.find((grua) => grua.tipo.toLowerCase() === 'sts'); 
-        const gruaSCOrden = orden.gruas.find((grua) => grua.tipo.toLowerCase() === 'sc'); 
-
-        const operarioGruaSTS = orden.operarios.find((operario) => operario.pivot.tipo === 'sts');
-        const operarioGruaSC = orden.operarios.find((operario) => operario.pivot.tipo === 'sc');
-
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setDatosFormulario({ 
             ...orden,
-            id_grua_sts: gruaSTSOrden || null,
-            id_grua_sc: gruaSCOrden || null,
-            id_operario_sts: operarioGruaSTS || '',
-            id_operario_sc: operarioGruaSC ||'' 
+            buque_id: orden.buque?.id || orden.contenedor?.buque_id || null,
+            parking_id: orden.parking?.id || orden.contenedor?.parking_id || null,
+            grua_sts_id: orden.grua_sts?.id || null,
+            grua_sc_id: orden.grua_sc?.id || null,
+            operario_sts_id: orden.operario_sts?.id || '',
+            operario_sc_id: orden.operario_sc?.id ||'' 
         });
         
         setModificar(false);
@@ -68,20 +67,24 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
 
     /*Obtengo los contenedores del buque y parking asociados a la orden*/
     useEffect(() => {
-
-        if (datosFormulario.tipo === 'descarga' && datosFormulario.id_buque) {
+        let lista = [];
+        if (datosFormulario.tipo === 'descarga' && datosFormulario.buque_id) {
             const buque = buques.find((buque) => 
-                buque.id === datosFormulario.id_buque
+                buque.id === datosFormulario.buque_id
             );
-            setContenedoresDisponibles(buque ? buque.contenedores : []);
+            lista = buque?.contenedores || [];
 
-        } else if (datosFormulario.tipo === 'carga' && datosFormulario.id_parking) {
+        } else if (datosFormulario.tipo === 'carga' && datosFormulario.parking_id) {
             const parking = parkings.find((parking) => 
-                parking.id === datosFormulario.id_parking);
-            setContenedoresDisponibles(parking ? [parking.contenedor] : []);
+                parking.id === datosFormulario.parking_id
+            );
+            lista = parking?.contenedor ? [parking.contenedor] : [];
         }
+        
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setContenedoresDisponibles(lista);
 
-    }, [datosFormulario.id_buque, datosFormulario.id_parking, datosFormulario.tipo]);
+    }, [datosFormulario.buque_id, datosFormulario.parking_id, datosFormulario.tipo, buques, parkings]);
 
     const inputStylePC = "bg-white p-1 pl-4 rounded-[10px] text-gray-500 w-full";
 
@@ -115,61 +118,78 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
 
     const prefijo = orden.tipo === 'descarga' ? 'OD-' : 'OC-';
 
+    const objetoGruaSTS = gruas.find((grua) => grua.id === Number(datosFormulario.grua_sts_id));
+    const objetoGruaSC = gruas.find((grua) => grua.id === Number(datosFormulario.grua_sc_id));
+    
     /*Filtros necesarios para preparar los datos de operarios para lo que espera recibir el Select (value y label)*/
-    const opcionesOperariosSTS = operarios
-        .filter((operario) => operario.id_grua === Number(datosFormulario.id_grua_sts))
-        .map((operario) => ({value: operario.id, label: operario.name}));
+    const opcionesOperariosSTS = objetoGruaSTS?.operarios.map((operario) => ({value: operario.id, label: operario.name})) || [];
 
-    const opcionesOperariosSC = operarios
-        .filter((operario) => operario.id_grua === Number(datosFormulario.id_grua_sc))
-        .map((operario) => ({value: operario.id, label: operario.name}));
-
-    const operarioSTSSeleccionado = opcionesOperariosSTS.find(operario => operario.value === datosFormulario.id_operario_sts) || null;
-    const operarioSCSeleccionado = opcionesOperariosSC.find(operario => operario.value === datosFormulario.id_operario_sc) || null;
+    const opcionesOperariosSC = objetoGruaSC?.operarios.map((operario) => ({value: operario.id, label: operario.name})) || [];
 
     /*Filtros para preparar los datos de buques y parkings para el Select*/
     const opcionesBuque = buques.map((buque) => ({
         value: buque.id, 
-        label: `Buque B-${buque.id} - ${buque.nombre}`
+        label: `Buque B-${buque.id} - ${buque.nombre}`,
+        key: `buque-${buque.id}`
     }));
 
-    const opcionesParking = parkings.map((parking) => ({
-        value: parking.id, 
-        label: `Parking P-${parking.id}`
-    }));
-
-    const parkingSeleccionado = opcionesParking.find((parking) => parking.value === datosFormulario.id_parking ||null);
-    const buqueSeleccionado = opcionesBuque.find((buque) => buque.value === datosFormulario.id_buque ||null);
-
-    const gruasSTS = gruas.filter((grua) => grua.tipo.toLowerCase() === 'sts');
-    const gruasSC = gruas.filter((grua) => grua.tipo.toLowerCase() === 'sc');
-
+    const opcionesParking = parkings
+        .filter((parking) => datosFormulario.tipo === 'descarga' ? parking.estado === 'libre' : parking.contenedor !== null)
+        .map((parking) => ({
+            value: parking.id, 
+            label: `Parking P-${parking.id}`,
+            key: `parking-${parking.id}`
+        }));
+    
     /*Filtros para preparar los datos de gruas para el Select*/
-    const opcionesGruaSTS = gruasSTS.map((grua) => ({
-        value: grua.id, 
-        label: `Grúa STS-${grua.id}`
-    }));
+    const opcionesGruaSTS = gruas
+        .filter((grua) => grua.tipo.toLowerCase() === 'sts')
+        .map((grua) => ({
+            value: grua.id, 
+            label: `Grúa STS-${grua.id}`,
+            key: `gruasts-${grua.id}`
+        }));
 
-    const opcionesGruaSC = gruasSC.map((parking) => ({
-        value: grua.id, 
-        label: `Grúa SC-${grua.id}`
-    }));
+    const opcionesGruaSC = gruas
+        .filter((grua) => grua.tipo.toLowerCase() === 'sc')
+        .map((grua) => ({
+            value: grua.id, 
+            label: `Grúa SC-${grua.id}`,
+            key: `gruasc-${grua.id}`
+        }));
 
-    const gruaSTSSeleccionada = opcionesGruaSTS.find((grua) => grua.value === datosFormulario.id_grua_sts ||null);
-    const gruaSCSeleccionada = opcionesGruaSC.find((grua) => grua.value === datosFormulario.id_grua_sc ||null);
+    const opcionesContenedores = contenedoresDisponibles?.map(contenedor => ({
+        value: contenedor.id,
+        label: `Contenedor-${contenedor.id}`,
+        key: `contenedor-${contenedor.id}`
+    })) || [];
+
+    const buqueSeleccionado = opcionesBuque.find((buque) => buque.value === datosFormulario.buque_id) || null;
+    const parkingSeleccionado = opcionesParking.find((parking) => parking.value === datosFormulario.parking_id) || null;
+    const gruaSTSSeleccionada = opcionesGruaSTS.find((grua) => grua.value === datosFormulario.grua_sts_id) || null;
+    const gruaSCSeleccionada = opcionesGruaSC.find((grua) => grua.value === datosFormulario.grua_sc_id) || null;
+    const operarioSTSSeleccionado = opcionesOperariosSTS.find((operario) => operario.value === datosFormulario.operario_sts_id) || null;
+    const operarioSCSeleccionado = opcionesOperariosSC.find((operario) => operario.value === datosFormulario.operario_sc_id) || null;
+    const contenedorSeleccionado = opcionesContenedores.find((contenedor) => contenedor.value === datosFormulario.contenedor_id) || null;
 
     const handleEditar = async (event) => {
         event.preventDefault();
         event.stopPropagation();
 
         if (modificar) {
+
             try {
-                await ordenService.modificarOrden(orden.id, datosFormulario);
-                const data = await ordenService.listadoBuques();
+                await ordenService.modificarOrden(orden.id, {
+                    ...datosFormulario,
+                    tipo: datosFormulario.tipo.toLowerCase(),
+                    prioridad: datosFormulario.prioridad.toLowerCase(),
+                    estado: datosFormulario.estado.toLowerCase()
+                });
+                const data = await ordenService.listadoOrdenes();
                 setOrdenes(data);
                 setOrdenSeleccionada(datosFormulario);
             } catch (error) {
-                console.error(error);
+                console.error('Error al guardar orden ', error);
             }
         }
 
@@ -179,7 +199,22 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
 
     const cambiarInput = (event) => {
         const { name, value } = event.target;
-        setDatosFormulario({ ...datosFormulario, [name]: value });
+
+        if (name === 'tipo') {
+            const nuevoTipo = value.toLowerCase();
+            setDatosFormulario({
+                ...datosFormulario,
+                tipo: nuevoTipo,
+                buque_id: null,
+                parking_id: null,
+                contenedor_id: null,
+                operario_sts_id: null,
+                operario_sc_id: null
+            });
+        } else {
+            setDatosFormulario({ ...datosFormulario, [name]: value });
+        }
+        
     }
 
     return (
@@ -189,7 +224,7 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
             </button>
             <h1 className="text-3xl font-bold text-[#2A5677] mb-8">Detalles de la orden</h1>
             <form action="">
-                <div className="mt-5 gap-5">
+                <div className="flex gap-5 w-full mt-5">
                     <div className="w-[50%]">
                         <label htmlFor="id_buque">ID orden</label>
                         <input className={`${inputStylePC} mt-3`} type="text" id="id_orden" name="id" value={`${prefijo}${datosFormulario.id}`} readOnly />
@@ -204,7 +239,7 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                         </select>
                     </div>
                 </div>
-                <div className="mt-5 gap-5">
+                <div className="flex gap-5 w-full mt-5">
                     <div className="w-[50%]">
                         <label htmlFor="tipo_orden">Tipo de orden</label>
                         <select className={`${inputStylePC} mt-3 p-1.5`} onChange={cambiarInput} name="tipo" id="tipo_orden" disabled={!modificar}>
@@ -222,43 +257,45 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                         </select>
                     </div>
                 </div>
-                <div className="mt-5 gap-5">
+                <div className="flex gap-5 w-full mt-5">
                     <div className="w-[50%]">
-                        <label htmlFor="destino_orden">Origen</label>
+                        <label htmlFor="destino_orden">Origen ({datosFormulario.tipo === 'descarga' ? 'Buque' : 'Parking'})</label>
                         <Select 
                             options={datosFormulario.tipo === 'carga' ? opcionesParking : opcionesBuque} 
                             value={datosFormulario.tipo === 'carga' ? parkingSeleccionado : buqueSeleccionado} 
                             onChange={(seleccionado) => {
-                                const campo = datosFormulario.tipo === 'carga' ? 'id_parking' : 'id_buque'
-                                setDatosFormulario({...datosFormulario, [campo]: seleccionado.value});
+                                const campo = datosFormulario.tipo === 'carga' ? 'parking_id' : 'buque_id';
+                                setDatosFormulario({...datosFormulario, [campo]: seleccionado ? seleccionado.value : null});
                             }} 
                             isDisabled={!modificar} 
+                            placeholder="Origen"
                         />
                     </div>
                     <div className="w-[50%]">
-                        <label htmlFor="destino_orden">Destino</label>
+                        <label htmlFor="destino_orden">Destino ({datosFormulario.tipo === 'descarga' ? 'Parking' : 'Buque'})</label>
                         <Select 
                             options={datosFormulario.tipo === 'descarga' ? opcionesParking : opcionesBuque} 
                             value={datosFormulario.tipo === 'descarga' ? parkingSeleccionado : buqueSeleccionado} 
                             onChange={(seleccionado) => {
-                                const campo = datosFormulario.tipo === 'descarga' ? 'id_parking' : 'id_buque'
-                                setDatosFormulario({...datosFormulario, [campo]: seleccionado.value});
+                                const campo = datosFormulario.tipo === 'descarga' ? 'parking_id' : 'buque_id'
+                                setDatosFormulario({...datosFormulario, [campo]: seleccionado ? seleccionado.value : null});
                             }} 
                             isDisabled={!modificar} 
+                            placeholder="Destino"
                         />
                     </div>
                 </div>
-                <div className="mt-5 gap-5">
+                <div className="flex gap-5 w-full mt-5">
                     <div className="w-[50%]">
                         <label htmlFor="grua_sts_orden">Grúa STS</label>
                         <Select 
                             options={opcionesGruaSTS} 
                             value={gruaSTSSeleccionada} 
                             onChange={(gruaSeleccionada) => {
-                                setDatosFormulario({...datosFormulario, [id_grua_sts]: gruaSeleccionada.value, operarios_sts: []});
+                                setDatosFormulario({...datosFormulario, 'grua_sts_id': gruaSeleccionada.value, 'operario_sts_id': null});
                             }} 
                             isDisabled={!modificar} 
-                            placeholder='Selecciona una grúa STS...'
+                            placeholder='Grúa STS...'
                         />
                     </div>
                     <div className="w-[50%]">
@@ -267,43 +304,55 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                             options={opcionesGruaSC} 
                             value={gruaSCSeleccionada} 
                             onChange={(gruaSeleccionada) => {
-                                setDatosFormulario({...datosFormulario, [id_grua_sc]: gruaSeleccionada.value, operarios_sc: []});
+                                setDatosFormulario({...datosFormulario, 'grua_sc_id': gruaSeleccionada.value, 'operario_sc_id': null});
                             }} 
                             isDisabled={!modificar} 
-                            placeholder='Selecciona una grúa SC...'
+                            placeholder='Grúa SC...'
                         />
                     </div>
                 </div>
-                <div className="mt-5 gap-5">
+                <div className="flex gap-5 w-full mt-5">
                     <div className="w-[50%]">
                         <label htmlFor="operario_sts_orden">Operario STS</label>
                         <Select 
                             options={opcionesOperariosSTS} 
-                            value={operariosSTSSeleccionados} 
+                            value={operarioSTSSeleccionado} 
                             onChange={(operarioSeleccionado) => {
-                                setDatosFormulario({...datosFormulario, [id_operario_sts]: operarioSeleccionado.value});
+                                setDatosFormulario({...datosFormulario, 'operario_sts_id': operarioSeleccionado.value});
                             }} 
                             isDisabled={!modificar} 
-                            placeholder='Selecciona una grúa STS...'
+                            placeholder='Operario STS'
                         />
                     </div>
                     <div className="w-[50%]">
                         <label htmlFor="operario_sc_orden">Operario SC</label>
                         <Select 
                             options={opcionesOperariosSC} 
-                            value={operariosSCSeleccionados} 
+                            value={operarioSCSeleccionado} 
                             onChange={(operarioSeleccionado) => {
-                                setDatosFormulario({...datosFormulario, [id_operario_sc]: operarioSeleccionado.value});
+                                setDatosFormulario({...datosFormulario, 'operario_sc_id': operarioSeleccionado.value});
                             }} 
                             isDisabled={!modificar} 
-                            placeholder='Selecciona una grúa sc...'
+                            placeholder='Operario SC'
                         />
                     </div>
+                </div>
+                <div className="w-full mt-5">
+                    <label htmlFor="operario_sts_orden">ID Contenedor</label>
+                    <Select 
+                        options={opcionesContenedores} 
+                        value={contenedorSeleccionado} 
+                        onChange={(contenedorSeleccionado) => {
+                            setDatosFormulario({...datosFormulario, 'contenedor_id': contenedorSeleccionado.value});
+                        }} 
+                        isDisabled={!modificar} 
+                        placeholder='Contenedor a mover...'
+                    />
                 </div>
                 
                 <div className="mt-5">
                     <label htmlFor="observaciones_buque">Observaciones</label>
-                    <textarea className={`${inputStylePC} mt-3`} onChange={cambiarInput} name="observaciones" id="observaciones_buque" value={datosFormulario.observaciones} rows="4" readOnly={!modificar}>
+                    <textarea className={`${inputStylePC} mt-3`} onChange={cambiarInput} name="observaciones" id="observaciones_buque" value={datosFormulario.observaciones} rows="2" readOnly={!modificar}>
                     </textarea>
                 </div >
                 <div className="flex justify-center pt-5">

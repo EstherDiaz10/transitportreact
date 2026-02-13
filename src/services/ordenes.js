@@ -8,19 +8,19 @@ const config = {
 
 const listadoOrdenes = () => {
     return api
-        .get('/obtenerBuques', config)
+        .get('/obtenerOrdenes', config)
         .then(response => response.data);
 };
 
 const crearOrden = (nuevaOrden) => {
     return api
-        .post('/crearBuque', nuevaOrden, config)
+        .post('/crearOrden', nuevaOrden, config)
         .then(response => response.data);
 };
 
 const modificarOrden = (id, nuevaOrden) => {
     return api
-        .patch('/actualizarBuque/${id}', nuevaOrden, config)
+        .patch(`/actualizarOrden/${id}`, nuevaOrden, config)
         .then((response) => response.data)
         .catch((error) => {
             console.log(error.response.statusText);

@@ -1,7 +1,7 @@
 import buqueService from '../../services/buques';
 import { useState } from 'react';
 
-const FormAnyadir = ({ultimoId, cerrarModal}) => {
+const FormAnyadir = ({ultimoId, cerrarModal, setBuques}) => {
 
     const inputStyle = "bg-white p-1 pl-4 rounded-[10px] text-gray-500 w-full";
     const lineStyle = "flex justify-between gap-10";
@@ -15,8 +15,18 @@ const FormAnyadir = ({ultimoId, cerrarModal}) => {
         observaciones: ''
     });
     
-    const crearNuevoBuque = () => {
-        buqueService.crearBuque(datosNuevoBuque);
+    const crearNuevoBuque = async (event) => {
+        event.preventDefault();
+
+        try {
+            await buqueService.crearBuque(datosNuevoBuque);
+            const data = await buqueService.listadoBuques();
+            setBuques(data);
+
+        } catch (error) {
+            console.error(error);
+        }
+        
         cerrarModal();
     }
 
@@ -62,7 +72,7 @@ const FormAnyadir = ({ultimoId, cerrarModal}) => {
                             <textarea onChange={(event) => handleInput(event)}className={`${inputStyle} mt-3`} name="observaciones" id="observaciones_buque" rows="4"></textarea>
                         </div>
                         <div className="mt-6 flex justify-center">
-                            <button onClick={crearNuevoBuque} className="bg-[#5F84A2] text-white font-bold gap-2 pt-2 pb-2 pr-4 pl-4 rounded-[5px] flex items-center justify-around text-lg hover:bg-[#DFECF5] hover:text-[#5F84A2] hover:border-3 hover:border-[#5F84A2]">
+                            <button onClick={(e) => crearNuevoBuque(e)} className="bg-[#5F84A2] text-white font-bold gap-2 pt-2 pb-2 pr-4 pl-4 rounded-[5px] flex items-center justify-around text-lg hover:bg-[#DFECF5] hover:text-[#5F84A2] hover:border-3 hover:border-[#5F84A2]">
                                 <span>Crear</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"></path></svg>
                             </button>

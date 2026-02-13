@@ -7,9 +7,12 @@ import Modal from '../components/Modal';
 import FormAnyadirGrua from '../components/Formularios/FormAnyadirGrua';
 import DetallesGrua from '../components/Gruas/DetallesGrua';
 import gruaService from '../services/gruas';
+import { useContext } from 'react';
+import { AuthContext } from '../context/AuthProvider';
 
 const PagGruas = () => {
 
+    const { user } = useContext(AuthContext);
     const [filtrarEstado, setFiltrarEstado] = useState('estado');
     const [filtrarTipo, setFiltrarTipo] = useState('tipo');
     const [inputBuscar, setBuscar] = useState('');
@@ -140,7 +143,9 @@ const PagGruas = () => {
                     ?  (<Listado elementos={gruasAMostrar} estructuraGrid={estructuraGrid} columnas={columnasGruas} setElementoSeleccionado={setGruaSeleccionada} elementoSeleccionado={gruaSeleccionada} icono={icono} eliminarElemento={eliminarGrua}/>
                     ) : (<p className="flex justify-center mt-10 mb-10 mr-17">No hay grúas para mostrar</p>
                 )}
-                <BotonCrear tipo="grua" setCrearElemento={setCrearElemento} seleccionado={gruaSeleccionada}/>
+                {user.rol === 'gestor' && (
+                    <BotonCrear tipo="grua" setCrearElemento={setCrearElemento} seleccionado={gruaSeleccionada}/>
+                )}
                 {gruaSeleccionada !== null && (
                     <div className="fixed z-10 left-0 bottom-0 rounded-t-[50px] h-[80%] bg-[#B7D0E1] lg:absolute lg:top-0 right-0 lg:h-full lg:left-auto lg:w-[45%] lg:rounded-t-[0px] lg:rounded-l-[50px] lg:pt-[7%] lg:pl-[5%] lg:pr-[5%]">
                         <DetallesGrua grua={gruaSeleccionada} setGruaSeleccionada={setGruaSeleccionada} setGruas={setGruas}/>
