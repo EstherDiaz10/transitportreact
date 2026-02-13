@@ -1,5 +1,6 @@
 import contenedorService from '../../services/contenedores';
-import { useState } from 'react';
+import buquesService from '../../services/buques';
+import { useEffect, useState } from 'react';
 
 
 const FormAnyadirContenedor = ({ ultimoId, cerrarModal, setContenedores }) => {
@@ -9,6 +10,14 @@ const FormAnyadirContenedor = ({ ultimoId, cerrarModal, setContenedores }) => {
     const lineStyle = "flex justify-between gap-10";
     const columnStyle = "flex flex-wrap w-[50%]";
     const prefijoIdContenedor = "C-";
+    const [buques, setBuques] = useState([]);
+
+     useEffect(() => {
+            buquesService.listadoBuques()
+                .then(data => { 
+                    setBuques(Object.values(data));
+                })
+        }, []);
 
 
     const [datosNuevoContenedor, setDatosNuevoContenedor] = useState({
@@ -127,12 +136,20 @@ const FormAnyadirContenedor = ({ ultimoId, cerrarModal, setContenedores }) => {
                         <div className={lineStyle}>
                             <div className={columnStyle}>
                                 <label>ID Buque</label>
-                                <input
+                                <select
                                     onChange={handleInput}
-                                    className={`${inputStyle} mt-3`}
-                                    type="number"
-                                    name="buque_id"
-                                />
+                                    className={`${inputStyle} mt-3 p-1.5`}
+                                    name="buque_id" 
+                                    defaultValue=""
+                                >
+                                    <option value="" disabled>Seleccione un ID</option>
+
+                                    {buques?.map((buque) => (
+                                        <option key={buque.id} value={buque.nombre}>
+                                            {buque.nombre}  
+                                        </option>
+                                    ))}
+                                </select>
                             </div>
 
 
