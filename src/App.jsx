@@ -10,6 +10,7 @@ import PagContenedores from './pages/PagContenedores';
 import PagOrdenes from './pages/PagOrdenes';
 import Login from './pages/Login';
 import { AuthProvider } from './context/AuthProvider';
+import PagUsuarios from './pages/PagUsuarios';
 
 const App = () => {
 
@@ -33,8 +34,8 @@ const App = () => {
               <Route path="gruas" element={<PagGruas />}/>
               <Route path="contenedores" element={<PagContenedores />}/>
               <Route path="ordenes" element={<PagOrdenes />}/>
-              {/*<Route path="patio" element={<PagPatio />}/>
-              <Route path="misOrdenes" element={<PagMisOrdenes />}/>*/}
+              <Route path="usuarios" element={<PagUsuarios />}/>
+              {/*<Route path="misOrdenes" element={<PagMisOrdenes />}/>*/}
               </Route>
             </Routes>
         </Router>

@@ -1,24 +1,28 @@
 import { useState, useEffect } from 'react';
-// import contenedorService from "../services/contenedores";
+import contenedorService from "../../services/contenedores";
+
 
 const DetallesContenedor = ({ contenedor, setContenedorSeleccionado, setContenedores }) => {
 
+
     const [modificar, setModificar] = useState(false);
     const [datosFormulario, setDatosFormulario] = useState({ ...contenedor });
+
 
     useEffect(() => {
         setDatosFormulario({ ...contenedor });
         setModificar(false);
     }, [contenedor]);
 
+
     const inputStylePC = "bg-white p-1 pl-4 rounded-[10px] text-gray-500 w-full disabled:bg-gray-100";
     const prefijo = 'C-';
 
+
     const handleEditar = async (event) => {
         event.preventDefault();
-        
+       
         if (modificar) {
-            /*
             try {
                 await contenedorService.modificarContenedor(contenedor.id, datosFormulario);
                 const data = await contenedorService.listadoContenedores();
@@ -27,17 +31,18 @@ const DetallesContenedor = ({ contenedor, setContenedorSeleccionado, setContened
             } catch (error) {
                 console.error("Error al actualizar:", error);
             }
-            */
             console.log("Guardando cambios:", datosFormulario);
         }
         setModificar(!modificar);
     };
+
 
     const cambiarInput = (event) => {
         const { name, value, type, checked } = event.target;
         const valorFinal = type === 'checkbox' ? checked : value;
         setDatosFormulario({ ...datosFormulario, [name]: valorFinal });
     }
+
 
     return (
         <div className="text-[#2A5677] relative p-12 lg:p-0">
@@ -47,8 +52,9 @@ const DetallesContenedor = ({ contenedor, setContenedorSeleccionado, setContened
                 </svg>
             </button>
 
+
             <h1 className="text-3xl font-bold text-[#2A5677] mb-8">Detalles del Contenedor</h1>
-            
+           
             <form onSubmit={(e) => e.preventDefault()}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
@@ -61,10 +67,12 @@ const DetallesContenedor = ({ contenedor, setContenedorSeleccionado, setContened
                     </div>
                 </div>
 
+
                 <div className="mt-5">
                     <label className="font-semibold" htmlFor="companyia">Compañía</label>
                     <input className={`${inputStylePC} mt-2`} onChange={cambiarInput} type="text" id="companyia" name="companyia" value={datosFormulario.companyia} readOnly={!modificar} />
                 </div>
+
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
                     <div>
@@ -77,13 +85,14 @@ const DetallesContenedor = ({ contenedor, setContenedorSeleccionado, setContened
                     </div>
                 </div>
 
+
                 <div className="mt-5">
                     <label className="font-semibold" htmlFor="existe">Estado / Disponibilidad</label>
-                    <select 
-                        className={`${inputStylePC} mt-2 p-1.5`} 
-                        onChange={cambiarInput} 
-                        name="existe" 
-                        id="existe" 
+                    <select
+                        className={`${inputStylePC} mt-2 p-1.5`}
+                        onChange={cambiarInput}
+                        name="existe"
+                        id="existe"
                         disabled={!modificar}
                         value={datosFormulario.existe}
                     >
@@ -92,23 +101,25 @@ const DetallesContenedor = ({ contenedor, setContenedorSeleccionado, setContened
                     </select>
                 </div>
 
+
                 <div className="mt-5">
                     <label className="font-semibold" htmlFor="observaciones">Observaciones</label>
-                    <textarea 
-                        className={`${inputStylePC} mt-2`} 
-                        onChange={cambiarInput} 
-                        name="observaciones" 
-                        id="observaciones" 
-                        value={datosFormulario.observaciones} 
-                        rows="3" 
+                    <textarea
+                        className={`${inputStylePC} mt-2`}
+                        onChange={cambiarInput}
+                        name="observaciones"
+                        id="observaciones"
+                        value={datosFormulario.observaciones}
+                        rows="3"
                         readOnly={!modificar}
                     />
                 </div>
 
+
                 <div className="flex justify-center pt-8">
-                    <button 
-                        type="button" 
-                        onClick={handleEditar} 
+                    <button
+                        type="button"
+                        onClick={handleEditar}
                         className="bg-[#5F84A2] text-white font-bold p-2 pl-6 pr-6 rounded-[5px] flex items-center justify-around text-lg hover:bg-[#DFECF5] hover:text-[#5F84A2] border-2 border-transparent hover:border-[#5F84A2] gap-3 transition-all"
                     >
                         <span>{modificar ? "Guardar Cambios" : "Editar Detalles"}</span>
@@ -123,5 +134,6 @@ const DetallesContenedor = ({ contenedor, setContenedorSeleccionado, setContened
         </div>
     );
 };
+
 
 export default DetallesContenedor;
