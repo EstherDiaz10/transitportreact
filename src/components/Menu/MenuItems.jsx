@@ -1,9 +1,6 @@
 import { NavLink } from 'react-router-dom';
-import { useContext } from 'react';
-import { AuthContext } from '../../context/AuthProvider';
 
- const MenuItems = () => {
-    const {user} = useContext(AuthContext);
+ const MenuItems = ({user}) => {
 
     const rol = user.rol;
 

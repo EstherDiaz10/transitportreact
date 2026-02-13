@@ -27,7 +27,7 @@ const MenuOrdenador = () => {
             </div>
             <div className="pt-10 w-full flex flex-grow justify-center">
                 <ul className="w-full p-0 m-0">
-                <MenuItems />
+                <MenuItems user={user}/>
                 </ul>
             </div>
             <div className="w-full p-8 flex-shrink-0">
