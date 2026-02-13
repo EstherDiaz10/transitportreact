@@ -5,8 +5,8 @@ import Filtrado from '../components/Buques/Filtrado';
 import Busqueda from '../components/Busqueda';
 import DetallesOrden from '../components/Ordenes/DetallesOrden';
 import Modal from '../components/Modal';
-import FormAnyadirBuque from '../components/Formularios/FormAnyadirBuque';
 import ordenesService from '../services/ordenes';
+import FormAnyadirOrden from '../components/Formularios/FormAnyadirOrden';
 
 const PagOrdenes = () => {
     
@@ -127,7 +127,7 @@ const PagOrdenes = () => {
             </div>
 
             <Modal modalAbierto={crearElemento} cerrarModal={() => setCrearElemento(false)}>
-                <FormAnyadirBuque ultimoId={ultimoId} cerrarModal={() => setCrearElemento(false)} />
+                <FormAnyadirOrden ultimoId={ultimoId} cerrarModal={() => setCrearElemento(false)} />
             </Modal>
         </>
     )

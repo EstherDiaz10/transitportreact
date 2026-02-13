@@ -13,7 +13,6 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
 
     const [buques, setBuques] = useState([]);
     const [parkings, setParkings] = useState([]);
-    // eslint-disable-next-line no-unused-vars
     const [contenedoresDisponibles, setContenedoresDisponibles] = useState([]);
     const [gruas, setGruas] = useState([]);
     // eslint-disable-next-line no-unused-vars
@@ -28,8 +27,10 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                 console.error(error));
 
         parkingService.listadoParkings()
-            .then(data => 
-                setParkings(data))
+            .then(data => {
+                console.log("1. ¿Llegan datos de la API?:", data);
+                setParkings(data)
+            })
             .catch(error => 
                 console.error(error));
 
@@ -133,13 +134,21 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
         key: `buque-${buque.id}`
     }));
 
-    const opcionesParking = parkings
-        .filter((parking) => datosFormulario.tipo === 'descarga' ? parking.estado === 'libre' : parking.contenedor !== null)
+    const opcionesParkingOcupados = parkings
+        .filter((parking) => parking.contenedor !== null)
         .map((parking) => ({
-            value: parking.id, 
-            label: `Parking P-${parking.id}`,
-            key: `parking-${parking.id}`
-        }));
+            value: parking.id,
+            label: `Parking-${parking.id}`,
+            key: parking.id
+        }))
+
+    const opcionesParkingLibres = parkings
+        .filter((parking) => parking.contenedor === null)
+        .map((parking) => ({
+            value: parking.id,
+            label: `Parking-${parking.id}`,
+            key: parking.id
+        }))
     
     /*Filtros para preparar los datos de gruas para el Select*/
     const opcionesGruaSTS = gruas
@@ -165,7 +174,8 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
     })) || [];
 
     const buqueSeleccionado = opcionesBuque.find((buque) => buque.value === datosFormulario.buque_id) || null;
-    const parkingSeleccionado = opcionesParking.find((parking) => parking.value === datosFormulario.parking_id) || null;
+    const parkingLibreSeleccionado = opcionesParkingLibres.find((parking) => parking.value === datosFormulario.parking_id) || null;
+    const parkingOcupadoSeleccionado = opcionesParkingOcupados.find((parking) => parking.value === datosFormulario.parking_id) || null;
     const gruaSTSSeleccionada = opcionesGruaSTS.find((grua) => grua.value === datosFormulario.grua_sts_id) || null;
     const gruaSCSeleccionada = opcionesGruaSC.find((grua) => grua.value === datosFormulario.grua_sc_id) || null;
     const operarioSTSSeleccionado = opcionesOperariosSTS.find((operario) => operario.value === datosFormulario.operario_sts_id) || null;
@@ -261,8 +271,8 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                     <div className="w-[50%]">
                         <label htmlFor="destino_orden">Origen ({datosFormulario.tipo === 'descarga' ? 'Buque' : 'Parking'})</label>
                         <Select 
-                            options={datosFormulario.tipo === 'carga' ? opcionesParking : opcionesBuque} 
-                            value={datosFormulario.tipo === 'carga' ? parkingSeleccionado : buqueSeleccionado} 
+                            options={datosFormulario.tipo === 'carga' ? opcionesParkingOcupados : opcionesBuque} 
+                            value={datosFormulario.tipo === 'carga' ? parkingOcupadoSeleccionado : buqueSeleccionado} 
                             onChange={(seleccionado) => {
                                 const campo = datosFormulario.tipo === 'carga' ? 'parking_id' : 'buque_id';
                                 setDatosFormulario({...datosFormulario, [campo]: seleccionado ? seleccionado.value : null});
@@ -274,8 +284,8 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                     <div className="w-[50%]">
                         <label htmlFor="destino_orden">Destino ({datosFormulario.tipo === 'descarga' ? 'Parking' : 'Buque'})</label>
                         <Select 
-                            options={datosFormulario.tipo === 'descarga' ? opcionesParking : opcionesBuque} 
-                            value={datosFormulario.tipo === 'descarga' ? parkingSeleccionado : buqueSeleccionado} 
+                            options={datosFormulario.tipo === 'descarga' ? opcionesParkingLibres : opcionesBuque} 
+                            value={datosFormulario.tipo === 'descarga' ? parkingLibreSeleccionado : buqueSeleccionado} 
                             onChange={(seleccionado) => {
                                 const campo = datosFormulario.tipo === 'descarga' ? 'parking_id' : 'buque_id'
                                 setDatosFormulario({...datosFormulario, [campo]: seleccionado ? seleccionado.value : null});

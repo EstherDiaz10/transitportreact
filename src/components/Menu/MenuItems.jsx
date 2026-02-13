@@ -1,11 +1,11 @@
 import { NavLink } from 'react-router-dom';
-//import { useContext } from 'react';
-//import { AuthContext } from '../context/AuthProvider';
+import { useContext } from 'react';
+import { AuthContext } from '../../context/AuthProvider';
 
  const MenuItems = () => {
-    //const {user} = useContext(AuthContext);
+    const {user} = useContext(AuthContext);
 
-    const rol = "gestor";//user.rol;
+    const rol = user.rol;
 
     const styles = "w-full flex items-center mt-7 ml-2 pl-3 pt-2 pb-2 font-bold list-none";
     const activeStyles = `relative bg-white text-[#2A5677] pt-2 pb-2 rounded-l-full
