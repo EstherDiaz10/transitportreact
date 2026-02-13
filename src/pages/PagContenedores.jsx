@@ -73,10 +73,10 @@ const PagContenedores = () => {
             prefijo: "C-",
         },
         {
-            titulo: "Parking",
-            valor: "parking_id",
-            id_ajena: " ",
-            prefijo: "P-",
+            titulo: "Compañía",
+            valor: "companyia",
+          
+            'estilos': contenedorSeleccionado ? 'hidden truncate' : ''
         },
         {
             titulo: "Nº Serie",
@@ -161,6 +161,7 @@ const PagContenedores = () => {
                     ultimoId={ultimoId}
                     cerrarModal={() => setCrearElemento(false)}
                     setContenedores={setContenedores}
+
                 />
             </Modal>
         </>
