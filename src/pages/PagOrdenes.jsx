@@ -66,8 +66,8 @@ const PagOrdenes = () => {
     }
 
     const estructuraGrid = !ordenSeleccionada 
-        ? "grid grid-cols-3 md:grid-cols-[80px_0.7fr_1.3fr_1fr_170px_130px] items-center gap-3 px-4 md:px-0" 
-        : "grid grid-cols-3 md:grid-cols-[60px_1fr_2.3fr_1fr_60px] items-center gap-5 px-4 md:px-0";
+        ? "grid grid-cols-[1fr_1fr_0.4fr] lg:grid-cols-[80px_0.7fr_1.3fr_1fr_130px_130px] md:grid-cols-[80px_0.7fr_1fr_130px_130px] items-center gap-3 px-4 md:px-0" 
+        : "grid grid-cols-[1fr_1fr_auto] lg:grid-cols-[60px_1fr_2.3fr_1fr_60px] md:grid-cols-[60px_1fr_2.3fr_1fr_60px] items-center gap-5 px-4 md:px-0";
 
     const columnasOrdenes = [
         {
@@ -108,19 +108,41 @@ const PagOrdenes = () => {
     const ultimoId = (ordenes && ordenes.length > 0 ? Math.max(...ordenes.map(orden => orden.id))+1 : 1);
 
     return (
-        <>
-            <h1 className="fixed top-20 text-3xl font-bold text-[#2A5677]">Listado de órdenes</h1>
+        <div className="pb-23 lg:pb-0">
+            <h1 className="mt-14 md:mt-0 text-3xl font-bold text-[#2A5677] md:absolute md:top-20">Listado de órdenes</h1>
            
-            <div className={`${!ordenSeleccionada ? 'w-[94%]' : 'w-[50%]'} pt-5 flex justify-between`}>
-                <Filtrado setFiltrarEstado={setFiltrarEstado}/>
-                <Busqueda setBuscar={setBuscar} />
+           <div className="flex items-center mt-4 md:mt-0 gap-1">
+                <div className={`w-full ${!ordenSeleccionada ? 'md:w-[94%]' : 'md:w-[50%]'} md:pt-8 flex justify-between`}>
+                    <Filtrado setFiltrarEstado={setFiltrarEstado}/>
+                    <Busqueda setBuscar={setBuscar} />
+                </div>
+                <div className="md:hidden flex items-center w-[20%]">
+                    <button
+                        onClick={() => setMostrarFiltrosMovil(!mostrarFiltrosMovil)}
+                        className="w-10 h-10 bg-[#DFECF5] p-1 ml-1 rounded-[5px] font-bold flex justify-center items-center"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#5F84A2" viewBox="0 0 256 256"><path d="M136,120v96a8,8,0,0,1-16,0V120a8,8,0,0,1,16,0Zm64,72a8,8,0,0,0-8,8v16a8,8,0,0,0,16,0V200A8,8,0,0,0,200,192Zm24-32H208V40a8,8,0,0,0-16,0V160H176a8,8,0,0,0,0,16h48a8,8,0,0,0,0-16ZM56,160a8,8,0,0,0-8,8v48a8,8,0,0,0,16,0V168A8,8,0,0,0,56,160Zm24-32H64V40a8,8,0,0,0-16,0v88H32a8,8,0,0,0,0,16H80a8,8,0,0,0,0-16Zm72-48H136V40a8,8,0,0,0-16,0V80H104a8,8,0,0,0,0,16h48a8,8,0,0,0,0-16Z"></path></svg>
+                    </button>
+                </div>
             </div>
             
-            <div className={`${ordenSeleccionada ? 'lg:w-[53%]' : 'w-full'}`}>
-                <Listado elementos={ordenesAMostrar} estructuraGrid={estructuraGrid} columnas={columnasOrdenes} setElementoSeleccionado={setOrdenSeleccionada} elementoSeleccionado={ordenSeleccionada} icono={icono}/>
+            <div className={`w-full ${ordenSeleccionada ? 'lg:w-[53%]' : 'w-full'}`}>
+                {ordenes.length > 0 
+                    ?  ( <div className="ml-5 mr-3 md:mr-0 md:ml-0">
+                            <Listado 
+                                elementos={ordenesAMostrar} 
+                                estructuraGrid={estructuraGrid} 
+                                columnas={columnasOrdenes} 
+                                setElementoSeleccionado={setOrdenSeleccionada} 
+                                elementoSeleccionado={ordenSeleccionada} 
+                                icono={icono}
+                            />
+                        </div>
+                    ) : (<p className="flex justify-center mt-10 mb-10 mr-17">No hay órdenes para mostrar</p>
+                )}
                 <BotonCrear tipo="orden" setCrearElemento={setCrearElemento} seleccionado={ordenSeleccionada}/>
                 {ordenSeleccionada !== null && (
-                    <div className="fixed z-20 left-0 bottom-0 rounded-t-[50px] h-[80%] bg-[#B7D0E1] lg:absolute lg:top-0 right-0 lg:h-full lg:left-auto lg:w-[45%] lg:rounded-t-[0px] lg:rounded-l-[50px] lg:pt-[7%] lg:pl-[5%] lg:pr-[5%]">
+                    <div className="absolute z-20 left-0 right-0 top-45 rounded-t-[30px] bg-[#B7D0E1] lg:absolute lg:top-0 lg:right-0 lg:h-full lg:left-auto lg:w-[45%] lg:rounded-t-[0px] lg:rounded-l-[50px] lg:pt-[7%] lg:pl-[5%] lg:pr-[5%]">
                         <DetallesOrden orden={ordenSeleccionada} setOrdenSeleccionada={setOrdenSeleccionada} setOrdenes={setOrdenes}/>
                     </div>
                 )}
@@ -129,7 +151,7 @@ const PagOrdenes = () => {
             <Modal modalAbierto={crearElemento} cerrarModal={() => setCrearElemento(false)}>
                 <FormAnyadirOrden ultimoId={ultimoId} cerrarModal={() => setCrearElemento(false)} />
             </Modal>
-        </>
+        </div>
     )
 }
 

@@ -32,16 +32,16 @@ const Listado = ({elementos, estructuraGrid, columnas, setElementoSeleccionado, 
             <div className={`${estructuraGrid} mt-7 font-bold text-gray-600 text-sm w-[93%]`}>
                 <div className="hidden md:block"></div>
                 {columnas.map((columna) => (
-                    <p key={columna.valor} className={columna.estilos}>{columna.titulo}</p>
+                    <p key={columna.valor} className={`${columna.estilos}`}>{columna.titulo}</p>
                 ))}
                 <div></div>
             </div>
 
-            <div className={`max-h-137 w-[97%] mt-3`}>
+            <div className="max-h-137 lg:w-[97%] mt-3">
                 {registrosActuales.map((elemento) => (
                     <div onMouseEnter={() => setBotonEliminar(elemento.id)} onMouseLeave={() => setBotonEliminar(null)} key={elemento.id} className={`${estructuraGrid} ${elemento.id === elementoSeleccionado?.id ? 'bg-[#B7D0E1]' : 'bg-[#DFECF5]'} mb-5 rounded-[10px] h-15 shadow-md/20 w-[97%]`}>
                         {botonEliminar === elemento.id ? (
-                            <button className={`hidden md:flex ${botonEliminarEstilo}`} onClick={() => eliminarElemento(elemento.id)}>
+                            <button className={`hidden lg:flex ${botonEliminarEstilo}`} onClick={() => eliminarElemento(elemento.id)}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256"><path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"></path></svg>
                             </button>
                         ) : (
@@ -58,13 +58,13 @@ const Listado = ({elementos, estructuraGrid, columnas, setElementoSeleccionado, 
                             const prefijo = typeof columna.prefijo === 'function' ? columna.prefijo(elemento) : columna.prefijo;
 
                             if (columna.valor === 'id' || columna.id_ajena) {
-                                return <p key={indice} className={columna.estilos}>{prefijo}{elemento[columna.valor]}</p>
+                                return <p key={indice} className={`${columna.estilos} ${columna.valor === 'id' ? '' : 'hidden lg:block'}`}>{prefijo}{elemento[columna.valor]}</p>
                             } else if (columna.valor === 'estado') {
                                 return columna.estado(elemento)
                             } else if (columna.valor === 'prioridad') {
                                 return columna.prioridad(elemento)
                             }else {
-                                return <p key={indice} className={columna.estilos}>{elemento[columna.valor]}</p>
+                                return <p key={indice} className={`${columna.estilos}`}>{elemento[columna.valor]}</p>
                             }       
                         })}
 
@@ -82,9 +82,9 @@ const Listado = ({elementos, estructuraGrid, columnas, setElementoSeleccionado, 
 
             </div>
             
-            <div className="flex justify-between items-center mt-4 w-[94%]">
+            <div className="flex justify-between items-center w-[94%]">
                 <div className="relative">
-                    <select name="pagina" onChange={(e) => cambiarPagina(Number(e.target.value))} id="idPagina" className="bg-[#DFECF5] pl-3 pr-12 rounded-lg border-none outline-none cursor-pointer appearance-none">
+                    <select name="pagina" onChange={(e) => cambiarPagina(Number(e.target.value))} id="idPagina" className="bg-[#DFECF5] pl-3 pr-9 md:pr-12 rounded-lg border-none outline-none cursor-pointer appearance-none">
                     {opcionesPaginas}
                     </select>
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
@@ -93,16 +93,17 @@ const Listado = ({elementos, estructuraGrid, columnas, setElementoSeleccionado, 
                         </svg>
                     </div>
                 </div>
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2 md:gap-4">
                     <button 
-                    disabled={paginaActual === 1}
-                    onClick={() => cambiarPagina(paginaActual - 1)}
-                    className="p-2 disabled:opacity-30 text-white cursor-pointer w-10 h-10 bg-[#5F84A2] rounded-[5px]"
+                        disabled={paginaActual === 1}
+                        onClick={() => cambiarPagina(paginaActual - 1)}
+                        className="p-2 disabled:opacity-30 text-white cursor-pointer w-10 h-10 bg-[#5F84A2] rounded-[5px]"
                     >
                         <i className="fa-solid fa-chevron-left"></i>
                     </button>
                     
-                    <p>Pagina {paginaActual} de {totalPaginas}</p>
+                    <p className="hidden md:block">Pagina {paginaActual} de {totalPaginas}</p>
+                    <p className="md:hidden">{paginaActual} de {totalPaginas}</p>
 
                     <button 
                         disabled={paginaActual === totalPaginas}

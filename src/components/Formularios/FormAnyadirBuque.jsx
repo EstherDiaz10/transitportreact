@@ -4,8 +4,8 @@ import { useState } from 'react';
 const FormAnyadir = ({ultimoId, cerrarModal, setBuques}) => {
 
     const inputStyle = "bg-white p-1 pl-4 rounded-[10px] text-gray-500 w-full";
-    const lineStyle = "flex justify-between gap-10";
-    const columnStyle = "flex flex-wrap w-[50%]";
+    const lineStyle = "flex flex-col md:flex-row justify-between gap-6 md:gap-10";
+    const columnStyle = "w-full md:w-[50%]";
     const prefijoIdBuque = "B-";
     const [datosNuevoBuque, setDatosNuevoBuque] = useState({
         nombre: '',
@@ -38,8 +38,8 @@ const FormAnyadir = ({ultimoId, cerrarModal, setBuques}) => {
     return (
         <div>
             <div className="flex justify-center">
-                <div className="w-180 h-180 pl-18 pr-18 pt-13 bg-[#B7D0E1] rounded-[50px]">
-                    <h1 className="text-3xl font-bold text-[#2A5677] pb-8">Añadir buque</h1>
+                <div className="w-180 h-180 pt-9 pl-10 pr-10 md:pl-18 md:pr-18 md:pt-13 bg-[#B7D0E1] rounded-[50px]">
+                    <h1 className="text-center text-2xl md:text-3xl font-bold text-[#2A5677] pb-8">Añadir buque</h1>
                     <form className="text-[#2A5677]" action="">
                         <div className={lineStyle}>
                             <div className={columnStyle}>

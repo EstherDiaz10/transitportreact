@@ -45,49 +45,51 @@ const DetallesContenedor = ({ contenedor, setContenedorSeleccionado, setContened
 
 
     return (
-        <div className="text-[#2A5677] relative p-12 lg:p-0">
+        <div className="text-[#2A5677] relative pb-23 p-8 md:p-0">
             <button onClick={() => setContenedorSeleccionado(null)} className="fixed top-15 lg:static w-10 h-10 flex justify-center items-center cursor-pointer mb-4">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256">
                     <path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"></path>
                 </svg>
             </button>
+            <button onClick={() => setContenedorSeleccionado(null)} className="md:hidden absolute top-8 left-8 flex justify-center items-center text-white bg-[#5F84A2] text-xl font-bold hover:text-[#5F84A2] h-9 w-9 rounded-full hover:bg-white/20 cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path></svg>
+            </button>
 
-
-            <h1 className="text-3xl font-bold text-[#2A5677] mb-8">Detalles del Contenedor</h1>
+            <h1 className="text-center mt-1 lg:text-left mb-8 text-xl md:text-3xl font-bold text-[#2A5677]">Detalles del contenedor</h1>
            
             <form onSubmit={(e) => e.preventDefault()}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
-                        <label className="font-semibold" htmlFor="id_cont">ID Sistema</label>
+                        <label htmlFor="id_cont">ID Sistema</label>
                         <input className={`${inputStylePC} mt-2`} type="text" id="id_cont" value={`${prefijo}${datosFormulario.id}`} readOnly />
                     </div>
                     <div>
-                        <label className="font-semibold" htmlFor="num_serie">Nº Serie</label>
+                        <label htmlFor="num_serie">Nº Serie</label>
                         <input className={`${inputStylePC} mt-2`} onChange={cambiarInput} type="text" id="num_serie" name="num_serie" value={datosFormulario.num_serie} readOnly={!modificar} />
                     </div>
                 </div>
 
 
                 <div className="mt-5">
-                    <label className="font-semibold" htmlFor="companyia">Compañía</label>
+                    <label htmlFor="companyia">Compañía</label>
                     <input className={`${inputStylePC} mt-2`} onChange={cambiarInput} type="text" id="companyia" name="companyia" value={datosFormulario.companyia} readOnly={!modificar} />
                 </div>
 
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
                     <div>
-                        <label className="font-semibold" htmlFor="buque_id">ID Buque</label>
+                        <label htmlFor="buque_id">ID Buque</label>
                         <input className={`${inputStylePC} mt-2`} onChange={cambiarInput} type="number" id="buque_id" name="buque_id" value={datosFormulario.buque_id} readOnly={!modificar} />
                     </div>
                     <div>
-                        <label className="font-semibold" htmlFor="parking_id">ID Parking</label>
+                        <label htmlFor="parking_id">ID Parking</label>
                         <input className={`${inputStylePC} mt-2`} onChange={cambiarInput} type="number" id="parking_id" name="parking_id" value={datosFormulario.parking_id} readOnly={!modificar} />
                     </div>
                 </div>
 
 
                 <div className="mt-5">
-                    <label className="font-semibold" htmlFor="existe">Estado / Disponibilidad</label>
+                    <label htmlFor="existe">Estado / Disponibilidad</label>
                     <select
                         className={`${inputStylePC} mt-2 p-1.5`}
                         onChange={cambiarInput}
@@ -103,7 +105,7 @@ const DetallesContenedor = ({ contenedor, setContenedorSeleccionado, setContened
 
 
                 <div className="mt-5">
-                    <label className="font-semibold" htmlFor="observaciones">Observaciones</label>
+                    <label htmlFor="observaciones">Observaciones</label>
                     <textarea
                         className={`${inputStylePC} mt-2`}
                         onChange={cambiarInput}

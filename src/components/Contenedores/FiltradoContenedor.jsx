@@ -1,11 +1,11 @@
 const FiltradoContenedor = ({ setFiltrarEstado }) => {
   const selectStyles =
-    "bg-[#DFECF5] pl-3 py-1 rounded-lg border-none outline-none cursor-pointer appearance-none text-[#2A5677]";
+    "bg-[#DFECF5] pl-3 rounded-lg border-none outline-none cursor-pointer appearance-none";
 
 
   return (
     <div className="hidden md:flex gap-9 items-center">
-      <h4 className="font-bold text-[#2A5677]">Filtrar por:</h4>
+      <h4 className="font-bold">Filtrar por:</h4>
 
 
       <div className="relative">

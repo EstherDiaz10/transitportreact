@@ -1,6 +1,6 @@
 const BotonCrear = ({tipo, setCrearElemento, seleccionado}) => {
 
-    const botonBase = `bg-[#5F84A2] text-white font-bold rounded-[5px] flex items-center justify-around text-lg hover:bg-[#DFECF5] hover:text-[#5F84A2] hover:border-3 hover:border-[#5F84A2] cursor-pointer h-10 mt-6 px-4 ${!seleccionado ? 'w-[13%]' : 'w-[24%]'}`;
+    const botonBase = `bg-[#5F84A2] text-white font-bold rounded-[5px] flex items-center justify-around text-lg hover:bg-[#DFECF5] hover:text-[#5F84A2] hover:border-3 hover:border-[#5F84A2] cursor-pointer h-10 mt-6 px-4  ${!seleccionado ? 'lg:w-[13%]' : 'lg:w-[24%]'}`;
     
     return (
         <div className="flex justify-center flex-wrap w-[95%] gap-20">

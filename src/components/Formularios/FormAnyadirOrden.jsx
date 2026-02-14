@@ -102,8 +102,8 @@ const FormAnyadirOrden = ({ cerrarModal, setOrdenes }) => {
 
     return (
         <div className="flex justify-center">
-            <div className="w-[700px] p-10 bg-[#B7D0E1] rounded-[50px] text-[#2A5677]">
-                <h1 className="text-3xl font-bold mb-8">Añadir Nueva Orden</h1>
+            <div className="w-180 h-180 pt-9 pl-10 pr-10 md:pl-18 md:pr-18 md:pt-13 bg-[#B7D0E1] rounded-[50px]">
+                <h1 className="text-center text-2xl md:text-3xl font-bold text-[#2A5677] pb-8">Añadir Nueva Orden</h1>
                 <form onSubmit={crearOrden}>
 
                     <div className={lineStyle}>
