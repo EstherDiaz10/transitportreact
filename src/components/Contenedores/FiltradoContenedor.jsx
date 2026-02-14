@@ -15,7 +15,7 @@ const FiltradoContenedor = ({ setFiltrarEstado }) => {
           id="estadoContenedor"
           className={`${selectStyles} pr-10`}
         >
-          <option value="">Todas</option>
+          <option value="">Ubicación</option>
           <option value="Parking">Parking</option>
           <option value="Buque">Buque</option>
           <option value="Zona descarga">Zona descarga</option>

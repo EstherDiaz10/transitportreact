@@ -29,7 +29,7 @@ const Listado = ({elementos, estructuraGrid, columnas, setElementoSeleccionado, 
 
     return(
         <div className="w-full">
-            <div className={`${estructuraGrid} mt-7 font-bold text-gray-600 text-sm w-[93%]`}>
+            <div className={`${estructuraGrid} mt-7 font-bold text-gray-600 text-sm w-[94%] md:w-[96%] lg:w-[94%]`}>
                 <div className="hidden md:block"></div>
                 {columnas.map((columna) => (
                     <p key={columna.valor} className={`${columna.estilos}`}>{columna.titulo}</p>
@@ -82,7 +82,7 @@ const Listado = ({elementos, estructuraGrid, columnas, setElementoSeleccionado, 
 
             </div>
             
-            <div className="flex justify-between items-center w-[94%]">
+            <div className="flex justify-between items-center w-[96%] md:w-[97%] lg:w-[94%]">
                 <div className="relative">
                     <select name="pagina" onChange={(e) => cambiarPagina(Number(e.target.value))} id="idPagina" className="bg-[#DFECF5] pl-3 pr-9 md:pr-12 rounded-lg border-none outline-none cursor-pointer appearance-none">
                     {opcionesPaginas}

@@ -6,7 +6,7 @@ const Modal = ({ modalAbierto, cerrarModal, children }) => {
 
     return (
         <div className="fixed inset-0 bg-black/30 bg-opacity-40 flex justify-center items-center z-50">
-        <div className="bg-[#B7D0E1] md:rounded-[50px] relative w-full h-full md:max-w-180 md:h-auto md:ml-45">
+        <div className="bg-[#B7D0E1] md:rounded-[50px] relative w-full h-full md:max-w-180 md:h-auto lg:ml-45">
             <button 
             onClick={cerrarModal} 
             className="hidden md:block absolute top-8 right-8 text-[#2A5677] text-xl font-bold hover:text-[#5F84A2] h-10 w-10 rounded-[5px] hover:bg-white/20 cursor-pointer">

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Listado from "../components/Listado";
 import BotonCrear from "../components/BotonCrear";
 import Filtrado from "../components/Contenedores/FiltradoContenedor";
+import FiltradoMovilCont from '../components/Contenedores/FiltradoMovilCont';
 import Busqueda from "../components/Busqueda";
 import Detalles from "../components/Contenedores/DetallesContenedor";
 import Modal from "../components/Modal";
@@ -15,7 +16,7 @@ const PagContenedores = () => {
     const [contenedores, setContenedores] = useState([]);
     const [contenedorSeleccionado, setContenedorSeleccionado] = useState(null);
     const [crearElemento, setCrearElemento] = useState(false);
-
+    const [mostrarFiltrosMovil, setMostrarFiltrosMovil] = useState(false);
 
     useEffect(() => {
         contenedorService.listadoContenedores().then((data) => {
@@ -62,8 +63,8 @@ const PagContenedores = () => {
 
 
     const estructuraGrid = !contenedorSeleccionado
-        ? "grid grid-cols-[1fr_1fr_0.4fr] lg:grid-cols-[80px_0.7fr_1.3fr_1fr_130px_130px] md:grid-cols-[80px_0.7fr_1fr_130px_130px] items-center gap-3 px-4 md:px-0"
-        : "grid grid-cols-[1fr_1fr_auto] lg:grid-cols-[60px_1fr_2.3fr_1fr_60px] md:grid-cols-[60px_1fr_2.3fr_1fr_60px] items-center gap-5 px-4 md:px-0";
+        ? "grid grid-cols-[1fr_1fr_0.4fr] lg:grid-cols-[80px_0.7fr_1.3fr_1fr_130px_130px] md:grid-cols-[60px_0.7fr_1fr_0.4fr_130px] items-center gap-3 px-4 md:px-0"
+        : "grid grid-cols-[1fr_1fr_auto] lg:grid-cols-[60px_1fr_2.3fr_1fr_60px] md:grid-cols-[60px_0.7fr_1fr_0.4fr_130px] items-center gap-5 px-4 md:px-0";
 
 
     const columnasContenedores = [
@@ -80,7 +81,7 @@ const PagContenedores = () => {
         {
             titulo: "Nº Serie",
             valor: "num_serie",
-            'estilos': 'hidden lg:block'
+            'estilos': 'hidden md:block'
         },
         {
             titulo: "Ubicación",
@@ -109,14 +110,14 @@ const PagContenedores = () => {
 
 
     return (
-        <div className="pb-23 lg:pb-0">
-            <h1 className="mt-14 md:mt-0 ml-5 md:ml-0 text-3xl font-bold text-[#2A5677] md:absolute md:top-20">
+        <div className="pb-23 lg:pb-0 md:ml-7">
+            <h1 className="mt-5 md:mt-0 ml-5 md:ml-0 md:ml-0 text-3xl font-bold text-[#2A5677] md:absolute md:top-20 w-[80%]">
                 Listado de Contenedores
             </h1>
 
             <div className="flex items-center mt-4 md:mt-0 gap-1">
                 <div
-                    className={`w-full ${!contenedorSeleccionado ? "w-[94%]" : "w-[50%]"} md:pt-8 flex justify-between`}
+                    className={`w-full md:w-[97%] ${!contenedorSeleccionado ? "lg:w-[94%]" : "lg:w-[50%]"} md:pt-8 flex justify-between`}
                 >
                     <Filtrado setFiltrarEstado={setFiltrarEstado} />
                     <Busqueda setBuscar={setBuscar} />
@@ -130,7 +131,18 @@ const PagContenedores = () => {
                     </button>
                 </div>
             </div>
-
+            {mostrarFiltrosMovil && (
+                <div className="absolute right-7 top-26 mt-2 w-64 bg-white rounded-[10px] shadow-xl border border-[#DFECF5] z-50 p-4">
+                    <h3 className="text-[#5F84A2] font-bold mb-3 border-b border-[#DFECF5] pb-2">Opciones de Filtro</h3>
+                    
+                    <div className="flex flex-col gap-4">
+                        <FiltradoMovilCont setFiltrarEstado={setFiltrarEstado} filtrarEstado={selectFiltrado}/>
+                        <button onClick={() => setMostrarFiltrosMovil(false)} className="bg-[#5F84A2] text-white py-2 rounded-[5px] mt-2 font-bold hover:opacity-90">
+                            Cerrar
+                        </button>
+                    </div>
+                </div>
+            )}
             <div className={`w-full ${contenedorSeleccionado ? "lg:w-[53%]" : "w-full"}`}>
                 {contenedores.length > 0 
                     ?  ( <div className="ml-5 mr-3 md:mr-0 md:ml-0">
@@ -155,7 +167,7 @@ const PagContenedores = () => {
 
 
                 {contenedorSeleccionado !== null && (
-                    <div className="absolute z-20 left-0 right-0 top-45 rounded-t-[30px] bg-[#B7D0E1] lg:absolute lg:top-0 lg:right-0 lg:h-full lg:left-auto lg:w-[45%] lg:rounded-t-[0px] lg:rounded-l-[50px] lg:pt-[7%] lg:pl-[5%] lg:pr-[5%]">
+                    <div className="absolute z-20 left-0 right-0 top-45 md:top-58 rounded-t-[30px] bg-[#B7D0E1] lg:absolute lg:top-0 lg:right-0 lg:h-full lg:left-auto lg:w-[45%] lg:rounded-t-[0px] lg:rounded-l-[50px] lg:pt-[7%] lg:pl-[5%] lg:pr-[5%]">
                         <Detalles
                             contenedor={contenedorSeleccionado}
                             setContenedorSeleccionado={setContenedorSeleccionado}
