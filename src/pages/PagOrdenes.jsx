@@ -22,6 +22,7 @@ const PagOrdenes = () => {
         ordenesService
         .listadoOrdenes()
         .then(data =>{
+            console.log('ORDENES: ', data);
             setOrdenes(data)
         })
     }, [])

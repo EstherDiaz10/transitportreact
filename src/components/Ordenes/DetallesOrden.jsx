@@ -4,7 +4,7 @@ import buqueService from "../../services/buques";
 import parkingService from "../../services/parkings";
 import gruaService from "../../services/gruas";
 import operarioService from "../../services/operarios";
-import Select from 'react-select';
+import Select from '../Select';
 
 const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
 
@@ -28,7 +28,6 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
 
         parkingService.listadoParkings()
             .then(data => {
-                console.log("1. ¿Llegan datos de la API?:", data);
                 setParkings(data)
             })
             .catch(error => 
@@ -235,7 +234,7 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
             <button onClick={() => setOrdenSeleccionada(null)} className="lg:hidden absolute top-8 left-8 md:top-11 flex justify-center items-center text-white bg-[#5F84A2] text-xl font-bold hover:text-[#5F84A2] h-9 w-9 rounded-full hover:bg-white/20 cursor-pointer">
                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path></svg>
             </button>
-            <h1 className="text-center mt-1 md:mt-3 lg:text-left mb-8 text-xl md:text-3xl font-bold text-[#2A5677]">Detalles de la orden</h1>
+            <h1 className="text-center mt-1 md:mt-3 lg:text-left mb-5 text-xl md:text-3xl font-bold text-[#2A5677]">Detalles de la orden</h1>
             <form action="">
                 <div className="flex gap-5 w-full mt-5">
                     <div className="w-[50%]">

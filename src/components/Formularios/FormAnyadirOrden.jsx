@@ -4,23 +4,21 @@ import ordenService from "../../services/ordenes";
 import buqueService from "../../services/buques";
 import parkingService from "../../services/parkings";
 import gruaService from "../../services/gruas";
-import Select from 'react-select';
+import Select from '../Select';
 
 const FormAnyadirOrden = ({ cerrarModal, setOrdenes }) => {
-    // Estilos heredados de FormAnyadirGrua
+
     const inputStyle = "bg-white p-1 pl-4 rounded-[10px] text-gray-500 w-full";
     const lineStyle = "flex justify-between gap-10";
-    const columnStyle = "flex flex-wrap w-[50%]";
+    const columnStyle = "flex flex-wrap w-[50%] text-";
     
     const { user } = useContext(AuthContext);
 
-    // Estados para catálogos
     const [buques, setBuques] = useState([]);
     const [parkings, setParkings] = useState([]);
     const [gruas, setGruas] = useState([]);
     const [contenedoresDisponibles, setContenedoresDisponibles] = useState([]);
 
-    // Estado del formulario
     const [datosNuevaOrden, setDatosNuevaOrden] = useState({
         tipo: 'descarga',
         prioridad: 'media',
@@ -36,32 +34,36 @@ const FormAnyadirOrden = ({ cerrarModal, setOrdenes }) => {
         observaciones: ''
     });
 
-    // Carga inicial de datos
     useEffect(() => {
-        buqueService.listadoBuquesConContenedores().then(setBuques);
-        parkingService.listadoParkings().then(setParkings);
-        gruaService.listadoGruas().then(setGruas);
+        buqueService.listadoBuquesConContenedores()
+            .then(darta => setBuques(data));
+
+        parkingService.listadoParkings()
+            .then(data => setParkings(data));
+
+        gruaService.listadoGruas()
+            .then(data => setGruas(data));
     }, []);
 
-    // Lógica de filtrado de contenedores (Idéntica a DetallesOrden)
+    /*Obtengo los contenedores del buque y parking asociados a la orden*/
     useEffect(() => {
         let lista = [];
         if (datosNuevaOrden.tipo === 'descarga' && datosNuevaOrden.buque_id) {
-            const buque = buques.find(b => b.id === datosNuevaOrden.buque_id);
+            const buque = buques.find(buque => buque.id === datosNuevaOrden.buque_id);
             lista = buque?.contenedores || [];
         } else if (datosNuevaOrden.tipo === 'carga' && datosNuevaOrden.parking_id) {
-            const parking = parkings.find(p => p.id === datosNuevaOrden.parking_id);
+            const parking = parkings.find(parking => parking.id === datosNuevaOrden.parking_id);
             lista = parking?.contenedor ? [parking.contenedor] : [];
         }
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setContenedoresDisponibles(lista);
     }, [datosNuevaOrden.buque_id, datosNuevaOrden.parking_id, datosNuevaOrden.tipo, buques, parkings]);
 
-    // Handlers
+    
     const handleInput = (e) => {
         const { name, value } = e.target;
         if (name === 'tipo') {
-            // Resetear selecciones al cambiar tipo para evitar incoherencias
+            
             setDatosNuevaOrden({
                 ...datosNuevaOrden,
                 tipo: value,
@@ -86,37 +88,72 @@ const FormAnyadirOrden = ({ cerrarModal, setOrdenes }) => {
         }
     };
 
-    // Preparación de opciones para Selects
+    // Preparación de opciones para selects
     const opcionesBuque = buques.map(buque => ({ value: buque.id, label: `Buque: ${buque.nombre}` }));
-    const opcionesParkingLibres = parkings.filter(parking => !parking.contenedor).map(parking => ({ value: parking.id, label: `P-${parking.id} (Libre)` }));
-    const opcionesParkingOcupados = parkings.filter(parking => parking.contenedor).map(parking => ({ value: parking.id, label: `P-${parking.id} (Ocupado)` }));
+    const opcionesParkingLibres = parkings
+        .filter(parking => !parking.contenedor)
+        .map(parking => ({ 
+            value: parking.id, 
+            label: `P-${parking.id} (Libre)` 
+        }));
+
+    const opcionesParkingOcupados = parkings
+        .filter(parking => parking.contenedor)
+        .map(parking => ({ 
+            value: parking.id, 
+            label: `P-${parking.id} (Ocupado)` 
+        }));
     
-    const opcionesGruaSTS = gruas.filter(grua => grua.tipo.toLowerCase() === 'sts').map(grua => ({ value: grua.id, label: `STS-${grua.id}` }));
-    const opcionesGruaSC = gruas.filter(grua => grua.tipo.toLowerCase() === 'sc').map(grua => ({ value: grua.id, label: `SC-${grua.id}` }));
+    const opcionesGruaSTS = gruas
+        .filter(grua => grua.tipo.toLowerCase() === 'sts')
+        .map(grua => ({ 
+            value: grua.id, 
+            label: `STS-${grua.id}` 
+        }));
 
-    // Operarios dinámicos según grúa seleccionada
-    const opcOperariosSTS = gruas.find(grua => grua.id === datosNuevaOrden.grua_sts_id)?.operarios.map(operario => ({ value: operario.id, label: operario.name })) || [];
-    const opcOperariosSC = gruas.find(grua => grua.id === datosNuevaOrden.grua_sc_id)?.operarios.map(operario => ({ value: operario.id, label: operario.name })) || [];
+    const opcionesGruaSC = gruas
+        .filter(grua => grua.tipo.toLowerCase() === 'sc')
+        .map(grua => ({ 
+            value: grua.id, 
+            label: `SC-${grua.id}` 
+        }));
 
-    const opcionesContenedores = contenedoresDisponibles.map(contenedor => ({ value: contenedor.id, label: `Contenedor: ${contenedor.num_serie || contenedor.id}` }));
+    const opcOperariosSTS = gruas
+        .find(grua => grua.id === datosNuevaOrden.grua_sts_id)?.operarios
+        .map(operario => ({ 
+            value: operario.id, 
+            label: operario.name 
+        })) || [];
+
+    const opcOperariosSC = gruas
+        .find(grua => grua.id === datosNuevaOrden.grua_sc_id)?.operarios
+        .map(operario => ({ 
+            value: operario.id, 
+            label: operario.name 
+        })) || [];
+
+    const opcionesContenedores = contenedoresDisponibles.map(contenedor => ({ 
+        value: contenedor.id, 
+        label: `Contenedor: ${contenedor.num_serie || contenedor.id}` 
+    }));
 
     return (
         <div className="flex justify-center">
-            <div className="w-180 h-180 pt-9 pl-10 pr-10 md:pl-18 md:pr-18 md:pt-13 bg-[#B7D0E1] rounded-[50px]">
+            <div className="w-300 h-220 pt-9 pl-10 pr-10 md:pl-18 md:pr-18 md:pt-13 bg-[#B7D0E1] rounded-[50px]">
                 <h1 className="text-center text-2xl md:text-3xl font-bold text-[#2A5677] pb-8">Añadir Nueva Orden</h1>
-                <form onSubmit={crearOrden}>
+                <form onSubmit={crearOrden} className="text-[#2A5677]">
 
                     <div className={lineStyle}>
                         <div className={columnStyle}>
                             <label>Tipo de orden</label>
-                            <select name="tipo" className={`${inputStyle} mt-3`} onChange={handleInput} value={datosNuevaOrden.tipo}>
+                            <select name="tipo" className={`${inputStyle} mt-3 p-2`} onChange={handleInput} value={datosNuevaOrden.tipo}>
                                 <option value="descarga">Descarga</option>
                                 <option value="carga">Carga</option>
                             </select>
                         </div>
                         <div className={columnStyle}>
                             <label>Prioridad</label>
-                            <select name="prioridad" className={`${inputStyle} mt-3`} onChange={handleInput} value={datosNuevaOrden.prioridad}>
+                            <select name="prioridad" className={`${inputStyle} mt-3 p-2`} onChange={handleInput} value={datosNuevaOrden.prioridad}>
                                 <option value="baja">Baja</option>
                                 <option value="media">Media</option>
                                 <option value="alta">Alta</option>
@@ -165,7 +202,7 @@ const FormAnyadirOrden = ({ cerrarModal, setOrdenes }) => {
                             <div className="w-full mt-3">
                                 <Select 
                                     options={opcionesGruaSTS}
-                                    onChange={(sel) => setDatosNuevaOrden({...datosNuevaOrden, grua_sts_id: sel?.value, operario_sts_id: null})}
+                                    onChange={(gruaSeleccionada) => setDatosNuevaOrden({...datosNuevaOrden, grua_sts_id: gruaSeleccionada?.value, operario_sts_id: null})}
                                 />
                             </div>
                         </div>
@@ -174,7 +211,7 @@ const FormAnyadirOrden = ({ cerrarModal, setOrdenes }) => {
                             <div className="w-full mt-3">
                                 <Select 
                                     options={opcionesGruaSC}
-                                    onChange={(sel) => setDatosNuevaOrden({...datosNuevaOrden, grua_sc_id: sel?.value, operario_sc_id: null})}
+                                    onChange={(gruaSeleccionada) => setDatosNuevaOrden({...datosNuevaOrden, grua_sc_id: gruaSeleccionada?.value, operario_sc_id: null})}
                                 />
                             </div>
                         </div>
@@ -185,7 +222,7 @@ const FormAnyadirOrden = ({ cerrarModal, setOrdenes }) => {
                             <div className="w-full mt-3">
                                 <Select 
                                     options={opcOperariosSTS}
-                                    onChange={(sel) => setDatosNuevaOrden({...datosNuevaOrden, operario_sts_id: sel?.value})}
+                                    onChange={(operarioSeleccionado) => setDatosNuevaOrden({...datosNuevaOrden, operario_sts_id: operarioSeleccionado?.value})}
                                 />
                             </div>
                         </div>
@@ -194,7 +231,7 @@ const FormAnyadirOrden = ({ cerrarModal, setOrdenes }) => {
                             <div className="w-full mt-3">
                                 <Select 
                                     options={opcOperariosSC}
-                                    onChange={(sel) => setDatosNuevaOrden({...datosNuevaOrden, operario_sc_id: sel?.value})}
+                                    onChange={(operarioSeleccionado) => setDatosNuevaOrden({...datosNuevaOrden, operario_sc_id: operarioSeleccionado?.value})}
                                 />
                             </div>
                         </div>
@@ -203,9 +240,9 @@ const FormAnyadirOrden = ({ cerrarModal, setOrdenes }) => {
                         <label>Observaciones</label>
                         <textarea name="observaciones" className={`${inputStyle} mt-3`} rows="3" onChange={handleInput}></textarea>
                     </div>
-                    <div className="mt-8 flex justify-center">
+                    <div className="mt-5 flex justify-center">
                         <button type="submit" className="bg-[#5F84A2] text-white font-bold gap-2 pt-2 pb-2 pr-6 pl-6 rounded-[5px] flex items-center hover:bg-[#DFECF5] hover:text-[#5F84A2] border-2 border-transparent hover:border-[#5F84A2] transition-all">
-                            <span>Crear Orden</span>
+                            <span>Crear orden</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"></path></svg>
                         </button>
                     </div>

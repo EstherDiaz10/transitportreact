@@ -13,6 +13,7 @@ export default function MultiSelect({ options, value, onChange, placeholder, isD
         control: (base) => ({
           ...base,
           borderRadius: '0.75rem',
+          height: '10px'
         })
       }}
     />

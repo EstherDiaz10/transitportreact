@@ -73,7 +73,7 @@ const FormAnyadir = ({ultimoId, cerrarModal, setBuques}) => {
                         </div>
                         <div className="mt-6 flex justify-center">
                             <button onClick={(e) => crearNuevoBuque(e)} className="bg-[#5F84A2] text-white font-bold gap-2 pt-2 pb-2 pr-4 pl-4 rounded-[5px] flex items-center justify-around text-lg hover:bg-[#DFECF5] hover:text-[#5F84A2] hover:border-3 hover:border-[#5F84A2]">
-                                <span>Crear</span>
+                                <span>Crear buque</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"></path></svg>
                             </button>
                         </div>
