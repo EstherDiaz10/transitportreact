@@ -2,23 +2,22 @@ import contenedorService from '../../services/contenedores';
 import buquesService from '../../services/buques';
 import { useEffect, useState } from 'react';
 
-
 const FormAnyadirContenedor = ({ ultimoId, cerrarModal, setContenedores }) => {
-
 
     const inputStyle = "bg-white p-1 pl-4 rounded-[10px] text-gray-500 w-full";
     const lineStyle = "flex justify-between gap-10";
     const columnStyle = "flex flex-wrap w-[50%]";
     const prefijoIdContenedor = "C-";
+
     const [buques, setBuques] = useState([]);
 
-     useEffect(() => {
-            buquesService.listadoBuques()
-                .then(data => { 
-                    setBuques(Object.values(data));
-                })
-        }, []);
-
+    useEffect(() => {
+        buquesService.listadoBuques()
+            .then(data => {
+                setBuques(Object.values(data));
+            })
+            .catch(error => console.error(error));
+    }, []);
 
     const [datosNuevoContenedor, setDatosNuevoContenedor] = useState({
         num_serie: '',
@@ -29,48 +28,37 @@ const FormAnyadirContenedor = ({ ultimoId, cerrarModal, setContenedores }) => {
         parking_id: null
     });
 
-
-    const crearNuevoContenedor = async (e) => {
-        e.preventDefault();
-
+    const crearNuevoContenedor = async (event) => {
+        event.preventDefault();
 
         try {
-            const nuevo = await contenedorService.crearContenedor(datosNuevoContenedor);
-
-
-            setContenedores(prev => [...prev, nuevo]);
-
-
+            await contenedorService.crearContenedor(datosNuevoContenedor);
+            const data = await contenedorService.listadoContenedores();
+            setContenedores(data);
             cerrarModal();
         } catch (error) {
-            console.error("Error creando contenedor", error);
+            console.error(error);
         }
     };
-
 
     const handleInput = (event) => {
         const { name, value } = event.target;
 
-
         let valorFinal = value;
-
 
         if (name === "existe") {
             valorFinal = value === "true";
         }
 
-
         if (name === "parking_id" || name === "buque_id") {
             valorFinal = value === "" ? null : Number(value);
         }
-
 
         setDatosNuevoContenedor({
             ...datosNuevoContenedor,
             [name]: valorFinal
         });
     };
-
 
     return (
         <div>
@@ -80,9 +68,7 @@ const FormAnyadirContenedor = ({ ultimoId, cerrarModal, setContenedores }) => {
                         Añadir contenedor
                     </h1>
 
-
                     <form className="text-[#2A5677]" onSubmit={crearNuevoContenedor}>
-
 
                         <div className={lineStyle}>
                             <div className={columnStyle}>
@@ -93,7 +79,6 @@ const FormAnyadirContenedor = ({ ultimoId, cerrarModal, setContenedores }) => {
                                     readOnly
                                 />
                             </div>
-
 
                             <div className={columnStyle}>
                                 <label>Número de Serie</label>
@@ -106,7 +91,6 @@ const FormAnyadirContenedor = ({ ultimoId, cerrarModal, setContenedores }) => {
                             </div>
                         </div>
 
-
                         <div className={`${lineStyle} mt-8 mb-8`}>
                             <div className={columnStyle}>
                                 <label>Compañía</label>
@@ -118,13 +102,13 @@ const FormAnyadirContenedor = ({ ultimoId, cerrarModal, setContenedores }) => {
                                 />
                             </div>
 
-
                             <div className={columnStyle}>
                                 <label>Disponibilidad</label>
                                 <select
                                     onChange={handleInput}
                                     className={`${inputStyle} mt-3 p-1.5`}
                                     name="existe"
+                                    defaultValue="true"
                                 >
                                     <option value="true">Disponible</option>
                                     <option value="false">No disponible</option>
@@ -132,26 +116,23 @@ const FormAnyadirContenedor = ({ ultimoId, cerrarModal, setContenedores }) => {
                             </div>
                         </div>
 
-
                         <div className={lineStyle}>
                             <div className={columnStyle}>
                                 <label>ID Buque</label>
                                 <select
                                     onChange={handleInput}
                                     className={`${inputStyle} mt-3 p-1.5`}
-                                    name="buque_id" 
+                                    name="buque_id"
                                     defaultValue=""
                                 >
                                     <option value="" disabled>Seleccione un ID</option>
-
-                                    {buques?.map((buque) => (
-                                        <option key={buque.id} value={buque.nombre}>
-                                            {buque.nombre}  
+                                    {buques.map((buque) => (
+                                        <option key={buque.id} value={buque.id}>
+                                            {buque.id}
                                         </option>
                                     ))}
                                 </select>
                             </div>
-
 
                             <div className={columnStyle}>
                                 <label>ID Parking</label>
@@ -164,7 +145,6 @@ const FormAnyadirContenedor = ({ ultimoId, cerrarModal, setContenedores }) => {
                             </div>
                         </div>
 
-
                         <div className="mt-8">
                             <label>Observaciones</label>
                             <textarea
@@ -172,9 +152,8 @@ const FormAnyadirContenedor = ({ ultimoId, cerrarModal, setContenedores }) => {
                                 className={`${inputStyle} mt-3`}
                                 name="observaciones"
                                 rows="3"
-                            ></textarea>
+                            />
                         </div>
-
 
                         <div className="mt-6 flex justify-center">
                             <button
@@ -185,13 +164,11 @@ const FormAnyadirContenedor = ({ ultimoId, cerrarModal, setContenedores }) => {
                             </button>
                         </div>
 
-
                     </form>
                 </div>
             </div>
         </div>
     );
 };
-
 
 export default FormAnyadirContenedor;
