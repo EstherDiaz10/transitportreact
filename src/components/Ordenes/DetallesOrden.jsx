@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useContext, useEffect } from 'react';
+import { AuthContext } from '../../context/AuthProvider';
 import ordenService from "../../services/ordenes";
 import buqueService from "../../services/buques";
 import parkingService from "../../services/parkings";
@@ -7,6 +8,8 @@ import operarioService from "../../services/operarios";
 import Select from '../Select';
 
 const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
+
+    const { user } = useContext(AuthContext);
 
     const [modificar, setModificar] = useState(false);
     const [datosFormulario, setDatosFormulario] = useState({ ...orden });
@@ -53,12 +56,14 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setDatosFormulario({ 
             ...orden,
-            buque_id: orden.buque?.id || orden.contenedor?.buque_id || null,
-            parking_id: orden.parking?.id || orden.contenedor?.parking_id || null,
-            grua_sts_id: orden.grua_sts?.id || null,
-            grua_sc_id: orden.grua_sc?.id || null,
-            operario_sts_id: orden.operario_sts?.id || '',
-            operario_sc_id: orden.operario_sc?.id ||'' 
+            administrativo_id: user.id,
+            buque_id: orden.buque.id ? Number(orden.buque.id) : null,
+            parking_id: orden.parking.id ? Number(orden.parking.id) : null,
+            contenedor_id: orden.contenedor.id ? Number(orden.contenedor.id) : null,
+            grua_sts_id: orden.grua_sts.id ? Number(orden.grua_sts.id) : null,
+            grua_sc_id: orden.grua_sc.id ? Number(orden.grua_sc.id) : null,
+            operario_sts_id: orden.operario_sts.id ? Number(orden.operario_sts.id) : '',
+            operario_sc_id: orden.operario_sc.id ? Number(orden.operario_sc.id) : ''
         });
         
         setModificar(false);
@@ -186,8 +191,9 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
         event.stopPropagation();
 
         if (modificar) {
-
+            
             try {
+                console.log(datosFormulario);
                 await ordenService.modificarOrden(orden.id, {
                     ...datosFormulario,
                     tipo: datosFormulario.tipo.toLowerCase(),
@@ -196,9 +202,11 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                 });
                 const data = await ordenService.listadoOrdenes();
                 setOrdenes(data);
+                console.log(data);
                 setOrdenSeleccionada(datosFormulario);
             } catch (error) {
                 console.error('Error al guardar orden ', error);
+                console.log(error.response.data)
             }
         }
 

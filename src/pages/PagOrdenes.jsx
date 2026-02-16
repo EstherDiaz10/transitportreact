@@ -69,7 +69,7 @@ const PagOrdenes = () => {
     }
 
     const estructuraGrid = !ordenSeleccionada 
-        ? "grid grid-cols-[1fr_1fr_0.4fr] lg:grid-cols-[80px_0.7fr_1.3fr_1fr_130px_130px] md:grid-cols-[80px_0.7fr_1fr_180px_130px] items-center gap-3 px-4 md:px-0" 
+        ? "grid grid-cols-[1fr_1fr_0.4fr] lg:grid-cols-[80px_0.7fr_1.3fr_1fr_180px_130px] md:grid-cols-[80px_0.7fr_1fr_180px_130px] items-center gap-3 px-4 md:px-0" 
         : "grid grid-cols-[1fr_1fr_auto] lg:grid-cols-[60px_1fr_2.3fr_1fr_60px] md:grid-cols-[60px_1fr_2.3fr_1fr_60px] items-center gap-5 px-4 md:px-0";
 
     const columnasOrdenes = [
@@ -86,9 +86,9 @@ const PagOrdenes = () => {
         {
             'titulo': 'Prioridad',
             'valor': 'prioridad',
-            'estilos': !ordenSeleccionada ? 'px-2' : '',
+            'estilos': !ordenSeleccionada ? 'px-2 hidden md:flex' : 'hidden md:flex',
             'prioridad': (orden) => (
-                <div className={`flex items-center gap-3 w-full pr-2`}>
+                <div className={`flex items-center gap-3 w-full hidden md:flex`}>
                         <p className="w-16 truncate text-left">{orden.prioridad}</p>
                         <div style={{border: `3px solid ${colorPrioridad(orden.prioridad)}`}} className="w-4 h-4 rounded-full"></div>
                 </div>
