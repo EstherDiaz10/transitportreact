@@ -69,7 +69,7 @@ const PagOrdenes = () => {
     }
 
     const estructuraGrid = !ordenSeleccionada 
-        ? "grid grid-cols-[1fr_1fr_0.4fr] lg:grid-cols-[80px_0.7fr_1.3fr_1fr_130px_130px] md:grid-cols-[80px_0.7fr_1fr_130px_130px] items-center gap-3 px-4 md:px-0" 
+        ? "grid grid-cols-[1fr_1fr_0.4fr] lg:grid-cols-[80px_0.7fr_1.3fr_1fr_130px_130px] md:grid-cols-[80px_0.7fr_1fr_180px_130px] items-center gap-3 px-4 md:px-0" 
         : "grid grid-cols-[1fr_1fr_auto] lg:grid-cols-[60px_1fr_2.3fr_1fr_60px] md:grid-cols-[60px_1fr_2.3fr_1fr_60px] items-center gap-5 px-4 md:px-0";
 
     const columnasOrdenes = [
@@ -81,14 +81,14 @@ const PagOrdenes = () => {
         {
             'titulo': 'Tipo de orden',
             'valor': 'tipo',
-            'estilos': ordenSeleccionada ? 'hidden truncate' : ''
+            'estilos': ordenSeleccionada ? 'hidden truncate' : 'hidden lg:block'
         },
         {
             'titulo': 'Prioridad',
             'valor': 'prioridad',
             'estilos': !ordenSeleccionada ? 'px-2' : '',
             'prioridad': (orden) => (
-                <div key={orden.id} className={`flex items-center gap-3 w-full pr-2`}>
+                <div className={`flex items-center gap-3 w-full pr-2`}>
                         <p className="w-16 truncate text-left">{orden.prioridad}</p>
                         <div style={{border: `3px solid ${colorPrioridad(orden.prioridad)}`}} className="w-4 h-4 rounded-full"></div>
                 </div>
@@ -99,7 +99,7 @@ const PagOrdenes = () => {
             'valor': 'estado',
             'estilos': !ordenSeleccionada ? 'px-2' : '',
             'estado': (orden) => (
-                <div key={orden.id} className={`flex items-center justify-between gap-3 w-full pr-2`}>
+                <div className={`flex items-center justify-between gap-3 w-full pr-2`}>
                         <p className="truncate text-right">{orden.estado}</p>
                         <div style={{backgroundColor: colorEstado(orden.estado)}} className="w-4 h-4 rounded-full"></div>
                 </div>
@@ -163,7 +163,7 @@ const PagOrdenes = () => {
             </div>
 
             <Modal modalAbierto={crearElemento} cerrarModal={() => setCrearElemento(false)}>
-                <FormAnyadirOrden ultimoId={ultimoId} cerrarModal={() => setCrearElemento(false)} />
+                <FormAnyadirOrden ultimoId={ultimoId} cerrarModal={() => setCrearElemento(false)} setOrdenes={setOrdenes} />
             </Modal>
         </div>
     )

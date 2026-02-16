@@ -9,6 +9,7 @@ export default function MultiSelect({ options, value, onChange, placeholder, isD
       isSearchable
       placeholder={placeholder}
       isDisabled={isDisabled}
+      getOptionValue={(option) => option.key}
       styles={{
         control: (base) => ({
           ...base,

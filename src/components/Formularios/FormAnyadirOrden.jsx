@@ -23,7 +23,7 @@ const FormAnyadirOrden = ({ cerrarModal, setOrdenes }) => {
         tipo: 'descarga',
         prioridad: 'media',
         estado: 'pendiente',
-        id_gestor: user.id,
+        administrativo_id: user.id,
         buque_id: null,
         parking_id: null,
         contenedor_id: null,
@@ -36,7 +36,7 @@ const FormAnyadirOrden = ({ cerrarModal, setOrdenes }) => {
 
     useEffect(() => {
         buqueService.listadoBuquesConContenedores()
-            .then(darta => setBuques(data));
+            .then(data => setBuques(data));
 
         parkingService.listadoParkings()
             .then(data => setParkings(data));
@@ -79,8 +79,10 @@ const FormAnyadirOrden = ({ cerrarModal, setOrdenes }) => {
     const crearOrden = async (e) => {
         e.preventDefault();
         try {
+            console.log(datosNuevaOrden);
             await ordenService.crearOrden(datosNuevaOrden);
             const data = await ordenService.listadoOrdenes();
+            console.log(data);
             setOrdenes(data);
             cerrarModal();
         } catch (error) {
@@ -89,52 +91,64 @@ const FormAnyadirOrden = ({ cerrarModal, setOrdenes }) => {
     };
 
     // Preparación de opciones para selects
-    const opcionesBuque = buques.map(buque => ({ value: buque.id, label: `Buque: ${buque.nombre}` }));
+    const opcionesBuque = buques.map(buque => ({ 
+        value: buque.id, 
+        label: `Buque: ${buque.nombre}`,
+        key: `B-${buque.id}` 
+    }));
+
     const opcionesParkingLibres = parkings
         .filter(parking => !parking.contenedor)
         .map(parking => ({ 
-            value: parking.id, 
-            label: `P-${parking.id} (Libre)` 
+            value: parking.id,
+            label: `P-${parking.id} (Libre)`,
+            key: `P-libre-${parking.id}`
         }));
 
     const opcionesParkingOcupados = parkings
         .filter(parking => parking.contenedor)
         .map(parking => ({ 
             value: parking.id, 
-            label: `P-${parking.id} (Ocupado)` 
+            label: `P-${parking.id} (Ocupado)`,
+            key: `P-ocupado-${parking.id}` 
         }));
     
     const opcionesGruaSTS = gruas
         .filter(grua => grua.tipo.toLowerCase() === 'sts')
         .map(grua => ({ 
             value: grua.id, 
-            label: `STS-${grua.id}` 
+            label: `STS-${grua.id}`,
+            key: `STS-${grua.id}`
         }));
 
     const opcionesGruaSC = gruas
         .filter(grua => grua.tipo.toLowerCase() === 'sc')
         .map(grua => ({ 
             value: grua.id, 
-            label: `SC-${grua.id}` 
+            label: `SC-${grua.id}`,
+            key: `SC-${grua.id}`
         }));
 
     const opcOperariosSTS = gruas
         .find(grua => grua.id === datosNuevaOrden.grua_sts_id)?.operarios
         .map(operario => ({ 
             value: operario.id, 
-            label: operario.name 
+            label: operario.name,
+            key: `OperarioSTS-${operario.id}`
         })) || [];
 
     const opcOperariosSC = gruas
         .find(grua => grua.id === datosNuevaOrden.grua_sc_id)?.operarios
         .map(operario => ({ 
             value: operario.id, 
-            label: operario.name 
+            label: operario.name,
+            key: `OperarioSC-${operario.id}`
         })) || [];
 
     const opcionesContenedores = contenedoresDisponibles.map(contenedor => ({ 
         value: contenedor.id, 
-        label: `Contenedor: ${contenedor.num_serie || contenedor.id}` 
+        label: `Contenedor: ${contenedor.num_serie || contenedor.id}`,
+        key:  `Contenedor-${contenedor.id}`
     }));
 
     return (
@@ -167,7 +181,7 @@ const FormAnyadirOrden = ({ cerrarModal, setOrdenes }) => {
                             <div className="w-full mt-3">
                                 <Select 
                                     options={datosNuevaOrden.tipo === 'descarga' ? opcionesBuque : opcionesParkingOcupados}
-                                    onChange={(sel) => setDatosNuevaOrden({...datosNuevaOrden, [datosNuevaOrden.tipo === 'descarga' ? 'buque_id' : 'parking_id']: sel?.value})}
+                                    onChange={(seleccionado) => setDatosNuevaOrden({...datosNuevaOrden, [datosNuevaOrden.tipo === 'descarga' ? 'buque_id' : 'parking_id']: seleccionado?.value})}
                                     placeholder="Seleccionar origen..."
                                 />
                             </div>
@@ -177,7 +191,7 @@ const FormAnyadirOrden = ({ cerrarModal, setOrdenes }) => {
                             <div className="w-full mt-3">
                                 <Select 
                                     options={datosNuevaOrden.tipo === 'descarga' ? opcionesParkingLibres : opcionesBuque}
-                                    onChange={(sel) => setDatosNuevaOrden({...datosNuevaOrden, [datosNuevaOrden.tipo === 'descarga' ? 'parking_id' : 'buque_id']: sel?.value})}
+                                    onChange={(seleccionado) => setDatosNuevaOrden({...datosNuevaOrden, [datosNuevaOrden.tipo === 'descarga' ? 'parking_id' : 'buque_id']: seleccionado?.value})}
                                     placeholder="Seleccionar destino..."
                                 />
                             </div>
@@ -189,7 +203,7 @@ const FormAnyadirOrden = ({ cerrarModal, setOrdenes }) => {
                         <div className="mt-3">
                             <Select 
                                 options={opcionesContenedores}
-                                onChange={(sel) => setDatosNuevaOrden({...datosNuevaOrden, contenedor_id: sel?.value})}
+                                onChange={(contenedorSeleccionado) => setDatosNuevaOrden({...datosNuevaOrden, contenedor_id: contenedorSeleccionado?.value})}
                                 placeholder="Seleccionar contenedor disponible..."
                             />
                         </div>
@@ -238,7 +252,7 @@ const FormAnyadirOrden = ({ cerrarModal, setOrdenes }) => {
                     </div>
                     <div className="mt-6">
                         <label>Observaciones</label>
-                        <textarea name="observaciones" className={`${inputStyle} mt-3`} rows="3" onChange={handleInput}></textarea>
+                        <textarea name="observaciones" className={`${inputStyle} mt-3`} rows="3" onChange={handleInput} value={datosNuevaOrden.observaciones}></textarea>
                     </div>
                     <div className="mt-5 flex justify-center">
                         <button type="submit" className="bg-[#5F84A2] text-white font-bold gap-2 pt-2 pb-2 pr-6 pl-6 rounded-[5px] flex items-center hover:bg-[#DFECF5] hover:text-[#5F84A2] border-2 border-transparent hover:border-[#5F84A2] transition-all">

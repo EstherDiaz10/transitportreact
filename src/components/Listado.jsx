@@ -52,19 +52,21 @@ const Listado = ({elementos, estructuraGrid, columnas, setElementoSeleccionado, 
 
                         {columnas.map((columna, indice) => {
 
+                            const key = `${elemento.id}-${indice}`;
+
                             if (columna.render) {
-                                return <div key={indice} className={columna.estilos}>{columna.render(elemento)}</div>;
+                                return <div key={key} className={columna.estilos}>{columna.render(elemento)}</div>;
                             }
                             const prefijo = typeof columna.prefijo === 'function' ? columna.prefijo(elemento) : columna.prefijo;
 
                             if (columna.valor === 'id' || columna.id_ajena) {
-                                return <p key={indice} className={`${columna.estilos} ${columna.valor === 'id' ? '' : 'hidden lg:block'}`}>{prefijo}{elemento[columna.valor]}</p>
+                                return <p key={key} className={`${columna.estilos} ${columna.valor === 'id' ? '' : 'hidden lg:block'}`}>{prefijo}{elemento[columna.valor]}</p>
                             } else if (columna.valor === 'estado') {
                                 return columna.estado(elemento)
                             } else if (columna.valor === 'prioridad') {
                                 return columna.prioridad(elemento)
                             }else {
-                                return <p key={indice} className={`${columna.estilos}`}>{elemento[columna.valor]}</p>
+                                return <p key={key} className={`${columna.estilos}`}>{elemento[columna.valor]}</p>
                             }       
                         })}
 
