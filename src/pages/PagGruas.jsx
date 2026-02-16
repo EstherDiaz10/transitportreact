@@ -78,7 +78,7 @@ const PagGruas = () => {
         {
             'titulo': 'Operarios asignados',
             'valor': 'operarios',
-            'estilos': gruaSeleccionada ? 'hidden truncate' : '',
+            'estilos': gruaSeleccionada ? 'hidden truncate' : 'hidden lg:block',
             'render': (grua) => (
                 <div className="flex flex-wrap gap-3">
                     {Array.isArray(grua.operarios) ? (
