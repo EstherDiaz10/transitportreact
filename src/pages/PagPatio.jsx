@@ -74,7 +74,7 @@ export default function PagPatio() {
                     {patio.patio.map((zona, zonaIndex) => (
                         <div key={zona.zona}>
                             <div className="text-[12px] mb-[6px] font-semibold text-slate-600">
-                                ZP-{zonaIndex + 1}
+                                Zona Patio - {zonaIndex + 1}
                             </div>
 
                             <div className="grid grid-cols-7 gap-1">
