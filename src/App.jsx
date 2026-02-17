@@ -12,6 +12,8 @@ import Login from './pages/Login';
 import { AuthProvider } from './context/AuthProvider';
 import PagUsuarios from './pages/PagUsuarios';
 import PagOrdenesOperario from './pages/PagOrdenesOperario';
+import PagPatio from './pages/PagPatio';
+
 
 const App = () => {
 
@@ -31,12 +33,13 @@ const App = () => {
                   </div>
                 }
               >
-              <Route path="buques" element={<PagBuques />}/>
-              <Route path="gruas" element={<PagGruas />}/>
-              <Route path="contenedores" element={<PagContenedores />}/>
-              <Route path="ordenes" element={<PagOrdenes />}/>
-              <Route path="usuarios" element={<PagUsuarios />}/>
-              <Route path="misOrdenes" element={<PagOrdenesOperario />}/>
+                <Route path="buques" element={<PagBuques />}/>
+                <Route path="gruas" element={<PagGruas />}/>
+                <Route path="contenedores" element={<PagContenedores />}/>
+                <Route path="ordenes" element={<PagOrdenes />}/>
+                <Route path="usuarios" element={<PagUsuarios />}/>
+                <Route path="misOrdenes" element={<PagOrdenesOperario />}/>
+                <Route path="patio" element={<PagPatio />}/>
               </Route>
             </Routes>
         </Router>
