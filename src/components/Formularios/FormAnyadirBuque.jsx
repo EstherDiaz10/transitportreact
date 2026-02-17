@@ -49,6 +49,7 @@ const FormAnyadir = ({ultimoId, cerrarModal, setBuques}) => {
                             <div className={columnStyle}>
                                 <label htmlFor="estado_buque">Estado</label>
                                 <select onChange={(event) => handleInput(event)} className={`${inputStyle} mt-3 p-1.5`} name="estado" id="estado_buque">
+                                    <option value="">Selecciona un estado</option>
                                     <option className="p-3" value="en espera">En espera</option>
                                     <option className="p-3" value="atracado">Atracado</option>
                                     <option className="p-3" value="inactivo">Inactivo</option>

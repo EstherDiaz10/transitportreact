@@ -28,8 +28,15 @@ const modificarOrden = (id, nuevaOrden) => {
         })
 }
 
+const listadoOrdenesGrua = (id) => {
+    return api
+        .get(`/obtenerOrdenesGrua/${id}`, config)
+        .then(response => response.data);
+}
+
 export default {
     listadoOrdenes,
     crearOrden,
-    modificarOrden
+    modificarOrden,
+    listadoOrdenesGrua
 };

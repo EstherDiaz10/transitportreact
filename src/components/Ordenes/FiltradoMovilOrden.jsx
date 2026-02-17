@@ -1,4 +1,4 @@
-const FiltradoMovilOrden = ({setFiltrarEstado, filtrarEstado}) => {
+const FiltradoMovilOrden = ({setFiltrarEstado, setFiltrarPrioridad, setFiltrarTipo, filtrarEstado, filtrarPrioridad, filtrarTipo}) => {
 
   const opcionesFiltro1 = [
     { label: 'Todos', value: 'estado' },
@@ -45,9 +45,9 @@ const FiltradoMovilOrden = ({setFiltrarEstado, filtrarEstado}) => {
             {opcionesFiltro2.map((opcion) => (
                 <button
                     key={opcion.value}
-                    onClick={() => setFiltrarEstado(opcion.value)}
+                    onClick={() => setFiltrarTipo(opcion.value)}
                     className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                    filtrarEstado === opcion.value
+                    filtrarTipo === opcion.value
                         ? 'bg-[#5F84A2] text-white shadow-md'
                         : 'bg-[#DFECF5] text-[#5F84A2] hover:bg-[#B7D0E1]'
                     }`}
@@ -61,9 +61,9 @@ const FiltradoMovilOrden = ({setFiltrarEstado, filtrarEstado}) => {
             {opcionesFiltro3.map((opcion) => (
                 <button
                     key={opcion.value}
-                    onClick={() => setFiltrarEstado(opcion.value)}
+                    onClick={() => setFiltrarPrioridad(opcion.value)}
                     className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                    filtrarEstado === opcion.value
+                    filtrarPrioridad === opcion.value
                         ? 'bg-[#5F84A2] text-white shadow-md'
                         : 'bg-[#DFECF5] text-[#5F84A2] hover:bg-[#B7D0E1]'
                     }`}

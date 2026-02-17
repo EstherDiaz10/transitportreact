@@ -12,4 +12,10 @@ const listadoOperarios = () => {
         .then(response => response.data);
 };
 
-export default { listadoOperarios };
+const listadoGruasOperario = (id) => {
+    return api
+        .get(`/obtenerGruasOperario/${id}`, config)
+        .then(response => response.data);
+}
+
+export default { listadoOperarios, listadoGruasOperario };

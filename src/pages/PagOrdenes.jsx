@@ -11,7 +11,9 @@ import FormAnyadirOrden from '../components/Formularios/FormAnyadirOrden';
 
 const PagOrdenes = () => {
     
-    const [selectFiltrado, setFiltrarEstado] = useState('estado');
+    const [filtrarEstado, setFiltrarEstado] = useState('estado');
+    const [filtrarPrioridad, setFiltrarPrioridad] = useState('prioridad');
+    const [filtrarTipo, setFiltrarTipo] = useState('tipo');
     const [inputBuscar, setBuscar] = useState('');
     const [ordenes, setOrdenes] = useState([]);
     const [ordenSeleccionada, setOrdenSeleccionada] = useState(null);
@@ -22,15 +24,22 @@ const PagOrdenes = () => {
         ordenesService
         .listadoOrdenes()
         .then(data =>{
-            console.log('ORDENES: ', data);
             setOrdenes(data)
         })
     }, [])
 
     let ordenesAMostrar = ordenes;
 
-    if(selectFiltrado !== 'estado') {
-        ordenesAMostrar = ordenesAMostrar.filter((orden) => orden.estado.toLowerCase() === selectFiltrado.toLowerCase())
+    if(filtrarEstado !== 'estado') {
+        ordenesAMostrar = ordenesAMostrar.filter((orden) => orden.estado.toLowerCase() === filtrarEstado.toLowerCase());
+    }
+
+    if(filtrarPrioridad !== 'prioridad') {
+        ordenesAMostrar = ordenesAMostrar.filter((orden) => orden.prioridad.toLowerCase() === filtrarPrioridad.toLowerCase());
+    }
+
+    if(filtrarTipo !== 'tipo') {
+        ordenesAMostrar = ordenesAMostrar.filter((orden) => orden.tipo.toLowerCase() === filtrarTipo.toLowerCase());
     }
 
     if(inputBuscar !== '') {
@@ -116,7 +125,7 @@ const PagOrdenes = () => {
            
            <div className="flex items-center mt-4 md:mt-0 gap-1">
                 <div className={`w-full md:w-[97%] ${!ordenSeleccionada ? 'lg:w-[94%]' : 'lg:w-[50%]'} md:pt-8 flex justify-between`}>
-                    <FiltradoOrden setFiltrarEstado={setFiltrarEstado}/>
+                    <FiltradoOrden setFiltrarEstado={setFiltrarEstado} setFiltrarPrioridad={setFiltrarPrioridad} setFiltrarTipo={setFiltrarTipo}/>
                     <Busqueda setBuscar={setBuscar} />
                 </div>
                 <div className="md:hidden flex items-center w-[20%]">
@@ -133,7 +142,7 @@ const PagOrdenes = () => {
                     <h3 className="text-[#5F84A2] font-bold mb-3 border-b border-[#DFECF5] pb-2">Opciones de Filtro</h3>
                     
                     <div className="flex flex-col gap-4">
-                        <FiltradoMovilOrden setFiltrarEstado={setFiltrarEstado} filtrarEstado={selectFiltrado}/>
+                        <FiltradoMovilOrden setFiltrarEstado={setFiltrarEstado} setFiltrarPrioridad={setFiltrarPrioridad} setFiltrarTipo={setFiltrarTipo}/>
                         <button onClick={() => setMostrarFiltrosMovil(false)} className="bg-[#5F84A2] text-white py-2 rounded-[5px] mt-2 font-bold hover:opacity-90">
                             Cerrar
                         </button>

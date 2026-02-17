@@ -89,6 +89,7 @@ const FormAnyadirGrua = ({ultimoId, cerrarModal, setGruas}) => {
                             <div className={columnStyle}>
                                 <label htmlFor="tipo_grua">Tipo de grúa</label>
                                 <select onChange={(event) => handleInput(event)} className={`${inputStyle} mt-3`} name="tipo" id="tipo_grua">
+                                    <option value="">Selecciona un tipo</option>
                                     <option className="p-3" value="sc">SC</option>
                                     <option className="p-3" value="sts">STS</option>
                                 </select>
@@ -98,6 +99,7 @@ const FormAnyadirGrua = ({ultimoId, cerrarModal, setGruas}) => {
                             <div className={columnStyle}>
                                 <label htmlFor="zona_grua">Zona asignada</label>
                                 <select onChange={(event) => handleInput(event)} className={`${inputStyle} mt-3`} name="id_zona" id="zona_grua">
+                                    <option value="">Selecciona una zona</option>
                                     {zonas.map((zona) =>
                                         <option key={zona.id} className="p-3" value={zona.id}>{prefijoZona}{zona.id}</option>
                                     )}
@@ -106,6 +108,7 @@ const FormAnyadirGrua = ({ultimoId, cerrarModal, setGruas}) => {
                             <div className={columnStyle}>
                                 <label htmlFor="estado_grua">Estado</label>
                                 <select onChange={(event) => handleInput(event)} className={`${inputStyle} mt-3 p-1.5`} name="estado" id="estado_grua">
+                                    <option value="">Selecciona un estado</option>
                                     <option className="p-3" value="disponible">Disponible</option>
                                     <option className="p-3" value="ocupada">Ocupada</option>
                                 </select>

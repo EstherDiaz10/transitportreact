@@ -161,6 +161,7 @@ const FormAnyadirOrden = ({ cerrarModal, setOrdenes }) => {
                         <div className={columnStyle}>
                             <label>Tipo de orden</label>
                             <select name="tipo" className={`${inputStyle} mt-3 p-2`} onChange={handleInput} value={datosNuevaOrden.tipo}>
+                                <option value="">Selecciona un tipo</option>
                                 <option value="descarga">Descarga</option>
                                 <option value="carga">Carga</option>
                             </select>
@@ -168,6 +169,7 @@ const FormAnyadirOrden = ({ cerrarModal, setOrdenes }) => {
                         <div className={columnStyle}>
                             <label>Prioridad</label>
                             <select name="prioridad" className={`${inputStyle} mt-3 p-2`} onChange={handleInput} value={datosNuevaOrden.prioridad}>
+                                <option value="">Selecciona una prioridad</option>
                                 <option value="baja">Baja</option>
                                 <option value="media">Media</option>
                                 <option value="alta">Alta</option>

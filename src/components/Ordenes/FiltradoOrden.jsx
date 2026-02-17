@@ -1,4 +1,4 @@
-const FiltradoOrden = ({setFiltrarEstado}) => {
+const FiltradoOrden = ({setFiltrarEstado, setFiltrarPrioridad, setFiltrarTipo}) => {
 
   const selectStyles = "bg-[#DFECF5] pl-3 pr-8 rounded-lg border-none outline-none cursor-pointer appearance-none";
   /*pointer-events-none --> permite que si hacemos click en la flecha, abra el select igualmente*/
@@ -21,7 +21,7 @@ const FiltradoOrden = ({setFiltrarEstado}) => {
       </div>
 
       <div className="relative">
-        <select name="tipo" onChange={(e) => setFiltrarEstado(e.target.value)} id="tipoOrden" className={selectStyles}>
+        <select name="tipo" onChange={(e) => setFiltrarTipo(e.target.value)} id="tipoOrden" className={selectStyles}>
           <option value="tipo">Tipo</option>
           <option value="descarga">Descarga</option>
           <option value="carga">Carga</option>
@@ -34,7 +34,7 @@ const FiltradoOrden = ({setFiltrarEstado}) => {
       </div>
 
       <div className="relative">
-        <select name="prioridad" onChange={(e) => setFiltrarEstado(e.target.value)} id="prioridadOrden" className={selectStyles}>
+        <select name="prioridad" onChange={(e) => setFiltrarPrioridad(e.target.value)} id="prioridadOrden" className={selectStyles}>
           <option value="prioridad">Prioridad</option>
           <option value="alta">Alta</option>
           <option value="media">Media</option>

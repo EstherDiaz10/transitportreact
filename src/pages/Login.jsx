@@ -29,7 +29,7 @@ const Login = ({rol}) => {
                 if (userData.rol === 'administrativo' || userData.rol === 'gestor') {
                     navigate('/buques');
                 } else if (userData.rol === 'operario') {
-                    navigate('/mis-ordenes');
+                    navigate('/misOrdenes');
                 }
             } else {
                 alert("No puedes iniciar sesión como " + rol);
