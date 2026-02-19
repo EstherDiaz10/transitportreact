@@ -9,7 +9,7 @@ const config = {
 const cargar = () => {
 
     return api
-        .get("http://localhost/api/patio", config)
+        .get("/patio", config)
         .then(response => response.data);
 }
 
