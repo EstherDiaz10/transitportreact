@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Listado from '../components/Listado';
 import FiltradoOrden from '../components/Ordenes/FiltradoOrden';
 import FiltradoMovilOrden from '../components/Ordenes/FiltradoMovilOrden';
@@ -7,6 +7,7 @@ import DetallesOrden from '../components/Ordenes/DetallesOrden';
 import FormElegirGrua from '../components/OrdenesOperario/FormElegirGrua';
 import Modal from '../components/Modal';
 import ordenesService from '../services/ordenes';
+import { AuthContext } from '../context/AuthProvider';
 
 const PagOrdenesOperario = () => {
     
@@ -17,7 +18,7 @@ const PagOrdenesOperario = () => {
     const [ordenes, setOrdenes] = useState([]);
     const [ordenSeleccionada, setOrdenSeleccionada] = useState(null);
     const [mostrarFiltrosMovil, setMostrarFiltrosMovil] = useState(false);
-
+    const { user } = useContext(AuthContext);
     const [gruaSeleccionada, setGruaSeleccionada] = useState(null);
 
     useEffect(()=>{
@@ -25,23 +26,30 @@ const PagOrdenesOperario = () => {
             .listadoOrdenes()
             .then(data =>{
                 setOrdenes(data)
-                console.log('Data: ', data);
             })
             .catch((error) => {
                 console.error('Error cargando órdenes: ', error);
             })
     }, [])
 
-    console.log('Grua seleccionada: ', gruaSeleccionada)
     const ordenesGrua = ordenes.filter((orden) => {
-        
-        if(gruaSeleccionada) {
+        try {
+            console.log(user.id);
+            let coincideOperario = orden.operario_sts.id === user.id || orden.operario_sc?.id === user.id;
+            let coincideGrua = '';
             
-            return orden.grua_sts.id === gruaSeleccionada.id || orden.grua_sc.id === gruaSeleccionada.id;
-        }
+            if (gruaSeleccionada) {
+                coincideGrua = orden.grua_sts.id === gruaSeleccionada.id || orden.grua_sc?.id === gruaSeleccionada.id;
+            }
+            
+            return coincideOperario && coincideGrua;
+        }catch (err) {
+            console.log(err)
+            console.log(user.id, orden.operario_sts.id, orden.operario_sc.id);
+            }
+        
     });
 
-    console.log('Ordenes grua: ', ordenesGrua)
     let ordenesAMostrar = ordenesGrua;
 
     if(filtrarEstado !== 'estado') {

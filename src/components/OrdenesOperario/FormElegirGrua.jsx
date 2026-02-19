@@ -10,7 +10,6 @@ const FormElegirGrua = ({setGruaSeleccionada}) => {
     useEffect(() => {
         operarioService.listadoGruasOperario(user.id)
             .then(data => {
-                console.log('Gruas asignadas a ' + user.name + ':', data);
                 setGruasOperario(data);
             });
     }, []);

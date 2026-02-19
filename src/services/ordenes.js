@@ -34,9 +34,16 @@ const listadoOrdenesGrua = (id) => {
         .then(response => response.data);
 }
 
+const modificarEstadoOrden = (id) => {
+    return api
+        .patch(`/actualizarEstado/${id}`, config)
+        .then(response => response.data);
+}
+
 export default {
     listadoOrdenes,
     crearOrden,
     modificarOrden,
-    listadoOrdenesGrua
+    listadoOrdenesGrua,
+    modificarEstadoOrden
 };

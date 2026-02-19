@@ -2,7 +2,7 @@ function PagUsuarios() {
   return (
     <div style={{ height: "85vh", width: "100%" }}>
       <iframe
-        src="http://localhost/listadoUsuarios"
+        src="http://18.232.225.15/listadoUsuarios"
         style={{ width: "100%", height: "100%", border: "none" }}
         allowFullScreen
       ></iframe>
