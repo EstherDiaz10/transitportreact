@@ -28,6 +28,22 @@ const PagOrdenes = () => {
         })
     }, [])
 
+     const eliminarOrden = async (id) => {
+    
+            if(window.confirm('¿Estás seguro de que quieres eliminar esta orden?')) {
+                
+                try {
+    
+                    await ordenesService.eliminarOrden(id);
+                    const data = await ordenesService.listadoOrdenes();
+                    setOrdenes(data);
+            
+                } catch (error) {
+                    console.error('Error al eliminar la orden ', error)
+                }
+            }    
+        }
+
     let ordenesAMostrar = ordenes;
 
     if(filtrarEstado !== 'estado') {
@@ -159,6 +175,7 @@ const PagOrdenes = () => {
                                 setElementoSeleccionado={setOrdenSeleccionada} 
                                 elementoSeleccionado={ordenSeleccionada} 
                                 icono={icono}
+                                eliminarElemento={eliminarOrden}
                             />
                         </div>
                     ) : (<p className="flex justify-center mt-10 mb-10 mr-17">No hay órdenes para mostrar</p>

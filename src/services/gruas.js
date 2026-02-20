@@ -28,14 +28,14 @@ const modificarGrua = (id, nuevaGrua) => {
         })
 }
 
-const deleteGrua = (id) => {
+const eliminarGrua = (id) => {
     return api
-        .delete(`/eliminarGrua/${id}`)
+        .delete(`/borrarGrua/${id}`)
 }
 
 export default {
     listadoGruas,
     crearGrua,
     modificarGrua,
-    deleteGrua
+    eliminarGrua
 };

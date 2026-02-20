@@ -41,7 +41,7 @@ import api from "./api";
 
   const eliminarContenedor = (id) => {
     return api
-      .delete(`/eliminarContenedor/${id}`, config)
+      .delete(`/borrarContenedor/${id}`, config)
       .then((response) => response.data);
   };
 
