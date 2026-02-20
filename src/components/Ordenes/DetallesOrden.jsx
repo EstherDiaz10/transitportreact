@@ -91,6 +91,32 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
 
     }, [datosFormulario.buque_id, datosFormulario.parking_id, datosFormulario.tipo, buques, parkings]);
 
+    const botonSiguienteEStado = (user, orden) => {
+
+        const esOperarioSTS = orden.operario_sts.id === user.id;
+        const esOperarioSC = orden.operario_sc.id == user.id;
+        
+        if(orden.tipo === 'descarga') {
+
+            if(orden.estado === 'pendiente' || orden.estado === 'en_proceso_sts') {
+                return esOperarioSTS;
+            }
+
+            if(orden.estado === 'en_zona_desc' || orden.estado === 'en_proceso_sc') {
+                return esOperarioSC;
+            }
+        } else {
+            if(orden.estado === 'pendiente' || orden.estado === 'en_proceso_sc') {
+                return esOperarioSC;
+            }
+
+            if(orden.estado === 'en_zona_desc' || orden.estado === 'en_proceso_sts') {
+                return esOperarioSTS;
+            }
+        }
+        return false;
+    }
+
     const inputStylePC = "bg-white p-1 pl-4 rounded-[10px] text-gray-500 w-full";
 
     const valueEstados = (estado) => {
@@ -186,10 +212,18 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
     const operarioSCSeleccionado = opcionesOperariosSC.find((operario) => operario.value === datosFormulario.operario_sc_id) || null;
     const contenedorSeleccionado = opcionesContenedores.find((contenedor) => contenedor.value === datosFormulario.contenedor_id) || null;
 
-    const mensajeBotonEstado = {
+    const mensajeBotonEstadoDescarga = {
         'pendiente': 'Iniciar descarga',
         'en_proceso_sts': 'Dejar en zona descarga',
         'en_zona_desc': 'Transportar al patio',
+        'en_proceso_sc': 'Finalizar orden',
+        'completada': 'Completada'
+    }
+
+    const mensajeBotonEstadoCarga = {
+        'pendiente': 'Iniciar traslado',
+        'en_proceso_sts': 'Dejar en zona descarga',
+        'en_zona_desc': 'Iniciar carga a buque',
         'en_proceso_sc': 'Finalizar orden',
         'completada': 'Completada'
     }
@@ -417,15 +451,27 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                             )}
                         </button>
                     ) : (
-                        <button 
-                            className="bg-[#5F84A2] text-white font-bold rounded-[5px] flex items-center justify-around text-lg hover:bg-[#DFECF5] hover:text-[#5F84A2] hover:border-3 hover:border-[#5F84A2] cursor-pointer h-10 mt-6 px-4" 
-                            type="button" 
-                            onClick={handleEditarEstado}
-                            disabled={orden.estado === 'completada'}
-                        >
-                            {mensajeBotonEstado[orden.estado]}
-                        </button>
+                        <>
+                        {botonSiguienteEStado(user, orden)
+                        ? (
+                            <button 
+                                className="bg-[#5F84A2] text-white font-bold rounded-[5px] flex items-center justify-around text-lg hover:bg-[#DFECF5] hover:text-[#5F84A2] hover:border-3 hover:border-[#5F84A2] cursor-pointer h-10 mt-6 px-4" 
+                                type="button" 
+                                onClick={handleEditarEstado}
+                            >
+                                {orden.operario_sc.id === user.id ? mensajeBotonEstadoCarga[orden.estado] : mensajeBotonEstadoDescarga[orden.estado]}
+                            </button>
+                        ) : (
+                            <div className="mt-1 p-3 bg-gray-100 border border-gray-300 rounded text-gray-500 italic text-sm">
+                                {orden.estado === 'completada'
+                                ? "Orden finalizada"
+                                : "Esperando acción del otro operario"
+                                }
+                            </div>
+                        )}
+                        </>
                     )}
+                    
                     
                 </div>
             </form>

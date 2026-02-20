@@ -1,16 +1,11 @@
 import api from "./api";
 
-
-  const baseUrl = "http://localhost/api";
-
-
   const token = localStorage.getItem("token");
 
 
   const config = {
     headers: { Authorization: `Bearer ${token}` },
   };
-
 
   const listadoContenedores = () => {
     return api
