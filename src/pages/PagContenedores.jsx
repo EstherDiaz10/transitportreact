@@ -8,6 +8,7 @@ import Detalles from "../components/Contenedores/DetallesContenedor";
 import Modal from "../components/Modal";
 import FormAnyadirContenedor from "../components/Formularios/FormAnyadirContenedor";
 import contenedorService from "../services/contenedores";
+import Swal from 'sweetalert2';
 
 const PagContenedores = () => {
   const [selectFiltrado, setFiltrarEstado] = useState("");
@@ -22,18 +23,6 @@ const PagContenedores = () => {
       setContenedores(data);
     });
   }, []);
-
-  const eliminarContenedor = async (id) => {
-    if (window.confirm("¿Estás seguro de que quieres eliminar este contenedor?")) {
-      try {
-        await contenedorService.eliminarContenedor(id);
-        const data = await contenedorService.listadoContenedores();
-        setContenedores(data);
-      } catch (error) {
-        console.error("Error al eliminar", error);
-      }
-    }
-  };
 
   let contenedoresAMostrar = contenedores;
 
@@ -103,6 +92,42 @@ const PagContenedores = () => {
       <path d="M223.68,66.15,135.68,18a15.88,15.88,0,0,0-15.36,0l-88,48.15a16,16,0,0,0-8.32,14V173.85a16,16,0,0,0,8.32,14l88,48.15a15.88,15.88,0,0,0,15.36,0l88-48.15a16,16,0,0,0,8.32-14V80.15A16,16,0,0,0,223.68,66.15ZM128,32l80,43.74-32.53,17.8L95.47,49.81ZM120,223.72,40,180V91.5l80,43.74Zm8-112.25L48,67.73l32.53-17.8,80,43.73Zm80,68.53L136,223.72V135.24l80-43.74Z"></path>
     </svg>
   );
+
+  const eliminarContenedor = async (id) => {
+    
+      const resultado = await Swal.fire({
+          title: '¿Estás seguro?',
+          text: 'Vas a eliminar el contenedor',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Sí, eliminar',
+          cancelButtonText: 'Cancelar'
+      });
+
+      if(resultado.isConfirmed) {
+        try {
+          await contenedorService.eliminarContenedor(id);
+          const data = await contenedorService.listadoContenedores();
+          setContenedores(data);
+
+          Swal.fire(
+              '¡Eliminado!',
+              'El contenedor ha sido eliminado correctamente.',
+              'success'
+          );
+
+        } catch (error) {
+          console.error("Error al eliminar", error);
+          Swal.fire(
+              'Error',
+              'Hubo un problema al eliminar el contenedor.',
+              'error'
+          );
+        }
+      }
+  };
 
   const ultimoId =
     contenedores && contenedores.length > 0

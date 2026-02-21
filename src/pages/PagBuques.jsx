@@ -8,6 +8,7 @@ import Detalles from '../components/Buques/Detalles';
 import Modal from '../components/Modal';
 import FormAnyadirBuque from '../components/Formularios/FormAnyadirBuque';
 import buqueService from '../services/buques';
+import Swal from 'sweetalert2';
 
 const PagBuques = () => {
     
@@ -28,14 +29,37 @@ const PagBuques = () => {
         })
     }, [])
 
-    const eliminarContenedor = async (id) =>{
-        if (window.confirm('¿Estás seguro de que quieres eliminar este buque?')) {
+    const eliminarBuque = async (id) =>{
+
+        const resultado = await Swal.fire({
+            title: '¿Estás seguro?',
+            text: ' Vas a eliminar el buque',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        });
+
+        if (resultado.isConfirmed) {
              try {
                await buqueService.eliminarBuque(id);
                const data = await buqueService.listadoBuques();
                setBuques(data);
+
+               Swal.fire(
+                    '¡Eliminado!',
+                    'El buque ha sido eliminado correctamente.',
+                    'success'
+                );
              } catch (error) {
                console.error("Error al eliminar", error);
+               Swal.fire(
+                    'Error',
+                    'Hubo un problema al eliminar el buque.',
+                    'error'
+                );
              }
         }
            
@@ -146,7 +170,7 @@ const PagBuques = () => {
                                 setElementoSeleccionado={setBuqueSeleccionado} 
                                 elementoSeleccionado={buqueSeleccionado} 
                                 icono={icono}
-                                eliminarElemento={eliminarContenedor}
+                                eliminarElemento={eliminarBuque}
                             />
                         </div>
                     ) : (<p className="flex justify-center mt-10 mb-10 lg:mr-17">No hay buques para mostrar</p>

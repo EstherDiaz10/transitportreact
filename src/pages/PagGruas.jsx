@@ -10,6 +10,7 @@ import DetallesGrua from '../components/Gruas/DetallesGrua';
 import gruaService from '../services/gruas';
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthProvider';
+import Swal from 'sweetalert2';
 
 const PagGruas = () => {
 
@@ -115,18 +116,39 @@ const PagGruas = () => {
 
     const eliminarGrua = async (id) => {
 
-        if(window.confirm('¿Estás seguro de que quieres eliminar esta grúa?')) {
-            
-            try {
+        const resultado = await Swal.fire({
+            title: '¿Estás seguro?',
+            text: ' Vas a eliminar la grúa',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        });
 
+        if(resultado.isConfirmed) {
+            try {
                 await gruaService.eliminarGrua(id);
                 const data = await gruaService.listadoGruas();
                 setGruas(data);
+
+                Swal.fire(
+                    '¡Eliminada!',
+                    'La grúa ha sido eliminada correctamente.',
+                    'success'
+                );
         
             } catch (error) {
                 console.error('Error al eliminar la grúa ', error)
+                Swal.fire(
+                    'Error',
+                    'Hubo un problema al eliminar la grúa.',
+                    'error'
+                );
             }
-        }    
+        }
+            
     }
 
     const icono = <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 256 256"><path d="M228.12,17.14a8,8,0,0,0-7.88-.2L102,80H32A16,16,0,0,0,16,96V200a16,16,0,0,0,16,16h88a16,16,0,0,0,16-16V168a7.81,7.81,0,0,0-.34-2.3L113.54,92,216,37.33V160H200v-8a8,8,0,0,0-16,0v8a16,16,0,0,0,16,16h16a16,16,0,0,0,16-16V24A8,8,0,0,0,228.12,17.14ZM98.05,96l19.2,64H64V96ZM48,96v64H32V96ZM32,200h0V176h88v24Z"></path></svg>;

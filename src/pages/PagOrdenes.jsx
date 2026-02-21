@@ -10,6 +10,7 @@ import ordenesService from '../services/ordenes';
 import FormAnyadirOrden from '../components/Formularios/FormAnyadirOrden';
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthProvider';
+import Swal from 'sweetalert2';
 
 const PagOrdenes = () => {
 
@@ -32,22 +33,6 @@ const PagOrdenes = () => {
             setOrdenes(data)
         })
     }, [])
-
-     const eliminarOrden = async (id) => {
-    
-            if(window.confirm('¿Estás seguro de que quieres eliminar esta orden?')) {
-                
-                try {
-    
-                    await ordenesService.eliminarOrden(id);
-                    const data = await ordenesService.listadoOrdenes();
-                    setOrdenes(data);
-            
-                } catch (error) {
-                    console.error('Error al eliminar la orden ', error)
-                }
-            }    
-        }
 
     let ordenesAMostrar = ordenes;
 
@@ -137,7 +122,45 @@ const PagOrdenes = () => {
         },
     ]
 
-    const icono = <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 256 256"><path d="M221.06,110.59,208,106.23V56a16,16,0,0,0-16-16H136V24a8,8,0,0,0-16,0V40H64A16,16,0,0,0,48,56v50.23l-13.06,4.36A16,16,0,0,0,24,125.77V152c0,61.54,97.89,86.72,102.06,87.76a8,8,0,0,0,3.88,0C134.11,238.72,232,213.54,232,152V125.77A16,16,0,0,0,221.06,110.59ZM64,56H192v44.9L130.53,80.41a8,8,0,0,0-5.06,0L64,100.9Zm152,96c0,24.91-23.68,43-43.55,53.83A228.13,228.13,0,0,1,128,223.72,226.85,226.85,0,0,1,83.81,206C47.6,186.35,40,165.79,40,152V125.77L120,99.1V168a8,8,0,0,0,16,0V99.1l80,26.67Z"></path></svg>;
+    const eliminarOrden = async (id) => {
+    
+        const resultado = await Swal.fire({
+            title: '¿Estás seguro?',
+            text: ' Vas a eliminar la orden',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        });
+
+        if(resultado.isConfirmed) {
+            
+            try {
+
+                await ordenesService.eliminarOrden(id);
+                const data = await ordenesService.listadoOrdenes();
+                setOrdenes(data);
+
+                Swal.fire(
+                    '¡Eliminada!',
+                    'La orden ha sido eliminada correctamente.',
+                    'success'
+                );
+        
+            } catch (error) {
+                console.error('Error al eliminar la orden ', error)
+                Swal.fire(
+                    'Error',
+                    'Hubo un problema al eliminar la orden.',
+                    'error'
+                );
+            }
+        }    
+    }
+
+    const icono = <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 256 256"><path d="M229.66,58.34l-32-32a8,8,0,0,0-11.32,0l-96,96A8,8,0,0,0,88,128v32a8,8,0,0,0,8,8h32a8,8,0,0,0,5.66-2.34l96-96A8,8,0,0,0,229.66,58.34ZM124.69,152H104V131.31l64-64L188.69,88ZM200,76.69,179.31,56,192,43.31,212.69,64ZM224,128v80a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V48A16,16,0,0,1,48,32h80a8,8,0,0,1,0,16H48V208H208V128a8,8,0,0,1,16,0Z"></path></svg>;
     const ultimoId = (ordenes && ordenes.length > 0 ? Math.max(...ordenes.map(orden => orden.id))+1 : 1);
 
     return (

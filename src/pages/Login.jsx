@@ -4,6 +4,8 @@ import puertoLogin from "../assets/puertoLogin.jpg";
 import logo from "../assets/Logo.png";
 import authService from "../services/auth";
 import { AuthContext } from '../context/AuthProvider';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = ({rol}) => {
 
@@ -31,12 +33,15 @@ const Login = ({rol}) => {
                 } else if (userData.rol === 'operario') {
                     navigate('/misOrdenes');
                 }
-            } else {
-                alert("No puedes iniciar sesión como " + rol);
             }
 
         } catch (error) {
-            alert('Error en login: ' + error);
+
+            if (error.response.status === 401) {
+                toast.error(`No puedes iniciar sesión como ${rol}`);
+            } else {
+                toast.error('Error en login: ' + error.message);
+            }
         }
     }
     
@@ -66,6 +71,14 @@ const Login = ({rol}) => {
                     </div>
                     <button className={buttonStyle} type="submit" >ENTRAR</button>
                 </form>
+                <ToastContainer 
+                    position="top-right"
+                    autoClose={3000}
+                    hideProgressBar={false}
+                    newestOnTop={true}
+                    closeOnClick
+                    pauseOnHover
+                />
             </div>
 
         </div>
