@@ -78,7 +78,7 @@ const MenuMovil = () => {
                     {rol === 'gestor' && (
                         <>
                             <li>
-                                <NavLink to="/contenedores" className={({isActive}) => `${styles} ${isActive ? activeStyles : 'text-white'}`}>
+                                <NavLink to="/usuarios" className={({isActive}) => `${styles} ${isActive ? activeStyles : 'text-white'}`}>
                                     {({isActive}) => (
                                         <>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256"><path d="M244.8,150.4a8,8,0,0,1-11.2-1.6A51.6,51.6,0,0,0,192,128a8,8,0,0,1-7.37-4.89,8,8,0,0,1,0-6.22A8,8,0,0,1,192,112a24,24,0,1,0-23.24-30,8,8,0,1,1-15.5-4A40,40,0,1,1,219,117.51a67.94,67.94,0,0,1,27.43,21.68A8,8,0,0,1,244.8,150.4ZM190.92,212a8,8,0,1,1-13.84,8,57,57,0,0,0-98.16,0,8,8,0,1,1-13.84-8,72.06,72.06,0,0,1,33.74-29.92,48,48,0,1,1,58.36,0A72.06,72.06,0,0,1,190.92,212ZM128,176a32,32,0,1,0-32-32A32,32,0,0,0,128,176ZM72,120a8,8,0,0,0-8-8A24,24,0,1,1,87.24,82a8,8,0,1,0,15.5-4A40,40,0,1,0,37,117.51,67.94,67.94,0,0,0,9.6,139.19a8,8,0,1,0,12.8,9.61A51.6,51.6,0,0,1,64,128,8,8,0,0,0,72,120Z"></path></svg>
@@ -88,7 +88,7 @@ const MenuMovil = () => {
                                 </NavLink>
                             </li>        
                             <li>          
-                                <NavLink to="/buques" className={({isActive}) => `${styles} ${isActive ? activeStyles : 'text-white'}`}>
+                                <NavLink to="/patio" className={({isActive}) => `${styles} ${isActive ? activeStyles : 'text-white'}`}>
                                     {({isActive}) => (
                                         <>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256"><path d="M216,48H40A16,16,0,0,0,24,64V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V64A16,16,0,0,0,216,48ZM104,144V112h48v32Zm48,16v32H104V160ZM40,112H88v32H40Zm64-16V64h48V96Zm64,16h48v32H168Zm48-16H168V64h48ZM88,64V96H40V64ZM40,160H88v32H40Zm176,32H168V160h48v32Z"></path></svg>
