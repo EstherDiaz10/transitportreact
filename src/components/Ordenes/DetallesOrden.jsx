@@ -260,7 +260,6 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
         event.stopPropagation();
 
         try {
-            console.log('estoy clickando')
             await ordenService.modificarEstadoOrden(orden.id);
 
         } catch (error) {
@@ -455,7 +454,7 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                         {botonSiguienteEStado(user, orden)
                         ? (
                             <button 
-                                className="bg-[#5F84A2] text-white font-bold rounded-[5px] flex items-center justify-around text-lg hover:bg-[#DFECF5] hover:text-[#5F84A2] hover:border-3 hover:border-[#5F84A2] cursor-pointer h-10 mt-6 px-4" 
+                                className="bg-[#5F84A2] text-white font-bold rounded-[5px] flex items-center justify-around text-lg hover:bg-[#DFECF5] hover:text-[#5F84A2] hover:border-3 hover:border-[#5F84A2] cursor-pointer h-10 mt-1 px-4" 
                                 type="button" 
                                 onClick={handleEditarEstado}
                             >

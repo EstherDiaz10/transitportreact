@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import puertoLogin from "../assets/puertoLogin.jpg";
 import logo from "../assets/Logo.png";
-import loginService from "../services/login";
+import authService from "../services/auth";
 import { AuthContext } from '../context/AuthProvider';
 
 const Login = ({rol}) => {
@@ -18,12 +18,12 @@ const Login = ({rol}) => {
         e.preventDefault();
 
         try {
-            const response = await loginService.enviarLogin(datosUser, rol);
+            const response = await authService.enviarLogin(datosUser, rol);
             const userData = response.success;
             
             if (rol === userData.rol) {
-                localStorage.setItem("token", userData.token);
-                localStorage.setItem("user", JSON.stringify(userData));
+                sessionStorage.setItem("token", userData.token);
+                sessionStorage.setItem("user", JSON.stringify(userData));
                 setUser(userData);
 
                 if (userData.rol === 'administrativo' || userData.rol === 'gestor') {

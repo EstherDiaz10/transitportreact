@@ -9,7 +9,7 @@ const FiltradoOrden = ({setFiltrarEstado, setFiltrarPrioridad, setFiltrarTipo}) 
       <div className="relative">
         <select name="estado" onChange={(e) => setFiltrarEstado(e.target.value)} id="estadoOrden" className={selectStyles}>
           <option value="estado">Estado</option>
-          <option value="en espera">En espera</option>
+          <option value="pendiente">Pendiente</option>
           <option value="atracado">Atracado</option>
           <option value="inactivo">Inactivo</option>
         </select>

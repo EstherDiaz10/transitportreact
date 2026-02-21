@@ -1,33 +1,22 @@
 import api from "./api";
 
-  const token = localStorage.getItem("token");
-
-
-  const config = {
-    headers: { Authorization: `Bearer ${token}` },
-  };
-
   const listadoContenedores = () => {
     return api
-      .get('/obtenerContenedor', config)
+      .get('/obtenerContenedor')
       .then((response) => response.data);
   };
 
 
   const crearContenedor = (nuevoContenedor) => {
     return api
-      .post('/crearContenedor', nuevoContenedor, config)
+      .post('/crearContenedor', nuevoContenedor)
       .then((response) => response.data);
   };
 
 
   const modificarContenedor = (id, contenedorActualizado) => {
     return api
-      .patch(
-        `/actualizarContenedor/${id}`,
-        contenedorActualizado,
-        config,
-      )
+      .patch(`/actualizarContenedor/${id}`,contenedorActualizado)
       .then((response) => response.data)
       .catch((error) => {
         console.error(
@@ -41,7 +30,7 @@ import api from "./api";
 
   const eliminarContenedor = (id) => {
     return api
-      .delete(`/borrarContenedor/${id}`, config)
+      .delete(`/borrarContenedor/${id}`)
       .then((response) => response.data);
   };
 

@@ -1,14 +1,8 @@
 import api from './api';
 
-const token = localStorage.getItem('token');
-
-const config = {
-    headers: {Authorization: `Bearer ${token}`}
-}
-
 const listadoZonas = () => {
     return api
-        .get('/obtenerZonasDescarga', config)
+        .get('/obtenerZonasDescarga')
         .then(response => response.data);
 };
 

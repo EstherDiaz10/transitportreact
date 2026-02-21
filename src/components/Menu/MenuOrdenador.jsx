@@ -1,6 +1,6 @@
 import MenuItems from './MenuItems';
 import imagenUser from '../../assets/esther.jpg';
-import logoutService from '../../services/logout';
+import authService from '../../services/auth';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthProvider';
@@ -12,8 +12,7 @@ const MenuOrdenador = () => {
 
     const logout = () => {
 
-        //const user = JSON.parse(localStorage.getItem("user"));
-        logoutService.hacerLogout(user);
+        authService.hacerLogout(user);
 
         const rol = user.rol;
         navigate(`/login/${rol}`);

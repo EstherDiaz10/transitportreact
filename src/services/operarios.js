@@ -1,20 +1,14 @@
 import api from './api';
 
-const token = localStorage.getItem('token');
-
-const config = {
-    headers: {Authorization: `Bearer ${token}`}
-}
-
 const listadoOperarios = () => {
     return api
-        .get('/obtenerOperarios', config)
+        .get('/obtenerOperarios')
         .then(response => response.data);
 };
 
 const listadoGruasOperario = (id) => {
     return api
-        .get(`/obtenerGruasOperario/${id}`, config)
+        .get(`/obtenerGruasOperario/${id}`)
         .then(response => response.data);
 }
 

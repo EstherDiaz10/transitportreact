@@ -145,9 +145,9 @@ const PagOrdenes = () => {
             <h1 className="mt-14 md:mt-0 ml-5 md:ml-0 text-3xl font-bold text-[#2A5677] md:absolute md:top-20">Listado de órdenes</h1>
            
            <div className="flex items-center mt-4 md:mt-0 gap-1">
-                <div className={`w-full md:w-[97%] ${!ordenSeleccionada ? 'lg:w-[94%]' : 'lg:w-[50%]'} md:pt-8 flex justify-between`}>
+                <div className={`w-full md:w-[97%] ${!ordenSeleccionada ? 'lg:w-[94%] flex justify-between' : 'lg:w-[50%] flex-col gap-2'} md:pt-8`}>
                     <FiltradoOrden setFiltrarEstado={setFiltrarEstado} setFiltrarPrioridad={setFiltrarPrioridad} setFiltrarTipo={setFiltrarTipo}/>
-                    <Busqueda setBuscar={setBuscar} />
+                    <Busqueda setBuscar={setBuscar} elementoSeleccionado={ordenSeleccionada} />
                 </div>
                 <div className="md:hidden flex items-center w-[20%]">
                     <button

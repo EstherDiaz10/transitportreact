@@ -1,14 +1,8 @@
 import api from './api';
 
-const token = localStorage.getItem('token');
-
-const config = {
-    headers: {Authorization: `Bearer ${token}`}
-}
-
 const listadoParkings = () => {
     return api
-        .get('/obtenerParkings', config)
+        .get('/obtenerParkings')
         .then(response => response.data);
 };
 
