@@ -21,7 +21,7 @@ const Listado = ({elementos, estructuraGrid, columnas, setElementoSeleccionado, 
 
     /* Paginación del listado */
     const [paginaActual, setPaginaActual] = useState(1);
-    const registrosPorPagina = 7;
+    const registrosPorPagina = 6;
     const ultimoIndice = paginaActual * registrosPorPagina;
     const primerIndice = ultimoIndice - registrosPorPagina;
     const registrosActuales = elementosOrdenados.slice(primerIndice, ultimoIndice);
