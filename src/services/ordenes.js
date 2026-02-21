@@ -1,26 +1,20 @@
 import api from './api';
 
-const token = localStorage.getItem('token');
-
-const config = {
-    headers: {Authorization: `Bearer ${token}`}
-}
-
 const listadoOrdenes = () => {
     return api
-        .get('/obtenerOrdenes', config)
+        .get('/obtenerOrdenes')
         .then(response => response.data);
 };
 
 const crearOrden = (nuevaOrden) => {
     return api
-        .post('/crearOrden', nuevaOrden, config)
+        .post('/crearOrden', nuevaOrden)
         .then(response => response.data);
 };
 
 const modificarOrden = (id, nuevaOrden) => {
     return api
-        .patch(`/actualizarOrden/${id}`, nuevaOrden, config)
+        .patch(`/actualizarOrden/${id}`, nuevaOrden)
         .then((response) => response.data)
         .catch((error) => {
             console.log(error.response.statusText);
@@ -30,13 +24,13 @@ const modificarOrden = (id, nuevaOrden) => {
 
 const listadoOrdenesGrua = (id) => {
     return api
-        .get(`/obtenerOrdenesGrua/${id}`, config)
+        .get(`/obtenerOrdenesGrua/${id}`)
         .then(response => response.data);
 }
 
 const modificarEstadoOrden = (id) => {
     return api
-        .patch(`/actualizarEstado/${id}`, config)
+        .patch(`/actualizarEstado/${id}`)
         .then(response => response.data);
 }
 
