@@ -22,7 +22,7 @@ export default function PagPatio() {
     const colorDisponible = "bg-[#7fa47f]"; 
 
     return (
-        <div className="bg-[#DFECF5] p-[30px] rounded-[30px]">
+        <div className="bg-[#DFECF5] p-[30px] rounded-[30px] mt-18 lg:mt-0 pb-25 lg:pb-13">
             
             {/* BUQUE */}
             <div className="h-[120px] bg-slate-300 flex items-center justify-center mb-[30px]">
@@ -70,7 +70,7 @@ export default function PagPatio() {
 
             {/* Contenedor Blanco del Patio */}
             <div className="bg-white p-5 rounded-[30px]">
-                <div className="grid grid-cols-4 gap-[25px]">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-[25px]">
                     {patio.patio.map((zona, zonaIndex) => (
                         <div key={zona.zona}>
                             <div className="text-[12px] mb-[6px] font-semibold text-slate-600">
