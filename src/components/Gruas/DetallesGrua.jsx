@@ -122,15 +122,17 @@ const DetallesGrua = ({ grua, setGruaSeleccionada, setGruas }) => {
                 </div>
                 <div className="mt-5">
                     <label htmlFor="tipo_grua">Tipo de grúa</label>
+                    
                     <input className={`${inputStylePC} mt-3`} onChange={cambiarInput} type="text" id="tipo_grua" name="tipo" value={`${datosFormulario.tipo.toUpperCase()}`} readOnly={!modificar} />
                 </div>
                 <div className="mt-5">
                     <label htmlFor="zona_grua">Zona asignada</label>
+                    
                     <input className={`${inputStylePC} mt-3`} onChange={cambiarInput} type="text" id="zona_grua" name="zona" value={`${prefijoZona}${datosFormulario.id_zona}`} readOnly={!modificar} />
                 </div>
                 <div className="mt-5">
                     <label htmlFor="estado_grua">Estado</label>
-                    <Select options={estadosSelect} value={estadoActual} onChange={handleSelectOperarios} placeholder={datosFormulario.estado} isDisabled={!modificar} />
+                    <Select options={estadosSelect} value={estadoActual} onChange={(estadoSeleccionado) => setDatosFormulario({...datosFormulario, estado: estadoSeleccionado.value.toLowerCase()})} placeholder={datosFormulario.estado} isDisabled={!modificar} />
                     
                 </div>
                 <div className="mt-5">

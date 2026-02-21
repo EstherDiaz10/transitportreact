@@ -31,7 +31,7 @@ const FormAnyadirOrden = ({ cerrarModal, setOrdenes }) => {
         grua_sc_id: null,
         operario_sts_id: null,
         operario_sc_id: null,
-        observaciones: ''
+        observaciones: null
     });
 
     useEffect(() => {

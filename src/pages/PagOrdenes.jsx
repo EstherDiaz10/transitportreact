@@ -8,13 +8,18 @@ import DetallesOrden from '../components/Ordenes/DetallesOrden';
 import Modal from '../components/Modal';
 import ordenesService from '../services/ordenes';
 import FormAnyadirOrden from '../components/Formularios/FormAnyadirOrden';
+import { useContext } from 'react';
+import { AuthContext } from '../context/AuthProvider';
 
 const PagOrdenes = () => {
-    
+
+    const { user } = useContext(AuthContext);
+    /* Filtros y búsqueda */
     const [filtrarEstado, setFiltrarEstado] = useState('estado');
     const [filtrarPrioridad, setFiltrarPrioridad] = useState('prioridad');
     const [filtrarTipo, setFiltrarTipo] = useState('tipo');
     const [inputBuscar, setBuscar] = useState('');
+    
     const [ordenes, setOrdenes] = useState([]);
     const [ordenSeleccionada, setOrdenSeleccionada] = useState(null);
     const [crearElemento, setCrearElemento] = useState(false);
@@ -163,7 +168,9 @@ const PagOrdenes = () => {
                         </div>
                     ) : (<p className="flex justify-center mt-10 mb-10 mr-17">No hay órdenes para mostrar</p>
                 )}
-                <BotonCrear tipo="orden" setCrearElemento={setCrearElemento} seleccionado={ordenSeleccionada}/>
+                {user.rol === 'administrativo' && (
+                    <BotonCrear tipo="orden" setCrearElemento={setCrearElemento} seleccionado={ordenSeleccionada}/>
+                )}
                 {ordenSeleccionada !== null && (
                     <div className="absolute z-20 left-0 right-0 top-45 md:top-58 rounded-t-[30px] bg-[#B7D0E1] lg:absolute lg:top-0 lg:right-0 lg:h-full lg:left-auto lg:w-[45%] lg:rounded-t-[0px] lg:rounded-l-[50px] lg:pt-[7%] lg:pl-[5%] lg:pr-[5%]">
                         <DetallesOrden orden={ordenSeleccionada} setOrdenSeleccionada={setOrdenSeleccionada} setOrdenes={setOrdenes}/>

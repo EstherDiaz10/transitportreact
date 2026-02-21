@@ -19,7 +19,7 @@ const FormAnyadirGrua = ({ultimoId, cerrarModal, setGruas}) => {
         estado: 'disponible',
         id_zona: '',
         operarios: [],
-        observaciones: ''
+        observaciones: null
     });
 
     useEffect(() => {
@@ -65,12 +65,12 @@ const FormAnyadirGrua = ({ultimoId, cerrarModal, setGruas}) => {
         const {name, value} = event.target;
         setDatosNuevaGrua({
             ...datosNuevaGrua, 
-            [name]: name === 'id_zona' ? Number(value) : value
+            [name]: value
         });
     }
 
     const handleSelectOperarios = (selected) => {
-        setDatosNuevaGrua({ ...datosNuevaGrua, operarios: selected || []});
+        setDatosNuevaGrua({ ...datosNuevaGrua, operarios: selected });
     }
 
     const prefijoZona = 'ZD-';
@@ -84,7 +84,7 @@ const FormAnyadirGrua = ({ultimoId, cerrarModal, setGruas}) => {
                         <div className={lineStyle}>
                             <div className={columnStyle}>
                                 <label htmlFor="id_grua">ID grúa</label>
-                                <input className={`${inputStyle} mt-3`} type="text" id="id_buque" name="id" value={`${datosNuevaGrua.tipo.toUpperCase()}${ultimoId}`} readOnly/>
+                                <input className={`${inputStyle} mt-3`} type="text" id="id_buque" name="id" value={`${datosNuevaGrua.tipo.toUpperCase()}-${ultimoId}`} readOnly/>
                             </div>
                             <div className={columnStyle}>
                                 <label htmlFor="tipo_grua">Tipo de grúa</label>

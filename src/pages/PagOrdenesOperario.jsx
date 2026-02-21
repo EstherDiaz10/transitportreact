@@ -5,7 +5,7 @@ import FiltradoMovilOrden from '../components/Ordenes/FiltradoMovilOrden';
 import Busqueda from '../components/Busqueda';
 import DetallesOrden from '../components/Ordenes/DetallesOrden';
 import FormElegirGrua from '../components/OrdenesOperario/FormElegirGrua';
-import Modal from '../components/Modal';
+import ModalOperario from '../components/ModalOperario';
 import ordenesService from '../services/ordenes';
 import { AuthContext } from '../context/AuthProvider';
 
@@ -22,6 +22,8 @@ const PagOrdenesOperario = () => {
     const [gruaSeleccionada, setGruaSeleccionada] = useState(null);
 
     useEffect(()=>{
+        
+        if(gruaSeleccionada) {
             ordenesService
             .listadoOrdenes()
             .then(data =>{
@@ -30,7 +32,9 @@ const PagOrdenesOperario = () => {
             .catch((error) => {
                 console.error('Error cargando órdenes: ', error);
             })
-    }, [])
+        }
+
+    }, [gruaSeleccionada])
 
     const ordenesGrua = ordenes.filter((orden) => {
         try {
@@ -143,9 +147,9 @@ const PagOrdenesOperario = () => {
         <>
             {!gruaSeleccionada
                 ? (
-                    <Modal modalAbierto={!gruaSeleccionada}>
+                    <ModalOperario modalAbierto={!gruaSeleccionada}>
                         <FormElegirGrua setGruaSeleccionada={setGruaSeleccionada} />
-                    </Modal>
+                    </ModalOperario>
                 ) : (
                     <div className="pb-23 lg:pb-0 md:ml-7">
                     <h1 className="mt-14 md:mt-0 ml-5 md:ml-0 text-3xl font-bold text-[#2A5677] md:absolute md:top-20">Listado de órdenes</h1>

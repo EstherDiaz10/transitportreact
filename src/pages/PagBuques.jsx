@@ -11,8 +11,10 @@ import buqueService from '../services/buques';
 
 const PagBuques = () => {
     
+    /* Filtros */
     const [selectFiltrado, setFiltrarEstado] = useState('estado');
     const [inputBuscar, setBuscar] = useState('');
+    
     const [buques, setBuques] = useState([]);
     const [buqueSeleccionado, setBuqueSeleccionado] = useState(null);
     const [crearElemento, setCrearElemento] = useState(false);
@@ -28,6 +30,7 @@ const PagBuques = () => {
 
     let buquesAMostrar = buques;
 
+    /* Filtrar y buscar */
     if(selectFiltrado !== 'estado') {
         buquesAMostrar = buquesAMostrar.filter((buque) => buque.estado.toLowerCase() === selectFiltrado.toLowerCase())
     }

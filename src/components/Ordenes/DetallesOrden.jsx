@@ -139,7 +139,7 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
     }
 
     const estados = ["Pendiente", "En proceso STS", "En zona descarga", "En proceso SC", "Completada"];
-    const restoEstados = estados.filter((estado) => estado !== orden.estado);
+    const restoEstados = estados.filter((estado) => estado.toLowerCase() !== orden.estado);
 
     const tipos = ["Carga", "Descarga"];
     const otroTipo = tipos.filter((tipo) => tipo.toLowerCase() !== orden.tipo);

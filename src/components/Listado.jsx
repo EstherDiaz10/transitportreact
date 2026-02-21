@@ -6,11 +6,25 @@ const Listado = ({elementos, estructuraGrid, columnas, setElementoSeleccionado, 
     const botonEliminarEstilo = "bg-[#925152] text-white rounded-[5px] flex items-center justify-center w-15 ml-1.5 h-12 hover:bg-[#DFECF5] hover:text-[#925152] hover:border-3 hover:border-[#925152] cursor-pointer";
     const [botonEliminar, setBotonEliminar] = useState(null);
 
+    /* State para controlar por que columna ordenamos, por defecto el ID, común en todos los elementos */
+    const [columnaAOrdenar, setColumnaAOrdenar] = useState('id');
+
+    /* Ordenamos los elementos por la propiedad en la que se haga click */
+    const elementosOrdenados = [...elementos].sort((elementoA, elementoB) => {
+    
+        if (typeof elementoA[columnaAOrdenar] === 'number') {
+            return elementoA[columnaAOrdenar] - elementoB[columnaAOrdenar];
+        }
+
+        return String(elementoA[columnaAOrdenar]).localeCompare(String(elementoB[columnaAOrdenar]));
+    });
+
+    /* Paginación del listado */
     const [paginaActual, setPaginaActual] = useState(1);
     const registrosPorPagina = 7;
     const ultimoIndice = paginaActual * registrosPorPagina;
     const primerIndice = ultimoIndice - registrosPorPagina;
-    const registrosActuales = elementos.slice(primerIndice, ultimoIndice);
+    const registrosActuales = elementosOrdenados.slice(primerIndice, ultimoIndice);
     const totalPaginas = Math.ceil(elementos.length / registrosPorPagina);
 
     const cambiarPagina = (numero) => setPaginaActual(numero);
@@ -32,7 +46,14 @@ const Listado = ({elementos, estructuraGrid, columnas, setElementoSeleccionado, 
             <div className={`${estructuraGrid} mt-7 font-bold text-gray-600 text-sm w-[94%] md:w-[96%] lg:w-[94%]`}>
                 <div className="hidden md:block"></div>
                 {columnas.map((columna) => (
-                    <p key={columna.valor} className={`${columna.estilos}`}>{columna.titulo}</p>
+                    <p 
+                        key={columna.valor} 
+                        className={`${columna.estilos} cursor-pointer hover:underline`} 
+                        onClick={() => setColumnaAOrdenar(columna.valor)}
+                    >
+                        {columna.titulo}
+                        {columnaAOrdenar === columna.valor && <span className="text-xs">▼</span>}
+                    </p>
                 ))}
                 <div></div>
             </div>
