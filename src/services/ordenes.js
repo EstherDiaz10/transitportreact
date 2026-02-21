@@ -40,10 +40,16 @@ const modificarEstadoOrden = (id) => {
         .then(response => response.data);
 }
 
+const eliminarOrden = (id) => {
+    return api
+        .delete(`/borrarOrden/${id}`)
+}
+
 export default {
     listadoOrdenes,
     crearOrden,
     modificarOrden,
     listadoOrdenesGrua,
-    modificarEstadoOrden
+    modificarEstadoOrden,
+    eliminarOrden
 };

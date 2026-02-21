@@ -119,8 +119,9 @@ const PagGruas = () => {
             
             try {
 
-                await gruaService.deleteGrua(id);
-                setGruas((gruasActuales) => gruasActuales.filter(grua => grua.id !== id));
+                await gruaService.eliminarGrua(id);
+                const data = await gruaService.listadoGruas();
+                setGruas(data);
         
             } catch (error) {
                 console.error('Error al eliminar la grúa ', error)

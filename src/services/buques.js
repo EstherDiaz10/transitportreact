@@ -1,39 +1,42 @@
-import api from './api';
+import api from "./api";
 
-const token = localStorage.getItem('token');
+const token = localStorage.getItem("token");
 
 const config = {
-    headers: {Authorization: `Bearer ${token}`}
-}
+  headers: { Authorization: `Bearer ${token}` },
+};
 
 const listadoBuques = () => {
-    return api
-        .get('/obtenerBuques', config)
-        .then(response => response.data);
+  return api.get("/obtenerBuques", config).then((response) => response.data);
 };
 
 const listadoBuquesConContenedores = () => {
-    return api
-        .get('/obtenerBuquesConContenedores', config)
-        .then(response => response.data);
-}
+  return api
+    .get("/obtenerBuquesConContenedores", config)
+    .then((response) => response.data);
+};
 
 const crearBuque = (nuevoBuque) => {
-    return api
-        .post('/crearBuque', nuevoBuque, config)
-        .then(response => response.data);
+  return api
+    .post("/crearBuque", nuevoBuque, config)
+    .then((response) => response.data);
 };
 
 const modificarBuque = (id, nuevoBuque) => {
-    return api
-        .patch('/actualizarBuque/${id}', nuevoBuque, config)
-        .then((response) => response.data)
-        .catch((error) => {
-            console.log(error.response.statusText);
-            throw error;
-        })
-}
+  return api
+    .patch("/actualizarBuque/${id}", nuevoBuque, config)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.log(error.response.statusText);
+      throw error;
+    });
+};
 
+const eliminarBuque = (id) => {
+  return api
+    .delete(`/borrarBuque/${id}`, config)
+    .then((response) => response.data);
+};
 /*const modificarBuque = (id, nuevoBuque) => {
     let data = new FormData();
     data.append('nombre', nuevoBuque.nombre);
@@ -59,8 +62,9 @@ const modificarBuque = (id, nuevoBuque) => {
 };*/
 
 export default {
-    listadoBuques,
-    listadoBuquesConContenedores,
-    crearBuque,
-    modificarBuque
+  listadoBuques,
+  listadoBuquesConContenedores,
+  crearBuque,
+  modificarBuque,
+  eliminarBuque
 };

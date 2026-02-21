@@ -28,6 +28,19 @@ const PagBuques = () => {
         })
     }, [])
 
+    const eliminarContenedor = async (id) =>{
+        if (window.confirm('¿Estás seguro de que quieres eliminar este buque?')) {
+             try {
+               await buqueService.eliminarBuque(id);
+               const data = await buqueService.listadoBuques();
+               setBuques(data);
+             } catch (error) {
+               console.error("Error al eliminar", error);
+             }
+        }
+           
+        }
+
     let buquesAMostrar = buques;
 
     /* Filtrar y buscar */
@@ -133,6 +146,7 @@ const PagBuques = () => {
                                 setElementoSeleccionado={setBuqueSeleccionado} 
                                 elementoSeleccionado={buqueSeleccionado} 
                                 icono={icono}
+                                eliminarElemento={eliminarContenedor}
                             />
                         </div>
                     ) : (<p className="flex justify-center mt-10 mb-10 lg:mr-17">No hay buques para mostrar</p>
