@@ -56,8 +56,8 @@ const PagContenedores = () => {
   };
 
   const estructuraGrid = !contenedorSeleccionado
-    ? "grid grid-cols-[1fr_1fr_0.4fr] lg:grid-cols-[80px_0.7fr_1.3fr_1fr_130px_130px] md:grid-cols-[60px_0.7fr_1fr_0.4fr_130px] items-center gap-3 px-4 md:px-0"
-    : "grid grid-cols-[1fr_1fr_auto] lg:grid-cols-[60px_1fr_2.3fr_1fr_60px] md:grid-cols-[60px_0.7fr_1fr_0.4fr_130px] items-center gap-5 px-4 md:px-0";
+    ? "grid grid-cols-[0.2fr_1fr_1fr_0.4fr] lg:grid-cols-[80px_0.7fr_1.3fr_1fr_130px_130px] md:grid-cols-[60px_0.7fr_1fr_0.4fr_130px] items-center gap-3 px-4 md:px-0"
+    : "grid grid-cols-[0.2fr_1fr_1fr_auto] lg:grid-cols-[60px_1fr_2.3fr_1fr_60px] md:grid-cols-[60px_0.7fr_1fr_0.4fr_130px] items-center gap-5 px-4 md:px-0";
 
   const columnasContenedores = [
     {
