@@ -76,7 +76,7 @@ const Listado = ({elementos, estructuraGrid, columnas, setElementoSeleccionado, 
                             </button>
                         ) : (
                             <div className="hidden md:block pl-6">
-                                {icono}
+                                {typeof icono === 'function' ? icono(elemento) : icono}
                             </div>
                         )}
 
