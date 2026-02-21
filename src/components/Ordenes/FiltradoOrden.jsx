@@ -10,8 +10,10 @@ const FiltradoOrden = ({setFiltrarEstado, setFiltrarPrioridad, setFiltrarTipo}) 
         <select name="estado" onChange={(e) => setFiltrarEstado(e.target.value)} id="estadoOrden" className={selectStyles}>
           <option value="estado">Estado</option>
           <option value="pendiente">Pendiente</option>
-          <option value="atracado">Atracado</option>
-          <option value="inactivo">Inactivo</option>
+          <option value="en_proceso_sts">En proceso STS</option>
+          <option value="en_zona_desc">En zona descarga</option>
+          <option value="en_proceso_sc">En proceso SC</option>
+          <option value="completada">Completada</option>
         </select>
         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
             <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -34,7 +36,7 @@ const FiltradoOrden = ({setFiltrarEstado, setFiltrarPrioridad, setFiltrarTipo}) 
       </div>
 
       <div className="relative">
-        <select name="prioridad" onChange={(e) => setFiltrarPrioridad(e.target.value)} id="prioridadOrden" className={selectStyles}>
+        <select name="prioridad" onChange={(e) => setFiltrarPrioridad(e.target.value)} id="prioridadOrden" className={`${selectStyles} pr-15`}>
           <option value="prioridad">Prioridad</option>
           <option value="alta">Alta</option>
           <option value="media">Media</option>

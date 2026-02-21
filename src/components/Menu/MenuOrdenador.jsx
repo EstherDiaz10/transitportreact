@@ -21,8 +21,8 @@ const MenuOrdenador = () => {
     return (
         <nav className="hidden lg:flex bg-[#2A5677] w-64 min-w-[240px] h-screen flex flex-col items-center pt-8 text-white">
             <div className="w-full flex flex-col items-center flex-shrink-0">
-                <img src={imagenUser} alt="imagen usuario" className="rounded-full w-25 h-25 object-cover object-center"/>
-                <p className="mt-5">Esther Díaz Soriano</p>
+                <img src={user.imagen} alt="imagen usuario" className="rounded-full w-25 h-25 object-cover object-center"/>
+                <p className="mt-5">{`${user.name} ${user.apellidos}`}</p>
             </div>
             <div className="pt-10 w-full flex flex-grow justify-center">
                 <ul className="w-full p-0 m-0">

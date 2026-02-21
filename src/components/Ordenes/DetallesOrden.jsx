@@ -57,13 +57,13 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
         setDatosFormulario({ 
             ...orden,
             administrativo_id: user.id,
-            buque_id: orden.buque.id ? Number(orden.buque.id) : null,
-            parking_id: orden.parking.id ? Number(orden.parking.id) : null,
-            contenedor_id: orden.contenedor.id ? Number(orden.contenedor.id) : null,
-            grua_sts_id: orden.grua_sts.id ? Number(orden.grua_sts.id) : null,
-            grua_sc_id: orden.grua_sc.id ? Number(orden.grua_sc.id) : null,
-            operario_sts_id: orden.operario_sts.id ? Number(orden.operario_sts.id) : '',
-            operario_sc_id: orden.operario_sc.id ? Number(orden.operario_sc.id) : ''
+            buque_id: orden.buque?.id ? Number(orden.buque.id) : null,
+            parking_id: orden.parking?.id ? Number(orden.parking.id) : null,
+            contenedor_id: orden.contenedor?.id ? Number(orden.contenedor.id) : null,
+            grua_sts_id: orden.grua_sts?.id ? Number(orden.grua_sts.id) : null,
+            grua_sc_id: orden.grua_sc?.id ? Number(orden.grua_sc.id) : null,
+            operario_sts_id: orden.operario_sts?.id ? Number(orden.operario_sts.id) : '',
+            operario_sc_id: orden.operario_sc?.id ? Number(orden.operario_sc.id) : ''
         });
         
         setModificar(false);
@@ -93,8 +93,8 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
 
     const botonSiguienteEStado = (user, orden) => {
 
-        const esOperarioSTS = orden.operario_sts.id === user.id;
-        const esOperarioSC = orden.operario_sc.id == user.id;
+        const esOperarioSTS = orden.operario_sts?.id === user.id;
+        const esOperarioSC = orden.operario_sc?.id == user.id;
         
         if(orden.tipo === 'descarga') {
 
@@ -244,7 +244,6 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                 });
                 const data = await ordenService.listadoOrdenes();
                 setOrdenes(data);
-                console.log(data);
                 setOrdenSeleccionada(datosFormulario);
             } catch (error) {
                 console.error('Error al guardar orden ', error);
@@ -260,7 +259,14 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
         event.stopPropagation();
 
         try {
+           
             await ordenService.modificarEstadoOrden(orden.id);
+
+            const data = await ordenService.listadoOrdenes();
+            setOrdenes(data);
+
+            const ordenActualizada = data.find((o) => o.id === orden.id);
+            setOrdenSeleccionada(ordenActualizada);
 
         } catch (error) {
             console.error('Error al editar el estado de la orden: ', error);
@@ -299,11 +305,11 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
             <h1 className="text-center mt-1 md:mt-3 lg:text-left mb-5 text-xl md:text-3xl font-bold text-[#2A5677]">Detalles de la orden</h1>
             <form action="">
                 <div className="flex gap-5 w-full mt-5">
-                    <div className="w-[50%]">
+                    <div className="w-full md:w-[50%]">
                         <label htmlFor="id_buque">ID orden</label>
                         <input className={`${inputStylePC} mt-3`} type="text" id="id_orden" name="id" value={`${prefijo}${datosFormulario.id}`} readOnly />
                     </div>
-                    <div className="w-[50%]">
+                    <div className="w-full md:w-[50%]">
                         <label htmlFor="estado_orden">Estado</label>
                         <select className={`${inputStylePC} mt-3 p-1.5`} onChange={cambiarInput} name="estado" id="estado_orden" readOnly={!modificar}>
                             <option className="p-3" value={orden.estado}>{orden.estado}</option>
@@ -314,14 +320,14 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                     </div>
                 </div>
                 <div className="flex gap-5 w-full mt-5">
-                    <div className="w-[50%]">
+                    <div className="w-full md:w-[50%]">
                         <label htmlFor="tipo_orden">Tipo de orden</label>
                         <select className={`${inputStylePC} mt-3 p-1.5`} onChange={cambiarInput} name="tipo" id="tipo_orden" disabled={!modificar}>
                             <option className="p-3" value={orden.tipo}>{orden.tipo}</option>
                             <option value={otroTipo}>{otroTipo}</option>
                         </select>
                     </div>
-                    <div className="w-[50%]">
+                    <div className="w-full md:w-[50%]">
                         <label htmlFor="prioridad_orden">Prioridad</label>
                         <select className={`${inputStylePC} mt-3 p-1.5`} onChange={cambiarInput} name="prioridad" id="prioridad_orden" readOnly={!modificar}>
                             <option className="p-3" value={orden.prioridad}>{orden.prioridad}</option>
@@ -332,7 +338,7 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                     </div>
                 </div>
                 <div className="flex gap-5 w-full mt-5">
-                    <div className="w-[50%]">
+                    <div className="w-full md:w-[50%]">
                         <label htmlFor="destino_orden">Origen ({datosFormulario.tipo === 'descarga' ? 'Buque' : 'Parking'})</label>
                         <Select 
                             options={datosFormulario.tipo === 'carga' ? opcionesParkingOcupados : opcionesBuque} 
@@ -345,7 +351,7 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                             placeholder="Origen"
                         />
                     </div>
-                    <div className="w-[50%]">
+                    <div className="w-full md:w-[50%]">
                         <label htmlFor="destino_orden">Destino ({datosFormulario.tipo === 'descarga' ? 'Parking' : 'Buque'})</label>
                         <Select 
                             options={datosFormulario.tipo === 'descarga' ? opcionesParkingLibres : opcionesBuque} 
@@ -360,7 +366,7 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                     </div>
                 </div>
                 <div className="flex gap-5 w-full mt-5">
-                    <div className="w-[50%]">
+                    <div className="w-full md:w-[50%]">
                         <label htmlFor="grua_sts_orden">Grúa STS</label>
                         <Select 
                             options={opcionesGruaSTS} 
@@ -372,7 +378,7 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                             placeholder='Grúa STS...'
                         />
                     </div>
-                    <div className="w-[50%]">
+                    <div className="w-full md:w-[50%]">
                         <label htmlFor="grua_sc_orden">Grúa SC</label>
                         <Select 
                             options={opcionesGruaSC} 
@@ -386,7 +392,7 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                     </div>
                 </div>
                 <div className="flex gap-5 w-full mt-5">
-                    <div className="w-[50%]">
+                    <div className="w-full md:w-[50%]">
                         <label htmlFor="operario_sts_orden">Operario STS</label>
                         <Select 
                             options={opcionesOperariosSTS} 
@@ -398,7 +404,7 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                             placeholder='Operario STS'
                         />
                     </div>
-                    <div className="w-[50%]">
+                    <div className="w-full md:w-[50%]">
                         <label htmlFor="operario_sc_orden">Operario SC</label>
                         <Select 
                             options={opcionesOperariosSC} 

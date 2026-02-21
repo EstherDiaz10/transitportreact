@@ -50,10 +50,10 @@ const FormAnyadirOrden = ({ cerrarModal, setOrdenes }) => {
         let lista = [];
         if (datosNuevaOrden.tipo === 'descarga' && datosNuevaOrden.buque_id) {
             const buque = buques.find(buque => buque.id === datosNuevaOrden.buque_id);
-            lista = buque?.contenedores || [];
+            lista = buque.contenedores || [];
         } else if (datosNuevaOrden.tipo === 'carga' && datosNuevaOrden.parking_id) {
             const parking = parkings.find(parking => parking.id === datosNuevaOrden.parking_id);
-            lista = parking?.contenedor ? [parking.contenedor] : [];
+            lista = [parking.contenedor] || [];
         }
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setContenedoresDisponibles(lista);
@@ -98,7 +98,7 @@ const FormAnyadirOrden = ({ cerrarModal, setOrdenes }) => {
     }));
 
     const opcionesParkingLibres = parkings
-        .filter(parking => !parking.contenedor)
+        .filter(parking => parking.estado === 'libre')
         .map(parking => ({ 
             value: parking.id,
             label: `P-${parking.id} (Libre)`,
@@ -106,7 +106,7 @@ const FormAnyadirOrden = ({ cerrarModal, setOrdenes }) => {
         }));
 
     const opcionesParkingOcupados = parkings
-        .filter(parking => parking.contenedor)
+        .filter(parking => parking.estado === 'ocupado')
         .map(parking => ({ 
             value: parking.id, 
             label: `P-${parking.id} (Ocupado)`,
