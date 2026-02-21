@@ -112,7 +112,7 @@ const PagBuques = () => {
            <div className="flex items-center mt-4 md:mt-0 gap-1">
                 <div className={`w-full md:w-[97%] ${!buqueSeleccionado ? 'lg:w-[94%]' : 'lg:w-[50%]'} md:pt-8 flex justify-between`}>
                     <Filtrado setFiltrarEstado={setFiltrarEstado}/>
-                    <Busqueda setBuscar={setBuscar} />
+                    <Busqueda setBuscar={setBuscar} elementoSeleccionado={''} />
                 </div>
                 <div className="md:hidden flex items-center w-[20%]">
                     <button
