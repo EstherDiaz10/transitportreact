@@ -119,22 +119,18 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
 
     const inputStylePC = "bg-white p-1 pl-4 rounded-[10px] text-gray-500 w-full";
 
-    const valueEstados = (estado) => {
-        switch (estado) {
-            case "Pendiente":
-                return "pendiente";
-
-            case "En proceso STS":
-                return "en_proceso_sts";
-
-            case "En zona descarga":
-                return "en_zona_desc";
-
-            case "En proceso SC":
-                return "en_proceso_sc";
-
-            case "Completada":
-                return "completada";
+    const nombreEstado = (estado) => {
+        switch(estado) {
+            case 'pendiente':
+                return 'Pendiente';
+            case 'en_proceso_sts':
+                return 'En grúa STS';
+            case 'en_zona_desc':
+                return 'Zona descarga';
+            case 'en_proceso_sc':
+                return 'En grúa SC';
+            case 'completada':
+                return 'Completada';
         }
     }
 
@@ -303,7 +299,7 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path></svg>
             </button>
             <h1 className="text-center mt-1 md:mt-3 lg:text-left mb-5 text-xl md:text-3xl font-bold text-[#2A5677]">Detalles de la orden</h1>
-            <form action="">
+            <form>
                 <div className="flex gap-5 w-full mt-5">
                     <div className="w-full md:w-[50%]">
                         <label htmlFor="id_buque">ID orden</label>
@@ -311,10 +307,10 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                     </div>
                     <div className="w-full md:w-[50%]">
                         <label htmlFor="estado_orden">Estado</label>
-                        <select className={`${inputStylePC} mt-3 p-1.5`} onChange={cambiarInput} name="estado" id="estado_orden" readOnly={!modificar}>
-                            <option className="p-3" value={orden.estado}>{orden.estado}</option>
+                        <select className={`${inputStylePC} mt-3 p-1.5`} onChange={cambiarInput} name="estado" id="estado_orden" disabled={!modificar}>
+                            <option className="p-3" value={orden.estado}>{nombreEstado(orden.estado)}</option>
                             {restoEstados.map((estado) =>
-                                <option key={estado} value={valueEstados(estado)}>{estado}</option>
+                                <option key={estado} value={estado}>{estado}</option>
                             )}
                         </select>
                     </div>
@@ -329,7 +325,7 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                     </div>
                     <div className="w-full md:w-[50%]">
                         <label htmlFor="prioridad_orden">Prioridad</label>
-                        <select className={`${inputStylePC} mt-3 p-1.5`} onChange={cambiarInput} name="prioridad" id="prioridad_orden" readOnly={!modificar}>
+                        <select className={`${inputStylePC} mt-3 p-1.5`} onChange={cambiarInput} name="prioridad" id="prioridad_orden" disabled={!modificar}>
                             <option className="p-3" value={orden.prioridad}>{orden.prioridad}</option>
                             {restoPrioridades.map((prioridad) =>
                                 <option key={prioridad} value={prioridad.toLowerCase()}>{prioridad}</option>
@@ -339,7 +335,7 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                 </div>
                 <div className="flex gap-5 w-full mt-5">
                     <div className="w-full md:w-[50%]">
-                        <label htmlFor="destino_orden">Origen ({datosFormulario.tipo === 'descarga' ? 'Buque' : 'Parking'})</label>
+                        <label htmlFor="origen_orden">Origen ({datosFormulario.tipo === 'descarga' ? 'Buque' : 'Parking'})</label>
                         <Select 
                             options={datosFormulario.tipo === 'carga' ? opcionesParkingOcupados : opcionesBuque} 
                             value={datosFormulario.tipo === 'carga' ? parkingOcupadoSeleccionado : buqueSeleccionado} 
@@ -418,7 +414,7 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                     </div>
                 </div>
                 <div className="w-full mt-5">
-                    <label htmlFor="operario_sts_orden">ID Contenedor</label>
+                    <label htmlFor="contenedor_orden">ID Contenedor</label>
                     <Select 
                         options={opcionesContenedores} 
                         value={contenedorSeleccionado} 
@@ -476,7 +472,6 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                         )}
                         </>
                     )}
-                    
                     
                 </div>
             </form>

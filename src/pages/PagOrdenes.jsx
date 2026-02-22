@@ -83,9 +83,24 @@ const PagOrdenes = () => {
         }
     }
 
+    const nombreEstado = (estado) => {
+        switch(estado) {
+            case 'pendiente':
+                return 'Pendiente';
+            case 'en_proceso_sts':
+                return 'En grúa STS';
+            case 'en_zona_desc':
+                return 'Zona descarga';
+            case 'en_proceso_sc':
+                return 'En grúa SC';
+            case 'completada':
+                return 'Completada';
+        }
+    }
+
     const estructuraGrid = !ordenSeleccionada 
-        ? "grid grid-cols-[0.2fr_1fr_1fr_0.4fr] lg:grid-cols-[80px_0.7fr_1.3fr_1fr_180px_130px] md:grid-cols-[80px_0.7fr_1fr_180px_130px] items-center gap-3 px-4 md:px-0" 
-        : "grid grid-cols-[0.2fr_1fr_1fr_auto] lg:grid-cols-[60px_1fr_2.3fr_1fr_60px] md:grid-cols-[60px_1fr_2.3fr_1fr_60px] items-center gap-5 px-4 md:px-0";
+        ? "grid grid-cols-[0.2fr_1fr_1fr_0.4fr] lg:grid-cols-[80px_0.7fr_1.3fr_1fr_200px_130px] md:grid-cols-[80px_0.7fr_1fr_180px_130px] items-center gap-3 px-4 md:px-0" 
+        : "grid grid-cols-[0.2fr_1fr_1fr_auto] lg:grid-cols-[60px_1.5fr_2fr_2fr_60px] md:grid-cols-[60px_1fr_2.3fr_1fr_60px] items-center gap-5 px-4 md:px-0";
 
     const columnasOrdenes = [
         {
@@ -115,7 +130,7 @@ const PagOrdenes = () => {
             'estilos': !ordenSeleccionada ? 'px-2' : '',
             'estado': (orden) => (
                 <div className={`flex items-center justify-between gap-3 w-full pr-2`}>
-                        <p className="truncate text-right">{orden.estado}</p>
+                        <p className="truncate text-right">{nombreEstado(orden.estado)}</p>
                         <div style={{backgroundColor: colorEstado(orden.estado)}} className="w-4 h-4 rounded-full"></div>
                 </div>
             )

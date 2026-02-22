@@ -71,7 +71,7 @@ const Detalles = ({ buque, setBuqueSeleccionado, setBuques }) => {
                 </div>
                 <div className="mt-5">
                     <label htmlFor="estado_buque">Estado</label>
-                    <select className={`${inputStylePC} mt-3 p-1.5`} onChange={cambiarInput} name="estado" id="estado_buque" readOnly={!modificar}>
+                    <select className={`${inputStylePC} mt-3 p-1.5`} onChange={cambiarInput} name="estado" id="estado_buque" disabled={!modificar}>
                         <option className="p-3" value={`${valueEstados(buque.estado)}`}>{buque.estado}</option>
                         {restoEstados.map((estado) =>
                             <option key={`${valueEstados(estado)}`} value={`${valueEstados(estado)}`}>{estado}</option>
