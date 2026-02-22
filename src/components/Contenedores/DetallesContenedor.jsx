@@ -103,6 +103,11 @@ const DetallesContenedor = ({ contenedor, setContenedorSeleccionado, setContened
                     </select>
                 </div>
 
+                <div className="mt-5">
+                    <label htmlFor="ubicacion">Ubicación</label>
+                    <input className={`${inputStylePC} mt-2`} type="text" value={datosFormulario.ubicacion} readOnly/>
+                </div>
+
 
                 <div className="mt-5">
                     <label htmlFor="observaciones">Observaciones</label>

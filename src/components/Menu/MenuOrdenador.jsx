@@ -8,9 +8,9 @@ const MenuOrdenador = () => {
     
     const navigate = useNavigate();
     const { user } = useContext(AuthContext);
-
+ console.log('user:', user);
     const logout = () => {
-
+       
         authService.hacerLogout(user);
 
         const rol = user.rol;
