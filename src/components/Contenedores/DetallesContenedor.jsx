@@ -21,7 +21,7 @@ const DetallesContenedor = ({ contenedor, setContenedorSeleccionado, setContened
 
     const handleEditar = async (event) => {
         event.preventDefault();
-       
+       console.log(datosFormulario);
         if (modificar) {
             try {
                 await contenedorService.modificarContenedor(contenedor.id, datosFormulario);
@@ -116,7 +116,7 @@ const DetallesContenedor = ({ contenedor, setContenedorSeleccionado, setContened
                         onChange={cambiarInput}
                         name="observaciones"
                         id="observaciones"
-                        value={datosFormulario.observaciones}
+                        value={datosFormulario.observaciones || ''}
                         rows="3"
                         readOnly={!modificar}
                     />
