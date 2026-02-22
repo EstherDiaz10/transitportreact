@@ -300,7 +300,7 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
             </button>
             <h1 className="text-center mt-1 md:mt-3 lg:text-left mb-5 text-xl md:text-3xl font-bold text-[#2A5677]">Detalles de la orden</h1>
             <form>
-                <div className="flex gap-5 w-full mt-5">
+                <div className="flex flex-col md:flex-row gap-5 w-full mt-5">
                     <div className="w-full md:w-[50%]">
                         <label htmlFor="id_buque">ID orden</label>
                         <input className={`${inputStylePC} mt-3`} type="text" id="id_orden" name="id" value={`${prefijo}${datosFormulario.id}`} readOnly />
@@ -315,7 +315,7 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                         </select>
                     </div>
                 </div>
-                <div className="flex gap-5 w-full mt-5">
+                <div className="flex flex-col md:flex-row gap-5 w-full mt-5">
                     <div className="w-full md:w-[50%]">
                         <label htmlFor="tipo_orden">Tipo de orden</label>
                         <select className={`${inputStylePC} mt-3 p-1.5`} onChange={cambiarInput} name="tipo" id="tipo_orden" disabled={!modificar}>
@@ -333,7 +333,7 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                         </select>
                     </div>
                 </div>
-                <div className="flex gap-5 w-full mt-5">
+                <div className="flex flex-col md:flex-row gap-5 w-full mt-5">
                     <div className="w-full md:w-[50%]">
                         <label htmlFor="origen_orden">Origen ({datosFormulario.tipo === 'descarga' ? 'Buque' : 'Parking'})</label>
                         <SelectPersonalizado 
@@ -361,7 +361,7 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                         />
                     </div>
                 </div>
-                <div className="flex gap-5 w-full mt-5">
+                <div className="flex flex-col md:flex-row gap-5 w-full mt-5">
                     <div className="w-full md:w-[50%]">
                         <label htmlFor="grua_sts_orden">Grúa STS</label>
                         <SelectPersonalizado 
@@ -387,7 +387,7 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                         />
                     </div>
                 </div>
-                <div className="flex gap-5 w-full mt-5">
+                <div className="flex flex-col md:flex-row gap-5 w-full mt-5">
                     <div className="w-full md:w-[50%]">
                         <label htmlFor="operario_sts_orden">Operario STS</label>
                         <SelectPersonalizado 

@@ -171,7 +171,11 @@ const PagOrdenesOperario = () => {
            
                     <div className="flex items-center mt-4 md:mt-0 gap-1">
                         <div className={`w-full md:w-[97%] ${!ordenSeleccionada ? 'lg:w-[94%] lg:flex lg:justify-between md:flex-col md:gap-2' : 'lg:w-[50%] lg:flex-col lg:gap-2'} md:pt-8`}>
-                            <FiltradoOrden setFiltrarEstado={setFiltrarEstado} setFiltrarPrioridad={setFiltrarPrioridad} setFiltrarTipo={setFiltrarTipo}/>
+                            <FiltradoOrden 
+                                setFiltrarEstado={setFiltrarEstado} 
+                                setFiltrarPrioridad={setFiltrarPrioridad} 
+                                setFiltrarTipo={setFiltrarTipo}
+                            />
                             <Busqueda setBuscar={setBuscar} elementoSeleccionado={ordenSeleccionada} />
                         </div>
                         <div className="md:hidden flex items-center w-[20%]">
@@ -188,7 +192,14 @@ const PagOrdenesOperario = () => {
                             <h3 className="text-[#5F84A2] font-bold mb-3 border-b border-[#DFECF5] pb-2">Opciones de Filtro</h3>
                             
                             <div className="flex flex-col gap-4">
-                                <FiltradoMovilOrden setFiltrarEstado={setFiltrarEstado} setFiltrarPrioridad={setFiltrarPrioridad} setFiltrarTipo={setFiltrarTipo}/>
+                                <FiltradoMovilOrden 
+                                    setFiltrarEstado={setFiltrarEstado} 
+                                    setFiltrarPrioridad={setFiltrarPrioridad} 
+                                    setFiltrarTipo={setFiltrarTipo}
+                                    filtrarEstado={filtrarEstado}
+                                    filtrarPrioridad={filtrarPrioridad}
+                                    filtrarTipo={filtrarTipo}
+                                />
                                 <button onClick={() => setMostrarFiltrosMovil(false)} className="bg-[#5F84A2] text-white py-2 rounded-[5px] mt-2 font-bold hover:opacity-90">
                                     Cerrar
                                 </button>
