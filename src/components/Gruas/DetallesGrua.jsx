@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import MultiSelect from '../MultiSelect';
-import Select from '../Select';
+import SelectPersonalizado from '../SelectPersonalizado';
 import gruaService from "../../services/gruas";
 import operarioService from '../../services/operarios';
 
@@ -132,7 +132,7 @@ const DetallesGrua = ({ grua, setGruaSeleccionada, setGruas }) => {
                 </div>
                 <div className="mt-5">
                     <label htmlFor="estado_grua">Estado</label>
-                    <Select options={estadosSelect} value={estadoActual} onChange={(estadoSeleccionado) => setDatosFormulario({...datosFormulario, estado: estadoSeleccionado.value.toLowerCase()})} placeholder={datosFormulario.estado} isDisabled={!modificar} />
+                    <SelectPersonalizado options={estadosSelect} value={estadoActual} onChange={(estadoSeleccionado) => setDatosFormulario({...datosFormulario, estado: estadoSeleccionado.value.toLowerCase()})} placeholder={datosFormulario.estado} isDisabled={!modificar} />
                     
                 </div>
                 <div className="mt-5">

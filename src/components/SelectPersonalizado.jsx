@@ -1,6 +1,6 @@
 import Select from 'react-select';
 
-export default function MultiSelect({ options, value, onChange, placeholder, isDisabled}) {
+export default function SelectPersonalizado({ options, value, onChange, placeholder, isDisabled}) {
   return (
     <Select
       options={options}

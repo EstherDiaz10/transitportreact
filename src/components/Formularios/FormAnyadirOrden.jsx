@@ -4,7 +4,7 @@ import ordenService from "../../services/ordenes";
 import buqueService from "../../services/buques";
 import parkingService from "../../services/parkings";
 import gruaService from "../../services/gruas";
-import Select from "../Select";
+import Select from "../SelectPersonalizado";
 
 const FormAnyadirOrden = ({ cerrarModal, setOrdenes }) => {
     const inputStyle = "bg-white p-1 pl-4 rounded-[10px] text-gray-500 w-full";

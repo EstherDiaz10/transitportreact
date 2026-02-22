@@ -5,7 +5,7 @@ import buqueService from "../../services/buques";
 import parkingService from "../../services/parkings";
 import gruaService from "../../services/gruas";
 import operarioService from "../../services/operarios";
-import Select from '../Select';
+import SelectPersonalizado from '../SelectPersonalizado';
 
 const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
 
@@ -336,7 +336,7 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                 <div className="flex gap-5 w-full mt-5">
                     <div className="w-full md:w-[50%]">
                         <label htmlFor="origen_orden">Origen ({datosFormulario.tipo === 'descarga' ? 'Buque' : 'Parking'})</label>
-                        <Select 
+                        <SelectPersonalizado 
                             options={datosFormulario.tipo === 'carga' ? opcionesParkingOcupados : opcionesBuque} 
                             value={datosFormulario.tipo === 'carga' ? parkingOcupadoSeleccionado : buqueSeleccionado} 
                             onChange={(seleccionado) => {
@@ -349,7 +349,7 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                     </div>
                     <div className="w-full md:w-[50%]">
                         <label htmlFor="destino_orden">Destino ({datosFormulario.tipo === 'descarga' ? 'Parking' : 'Buque'})</label>
-                        <Select 
+                        <SelectPersonalizado 
                             options={datosFormulario.tipo === 'descarga' ? opcionesParkingLibres : opcionesBuque} 
                             value={datosFormulario.tipo === 'descarga' ? parkingLibreSeleccionado : buqueSeleccionado} 
                             onChange={(seleccionado) => {
@@ -364,7 +364,7 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                 <div className="flex gap-5 w-full mt-5">
                     <div className="w-full md:w-[50%]">
                         <label htmlFor="grua_sts_orden">Grúa STS</label>
-                        <Select 
+                        <SelectPersonalizado 
                             options={opcionesGruaSTS} 
                             value={gruaSTSSeleccionada} 
                             onChange={(gruaSeleccionada) => {
@@ -376,7 +376,7 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                     </div>
                     <div className="w-full md:w-[50%]">
                         <label htmlFor="grua_sc_orden">Grúa SC</label>
-                        <Select 
+                        <SelectPersonalizado 
                             options={opcionesGruaSC} 
                             value={gruaSCSeleccionada} 
                             onChange={(gruaSeleccionada) => {
@@ -390,7 +390,7 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                 <div className="flex gap-5 w-full mt-5">
                     <div className="w-full md:w-[50%]">
                         <label htmlFor="operario_sts_orden">Operario STS</label>
-                        <Select 
+                        <SelectPersonalizado 
                             options={opcionesOperariosSTS} 
                             value={operarioSTSSeleccionado} 
                             onChange={(operarioSeleccionado) => {
@@ -402,7 +402,7 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                     </div>
                     <div className="w-full md:w-[50%]">
                         <label htmlFor="operario_sc_orden">Operario SC</label>
-                        <Select 
+                        <SelectPersonalizado 
                             options={opcionesOperariosSC} 
                             value={operarioSCSeleccionado} 
                             onChange={(operarioSeleccionado) => {
@@ -415,7 +415,7 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                 </div>
                 <div className="w-full mt-5">
                     <label htmlFor="contenedor_orden">ID Contenedor</label>
-                    <Select 
+                    <SelectPersonalizado 
                         options={opcionesContenedores} 
                         value={contenedorSeleccionado} 
                         onChange={(contenedorSeleccionado) => {
