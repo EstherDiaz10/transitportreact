@@ -40,7 +40,6 @@ const App = () => {
                 </div>
               }
             >
-              <Route index element={<Navigate to="/buques" replace />} /> 
               <Route path="buques" element={<PagBuques />} />
               <Route path="gruas" element={<PagGruas />} />
               <Route path="contenedores" element={<PagContenedores />} />

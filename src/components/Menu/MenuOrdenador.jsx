@@ -1,5 +1,4 @@
 import MenuItems from './MenuItems';
-import imagenUser from '../../assets/esther.jpg';
 import authService from '../../services/auth';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';

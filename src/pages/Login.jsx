@@ -56,7 +56,7 @@ const Login = ({rol}) => {
                 setUser(userData);
 
                 if (userData.rol === 'administrativo' || userData.rol === 'gestor') {
-                    navigate('/buques');
+                    navigate('/ordenes');
                 } else if (userData.rol === 'operario') {
                     navigate('/misOrdenes');
                 }
