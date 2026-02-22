@@ -13,38 +13,51 @@ import { AuthProvider } from './context/AuthProvider';
 import PagUsuarios from './pages/PagUsuarios';
 import PagOrdenesOperario from './pages/PagOrdenesOperario';
 import PagPatio from './pages/PagPatio';
+import PagSelecRol from './pages/PagSelecRol';
+import RutasProtegidas from './context/RutasProtegidas';
 
 
 const App = () => {
 
   return (
-      <AuthProvider>
-        <Router>
-            <Routes>
-              <Route path="/login/operario" element={<Login rol="operario" />} />
-              <Route path="/login/administrativo" element={<Login rol="administrativo" />} />
-              <Route path="/login/gestor" element={<Login rol="gestor" />} />
-              <Route
-                path="/*"
-                element={
-                  <div className="h-screen w-full flex text-lg font-sans">
-                    <Menu />
-                    <Main />
-                  </div>
-                }
-              >
-                <Route path="buques" element={<PagBuques />}/>
-                <Route path="gruas" element={<PagGruas />}/>
-                <Route path="contenedores" element={<PagContenedores />}/>
-                <Route path="ordenes" element={<PagOrdenes />}/>
-                <Route path="usuarios" element={<PagUsuarios />}/>
-                <Route path="misOrdenes" element={<PagOrdenesOperario />}/>
-                <Route path="patio" element={<PagPatio />}/>
-              </Route>
-            </Routes>
-        </Router>
-      </AuthProvider>
-  )
+    <AuthProvider>
+      <Router>
+        <Routes>
+          {/* RUTAS PÚBLICAS */}
+          <Route path="/welcome" element={<PagSelecRol />} />
+          <Route path="/login/operario" element={<Login rol="operario" />} />
+          <Route path="/login/administrativo" element={<Login rol="administrativo" />} />
+          <Route path="/login/gestor" element={<Login rol="gestor" />} />
+
+          {/* RUTAS PROTEGIDAS */}
+          <Route element={<RutasProtegidas />}>
+            <Route
+              path="/"
+              element={
+                <div className="h-screen w-full flex text-lg font-sans">
+                  <Menu />
+                  <Main />
+                </div>
+              }
+            >
+              <Route index element={<Navigate to="/buques" replace />} /> 
+              <Route path="buques" element={<PagBuques />} />
+              <Route path="gruas" element={<PagGruas />} />
+              <Route path="contenedores" element={<PagContenedores />} />
+              <Route path="ordenes" element={<PagOrdenes />} />
+              <Route path="usuarios" element={<PagUsuarios />} />
+              <Route path="misOrdenes" element={<PagOrdenesOperario />} />
+              <Route path="patio" element={<PagPatio />} />
+            </Route>
+          </Route>
+
+          {/* Redirección por defecto a welcome */}
+          <Route path="*" element={<Navigate to="/welcome" replace />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
+  );
 }
+
 
 export default App
