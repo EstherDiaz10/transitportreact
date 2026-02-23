@@ -17,6 +17,8 @@ const hacerLogout = (user) => {
         .then(response => {
             sessionStorage.removeItem("token");
             sessionStorage.removeItem("user");
+            sessionStorage.removeItem('modalOperarioMostrado');
+            sessionStorage.removeItem('gruaSeleccionada');
             return response.data;
         });
 };

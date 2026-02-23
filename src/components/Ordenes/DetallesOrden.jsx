@@ -218,9 +218,9 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
 
     const mensajeBotonEstadoCarga = {
         'pendiente': 'Iniciar traslado',
-        'en_proceso_sts': 'Dejar en zona descarga',
+        'en_proceso_sc': 'Dejar en zona descarga',
         'en_zona_desc': 'Iniciar carga a buque',
-        'en_proceso_sc': 'Finalizar orden',
+        'en_proceso_sts': 'Finalizar orden',
         'completada': 'Completada'
     }
 
@@ -460,7 +460,7 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                                 type="button" 
                                 onClick={handleEditarEstado}
                             >
-                                {orden.operario_sc.id === user.id ? mensajeBotonEstadoCarga[orden.estado] : mensajeBotonEstadoDescarga[orden.estado]}
+                                {orden.tipo === 'carga' ? mensajeBotonEstadoCarga[orden.estado] : mensajeBotonEstadoDescarga[orden.estado]}
                             </button>
                         ) : (
                             <div className="mt-1 p-3 bg-gray-100 border border-gray-300 rounded text-gray-500 italic text-sm">

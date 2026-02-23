@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../../context/AuthProvider';
 import operarioService from '../../services/operarios';
 
-const FormElegirGrua = ({setGruaSeleccionada}) => {
+const FormElegirGrua = ({seleccionarGrua}) => {
 
     const { user } = useContext(AuthContext);
     const [gruasOperario, setGruasOperario] = useState([]);
@@ -27,7 +27,7 @@ const FormElegirGrua = ({setGruaSeleccionada}) => {
                                 return (
                                     <button 
                                         key={`Grua ${prefijo}${grua.id}`} 
-                                        onClick={() => setGruaSeleccionada(grua)} 
+                                        onClick={() => seleccionarGrua(grua)} 
                                         className="p-8 rounded-[20px] bg-[#5F84A2] flex justify-center items-center shadow-md/20 hover:bg-[#DFECF5] cursor-pointer"
                                     >
                                         <h1 className="text-2xl">Grúa {prefijo}{grua.id}</h1>
