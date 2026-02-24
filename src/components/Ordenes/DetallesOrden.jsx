@@ -78,6 +78,8 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                 buque.id === datosFormulario.buque_id
             );
             lista = buque?.contenedores || [];
+            const contenedoresEnZona = contenedoresDisponibles.filter(contenedor => contenedor.ubicacion === 'Zona de descarga');
+            lista = [...lista, ...contenedoresEnZona];
 
         } else if (datosFormulario.tipo === 'carga' && datosFormulario.parking_id) {
             const parking = parkings.find((parking) => 
