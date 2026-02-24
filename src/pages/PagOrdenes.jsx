@@ -77,7 +77,7 @@ const PagOrdenes = () => {
             case 'alta':
                 return '#8B0000';
             case 'media':
-                return '#FFD700';
+                return '#FF8C00';
             case 'baja':
                 return '#28A745';
         }
@@ -230,6 +230,7 @@ const PagOrdenes = () => {
                                 elementoSeleccionado={ordenSeleccionada} 
                                 icono={icono}
                                 eliminarElemento={eliminarOrden}
+                                esOrdenes={true}
                             />
                         </div>
                     ) : (<p className="flex justify-center mt-10 mb-10 mr-17">No hay órdenes para mostrar</p>

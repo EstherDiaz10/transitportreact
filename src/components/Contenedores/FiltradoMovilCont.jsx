@@ -4,6 +4,10 @@ const FiltradoMovilCont = ({setFiltrarEstado, filtrarEstado}) => {
     { label: 'Todas', value: '' },
     { label: 'Parking', value: 'Parking' },
     { label: 'Buque', value: 'Buque' },
+    { label: 'A zona descarga', value: 'De camino a zona descarga'},
+    { label: 'De camino al patio', value: 'De camino al patio'},
+    { label: 'Descargando del buque', value: 'De camino al patio'},
+    { label: 'Cargando al buque', value: 'Cargando al buque'},
     { label: 'Zona descarga', value: 'Zona descarga' },
     { label: 'Patio', value: 'Patio' }
   ];

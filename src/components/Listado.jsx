@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const Listado = ({elementos, estructuraGrid, columnas, setElementoSeleccionado, elementoSeleccionado, icono, eliminarElemento}) => {
+const Listado = ({elementos, estructuraGrid, columnas, setElementoSeleccionado, elementoSeleccionado, icono, eliminarElemento, esOrdenes = false}) => {
 
     const botonBase = "bg-[#5F84A2] text-white font-bold rounded-[5px] flex items-center justify-around text-lg hover:bg-[#DFECF5] hover:text-[#5F84A2] hover:border-3 hover:border-[#5F84A2] cursor-pointer";
     const botonEliminarEstilo = "bg-[#925152] text-white rounded-[5px] flex items-center justify-center w-15 ml-1.5 h-12 hover:bg-[#DFECF5] hover:text-[#925152] hover:border-3 hover:border-[#925152] cursor-pointer";
@@ -21,7 +21,7 @@ const Listado = ({elementos, estructuraGrid, columnas, setElementoSeleccionado, 
 
     /* Paginación del listado */
     const [paginaActual, setPaginaActual] = useState(1);
-    const registrosPorPagina = 7;
+    const registrosPorPagina = (esOrdenes && elementoSeleccionado ? 6 : 7);
     const ultimoIndice = paginaActual * registrosPorPagina;
     const primerIndice = ultimoIndice - registrosPorPagina;
     const registrosActuales = elementosOrdenados.slice(primerIndice, ultimoIndice);
