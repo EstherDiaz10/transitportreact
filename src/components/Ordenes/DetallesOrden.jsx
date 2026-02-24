@@ -247,9 +247,12 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                 });
                 const data = await ordenService.listadoOrdenes();
                 setOrdenes(data);
-                setOrdenSeleccionada(datosFormulario);
+                
+                const ordenActualizada = data.find((ord) => ord.id === orden.id);
+                setOrdenSeleccionada(ordenActualizada);
+
             } catch (error) {
-                console.error('Error al guardar orden ', error);
+                console.error('Error al actualizar orden ', error);
                 console.log(error.response.data)
             }
         }
