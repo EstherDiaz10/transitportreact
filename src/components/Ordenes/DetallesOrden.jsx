@@ -134,11 +134,11 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
         }
     }
 
-    const estados = ["Pendiente", "En proceso STS", "En zona descarga", "En proceso SC", "Completada"];
+    const estados = ["pendiente", "en_proceso_sts", "en_zona_desc", "en_proceso_sc", "completada"];
     const restoEstados = estados.filter((estado) => estado.toLowerCase() !== orden.estado);
 
     const tipos = ["Carga", "Descarga"];
-    const otroTipo = tipos.filter((tipo) => tipo.toLowerCase() !== orden.tipo);
+    const otroTipo = tipos.filter((tipo) => tipo.toLowerCase() !== orden.tipo.toLowerCase());
 
     const prioridades = ['Alta', 'Media', 'Baja'];
     const restoPrioridades = prioridades.filter((prioridad) => prioridad.toLowerCase() !== orden.prioridad);
@@ -310,7 +310,7 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                         <select className={`${inputStylePC} mt-3 p-1.5`} onChange={cambiarInput} name="estado" id="estado_orden" disabled={!modificar}>
                             <option className="p-3" value={orden.estado}>{nombreEstado(orden.estado)}</option>
                             {restoEstados.map((estado) =>
-                                <option key={estado} value={estado}>{estado}</option>
+                                <option key={estado} value={estado}>{nombreEstado(estado)}</option>
                             )}
                         </select>
                     </div>
@@ -320,7 +320,7 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                         <label htmlFor="tipo_orden">Tipo de orden</label>
                         <select className={`${inputStylePC} mt-3 p-1.5`} onChange={cambiarInput} name="tipo" id="tipo_orden" disabled={!modificar}>
                             <option className="p-3" value={orden.tipo}>{orden.tipo}</option>
-                            <option value={otroTipo}>{otroTipo}</option>
+                            <option value={otroTipo[0]}>{otroTipo[0]}</option>
                         </select>
                     </div>
                     <div className="w-full md:w-[50%]">
@@ -419,7 +419,7 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
                         options={opcionesContenedores} 
                         value={contenedorSeleccionado} 
                         onChange={(contenedorSeleccionado) => {
-                            setDatosFormulario({...datosFormulario, 'contenedor_id': contenedorSeleccionado.value});
+                            setDatosFormulario({...datosFormulario, 'contenedor_id': Number(contenedorSeleccionado.value)});
                         }} 
                         isDisabled={!modificar} 
                         placeholder='Contenedor a mover...'
