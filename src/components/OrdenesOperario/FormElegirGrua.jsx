@@ -30,7 +30,7 @@ const FormElegirGrua = ({seleccionarGrua}) => {
                                         onClick={() => seleccionarGrua(grua)} 
                                         className="p-8 rounded-[20px] bg-[#5F84A2] flex justify-center items-center shadow-md/20 hover:bg-[#DFECF5] cursor-pointer"
                                     >
-                                        <h1 className="text-2xl">Grúa {prefijo}{grua.id}</h1>
+                                        <h1 className="text-2xl text-white">Grúa {prefijo}{grua.id}</h1>
                                     </button>
                                 )
                             })
