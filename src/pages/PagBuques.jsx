@@ -85,11 +85,11 @@ const PagBuques = () => {
     const colorEstado = (estado) => {
         switch (estado.toLowerCase()) {
             case 'en espera':
-                return '#925152';
+                return '#8B0000';
             case 'atracado':
-                return '#E0AE74';
+                return '#FFD700';
             case 'inactivo':
-                return '#87A884';
+                return '#28A745';
         }
     }
 

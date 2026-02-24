@@ -75,11 +75,11 @@ const PagOrdenes = () => {
     const colorPrioridad = (prioridad) => {
         switch (prioridad.toLowerCase()) {
             case 'alta':
-                return '#925152';
+                return '#8B0000';
             case 'media':
-                return '#E0AE74';
+                return '#FFD700';
             case 'baja':
-                return '#87A884';
+                return '#28A745';
         }
     }
 

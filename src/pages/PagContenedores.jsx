@@ -52,7 +52,7 @@ const PagContenedores = () => {
   }));
 
   const colorEstado = (existe) => {
-    return existe ? "#87A884" : "#925152";
+    return existe ? "#28A745" : "#8B0000";
   };
 
   const estructuraGrid = !contenedorSeleccionado

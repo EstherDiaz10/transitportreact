@@ -60,9 +60,9 @@ const PagGruas = () => {
     const colorEstado = (estado) => {
         switch (estado.toLowerCase()) {
             case 'ocupada':
-                return '#925152';
+                return '#8B0000';
             case 'disponible':
-                return '#87A884';
+                return '#28A745';
         }
     }
 
