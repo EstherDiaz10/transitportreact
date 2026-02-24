@@ -22,7 +22,7 @@ const FiltradoContenedor = ({ setFiltrarEstado }) => {
           <option value="De camino al patio">De camino al patio</option>
           <option value="Descargando del buque">Descargando del buque</option>
           <option value="Cargando al buque">Cargando al buque</option>
-          <option value="Zona descarga">Zona descarga</option>
+          <option value="Zona de descarga">Zona descarga</option>
           <option value="Patio">Patio</option>
         </select>
 
