@@ -231,12 +231,19 @@ const DetallesOrden = ({ orden, setOrdenSeleccionada, setOrdenes }) => {
         if (modificar) {
             
             try {
-                console.log(datosFormulario);
                 await ordenService.modificarOrden(orden.id, {
-                    ...datosFormulario,
+                    administrativo_id: datosFormulario.administrativo_id,
+                    buque_id: datosFormulario.buque_id,
+                    parking_id: datosFormulario.parking_id,
+                    contenedor_id: datosFormulario.contenedor_id,
+                    grua_sts_id: datosFormulario.grua_sts_id,
+                    grua_sc_id: datosFormulario.grua_sc_id,
+                    operario_sts_id: datosFormulario.operario_sts_id,
+                    operario_sc_id: datosFormulario.operario_sc_id,
                     tipo: datosFormulario.tipo.toLowerCase(),
                     prioridad: datosFormulario.prioridad.toLowerCase(),
-                    estado: datosFormulario.estado.toLowerCase()
+                    estado: datosFormulario.estado.toLowerCase(),
+                    observaciones: datosFormulario.observaciones
                 });
                 const data = await ordenService.listadoOrdenes();
                 setOrdenes(data);
