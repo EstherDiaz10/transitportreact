@@ -20,6 +20,7 @@ const PagOrdenesOperario = () => {
     const [mostrarFiltrosMovil, setMostrarFiltrosMovil] = useState(false);
     const { user } = useContext(AuthContext);
     const [gruaSeleccionada, setGruaSeleccionada] = useState(null);
+    const [mostrarModal, setMostrarModal] = useState(false);
 
     useEffect(()=>{
         
@@ -35,6 +36,21 @@ const PagOrdenesOperario = () => {
         }
 
     }, [gruaSeleccionada])
+
+    useEffect(() => {
+
+        const gruaGuardada = JSON.parse(sessionStorage.getItem('gruaSeleccionada'));
+        const modalMostrado  = sessionStorage.getItem('modalOperarioMostrado');
+        
+        if(gruaGuardada) {
+            setGruaSeleccionada(gruaGuardada);
+        }
+
+        if(!modalMostrado) {
+            setMostrarModal(true);
+        }
+
+    }, []);
 
     const ordenesGrua = ordenes.filter((orden) => {
         try {
@@ -118,8 +134,8 @@ const PagOrdenesOperario = () => {
     }
 
     const estructuraGrid = !ordenSeleccionada 
-        ? "grid grid-cols-[0.2fr_1fr_1fr_0.4fr] lg:grid-cols-[80px_0.7fr_1.3fr_1fr_200px_130px] md:grid-cols-[80px_0.7fr_1fr_180px_130px] items-center gap-3 px-4 md:px-0" 
-        : "grid grid-cols-[0.2fr_1fr_1fr_auto] lg:grid-cols-[60px_1.5fr_2fr_2fr_60px] md:grid-cols-[60px_1fr_2.3fr_1fr_60px] items-center gap-5 px-4 md:px-0";
+        ? "grid grid-cols-[0.2fr_1fr_1fr_0.4fr] lg:grid-cols-[80px_0.7fr_1.3fr_1fr_200px_130px] md:grid-cols-[0.2fr_80px_0.7fr_1fr_180px_130px] items-center gap-3 px-4 md:px-0" 
+        : "grid grid-cols-[0.2fr_1fr_1fr_auto] lg:grid-cols-[60px_1.5fr_2fr_2fr_60px] md:grid-cols-[0.2fr_60px_1fr_2.3fr_1fr_60px] items-center gap-5 px-4 md:px-0";
 
     const columnasOrdenes = [
         {
@@ -158,19 +174,28 @@ const PagOrdenesOperario = () => {
 
     const icono = <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 256 256"><path d="M229.66,58.34l-32-32a8,8,0,0,0-11.32,0l-96,96A8,8,0,0,0,88,128v32a8,8,0,0,0,8,8h32a8,8,0,0,0,5.66-2.34l96-96A8,8,0,0,0,229.66,58.34ZM124.69,152H104V131.31l64-64L188.69,88ZM200,76.69,179.31,56,192,43.31,212.69,64ZM224,128v80a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V48A16,16,0,0,1,48,32h80a8,8,0,0,1,0,16H48V208H208V128a8,8,0,0,1,16,0Z"></path></svg>;
     
+    const handleCerrarModal = (grua) => {
+        if (grua) {
+            setGruaSeleccionada(grua)
+            setMostrarModal(false);
+            sessionStorage.setItem('modalOperarioMostrado', 'true'); 
+            sessionStorage.setItem('gruaSeleccionada', JSON.stringify(grua));
+        } 
+    };
+
     return (
         <>
-            {!gruaSeleccionada
+            {mostrarModal && !gruaSeleccionada
                 ? (
-                    <ModalOperario modalAbierto={!gruaSeleccionada}>
-                        <FormElegirGrua setGruaSeleccionada={setGruaSeleccionada} />
+                    <ModalOperario modalAbierto={true}>
+                        <FormElegirGrua seleccionarGrua={handleCerrarModal} />
                     </ModalOperario>
                 ) : (
                     <div className="pb-23 lg:pb-0 md:ml-7">
                     <h1 className="mt-14 md:mt-0 ml-5 md:ml-0 text-3xl font-bold text-[#2A5677] md:absolute md:top-20">Listado de órdenes</h1>
            
                     <div className="flex items-center mt-4 md:mt-0 gap-1">
-                        <div className={`w-full md:w-[97%] ${!ordenSeleccionada ? 'lg:w-[94%] lg:flex lg:justify-between md:flex-col md:gap-2' : 'lg:w-[50%] lg:flex-col lg:gap-2'} md:pt-8`}>
+                        <div className={`w-full md:w-[97%] ${!ordenSeleccionada ? 'lg:w-[94%] lg:flex lg:justify-between' : 'lg:w-[50%] lg:flex-col lg:gap-2'} md:pt-8`}>
                             <FiltradoOrden 
                                 setFiltrarEstado={setFiltrarEstado} 
                                 setFiltrarPrioridad={setFiltrarPrioridad} 
